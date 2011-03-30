@@ -250,7 +250,10 @@ augroup plist
   autocmd BufReadPre,FileReadPre        *.plist set bin
   autocmd BufReadPre,FileReadPre        *.plist let ch_save = &ch|set ch=2
   autocmd BufReadPost,FileReadPost      *.plist set cmdheight=2|'[,']!plutil -convert xml1 -o - -
-  
+
+" TODO: Check plist formatting is correct before saving!
+
+
 "  autocmd BufReadPost,FileReadPost      *.plist set cmdheight=1 nobin|execute ":doautocmd BufReadPost " . expand("%:r")
 "  autocmd BufReadPost,FileReadPost      *.plist let &ch = ch_save|unlet ch_save
 
@@ -289,14 +292,14 @@ endif
 " XTerm colors
 " It used to be 16, but it seems to trigger a bug on Solaris, which then shows
 " almost no colors. It doesn't seem to work with Eterm on Suse 6.3 either...
-set t_Co=8
-if has("terminfo")
-  set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm
-  set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm
-else
-  set t_Sf=[3%dm
-  set t_Sb=[4%dm
-endif
+"set t_Co=8
+"if has("terminfo")
+"  set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm
+"  set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm
+"else
+"  set t_Sf=[3%dm
+"  set t_Sb=[4%dm
+"endif
 
 if &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
   set t_Co=16
