@@ -1,0 +1,44 @@
+#!/bin/sh
+
+#
+# Wrapper script to use FileMerge as a merge-tool-cmd in Subversion
+#
+
+FM="/Developer/Applications/Utilities/FileMerge.app/Contents/MacOS/FileMerge"
+FMDIFF="$(basename $0)"
+GN="/usr/local/bin/growlnotify"
+
+while [ $# != 0 ]; do
+	case $1 in
+		-*)
+			echo "Unknown option: $1" 1>&2
+			exit 1
+		;;
+		*)
+			if [ -z "$ancestorfile" ]; then
+				ancestorfile="$1"
+			elif [ -z "$leftfile" ]; then
+				leftfile="$1"
+			elif [ -z "$rightfile" ]; then
+				rightfile="$1"
+			elif [ -z "$mergefile" ]; then
+				mergefile="$1"
+			else
+				echo "Too many files to start merge" 1>&2
+				exit 2
+			fi
+	esac
+	shift
+done
+
+if [ -z "$ancestorfile" ] || [ -z "$leftfile" ] ||
+	  [ -z "$rightfile" ] || [ -z "$mergefile" ]; then
+	echo "Usage: $0 [options] oldfile yourfile myfile outputfile" 1>&2
+	exit 2
+fi
+
+echo Starting FileMerge... 1>&2
+[ -x "$GN" ] && "$GN" -a FileMerge -n "$FMDIFF" -m "$mergefile" "Starting FileMerge"
+
+exec "$FM" -left "$leftfile" -right "$rightfile" \
+	-ancestor "$ancestorfile" -merge "$mergefile"

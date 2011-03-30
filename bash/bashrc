@@ -1,22 +1,24 @@
 #!/bin/sh
 
+TABWIDTH=4
+
 shopt -s histappend
-#shopt -s nocasematch
+
 set completion-ignore-case on
 
-#complete -F _known_hosts ssh
+# Setup tabs
+tabs -$TABWIDTH
+alias less="less -x$TABWIDTH"
 
-
-# Tabs are 4 spaces
-tabs -4
-
-# Tabs are 4 spaces
-alias less="less -x4"
-
-
+# Enable fancy command line
 . ~/.shattings/bash/ps1-git-svn.sh
 
-alias vless='/usr/share/vim/vim72/macros/less.sh'
+# VIM-based 'less'
+[ -x /usr/share/vim/vim72/macros/less.sh ] && alias vless='/usr/share/vim/vim72/macros/less.sh'
+[ -x /usr/share/vim/vim73/macros/less.sh ] && alias vless='/usr/share/vim/vim73/macros/less.sh'
+
+# Grab any recently updated environment variables from launchd
+eval `launchctl export`
 
 # define append_path and prepend_path to add directory paths, e.g. PATH, MANPATH.
 # add to end of path
@@ -37,56 +39,15 @@ prepend_path()
   fi
 }
 
-export SVN_MERGE=~/bin/svn_diff_wrapper
-
-alias notify="~/bin/notify"
-
-alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
-alias qtenv=". ~/bin/qtenv"
-alias qtenv_bincho=". ~/bin/qtenv_bincho"
-alias bincho=". ~/bin/qtenv_bincho"
-alias tonbo=". ~/bin/tonbo"
-alias toro=". ~/bin/toro"
-alias saba=". ~/bin/saba"
-alias hirame=". ~/bin/hirame"
-alias kanpachi=". ~/bin/kanpachi"
-alias griffin=". ~/bin/griffin"
-alias kraken=". ~/bin/kraken"
-alias cdqtml=". ~/bin/cdqtml"
-alias dfu-start="dfu-programmer at90usb1287 start"
-alias wireshark="sudo /Applications/Wireshark.app/Contents/Resources/bin/wireshark"
-
-eval `launchctl export`
-
-MAVEN_OPTS=-Xmx512m
-
-#export JAVA_HOME=/Library/Java/Home
-#export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/Current
-#append_path PATH ${JAVA_HOME}/Commands
-
+[ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ] && alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
+[ -x /Applications/GitX.app/Contents/Resources/gitx ] && alias gitx=/Applications/GitX.app/Contents/Resources/gitx
 
 append_path MANPATH /usr/share/man
 append_path MANPATH /usr/local/share/man
 append_path MANPATH /Developer/usr/share/man
 append_path MANPATH /Developer/Platforms/iPhoneOS.platform/usr/local/share/man
 
-
-[ -r /usr/local/bin ] && prepend_path PATH /usr/local/bin
-[ -r /usr/local/sbin ] && prepend_path PATH /usr/local/sbin
-#[ -r /Applications/EAGLE-X11/bin ] && append_path PATH /Applications/EAGLE-X11/bin
-[ -r /Developer/Tools ] && append_path PATH /Developer/Tools
-[ -r /Developer/usr/bin ] && append_path PATH /Developer/usr/bin
-[ -r /ImageMagick-*/bin ] && append_path PATH /ImageMagick-*/bin
-[ -r /ImageMagick-*/share/man ] && append_path MANPATH /ImageMagick-*/share/man
-[ -r /opt/ImageMagick-*/bin ] && append_path PATH /opt/ImageMagick-*/bin
-[ -r /opt/ImageMagick-*/share/man ] && append_path MANPATH /opt/ImageMagick-*/share/man
 [ -r ~/bin ] && prepend_path PATH ~/bin
-
-[ -r /opt/embedded/bin ] && prepend_path PATH /opt/embedded/bin
-[ -r /opt/embedded/share/man ] && append_path MANPATH /opt/embedded/share/man
-[ -r /opt/embedded/lib/pkgconfig ] && append_path PKG_CONFIG_PATH /opt/embedded/lib/pkgconfig
-[ -r /opt/embedded/lib ] && append_path LIBRARY_PATH /opt/embedded/lib
-[ -r /opt/embedded/include ] && append_path CPATH /opt/embedded/include
 
 [ -r ~/lib/pkgconfig ] && append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 [ -r /usr/local/lib/pkgconfig ] && append_path PKG_CONFIG_PATH /usr/local/lib/pkgconfig
@@ -97,46 +58,18 @@ append_path MANPATH /Developer/Platforms/iPhoneOS.platform/usr/local/share/man
 [ -r /usr/X11R6/man ] && append_path MANPATH /usr/X11R6/man
 [ -r /usr/X11/bin ] && append_path PATH /usr/X11/bin
 [ -r /usr/X11/man ] && append_path MANPATH /usr/X11/man
-[ -r /opt/bin ] && append_path PATH /opt/bin
 
-#export TEMP=/tmp/$EUID
-#[ -d $TEMP ] || mkdir $TEMP
-#chmod 700 $TEMP
-
-#[ -d $TEMP/bin ] || mkdir $TEMP/bin
-#cp ~/bin/ls $TEMP/bin
-alias ls='~/bin/ls --color'
-
+# DOSism...
 alias "cd.."='cd ..'
-alias edit='open -a XCode'
-alias hexedit='open -a 0xED'
-alias finkenv=". ~/bin/finkenv"
-[ -r /sw/bin/xml ] && alias xml="/sw/bin/xml"
-[ -r /sw/bin/doxygen ] && alias doxygen="/sw/bin/doxygen"
-[ -r /sw/bin/nmap ] && alias "nmap"='/sw/bin/nmap'
-[ -r /sw/bin/fink ] && alias "fink"='/sw/bin/fink'
 
-[ -d /opt/local/sbin ] && append_path PATH /opt/local/sbin
-[ -d /opt/local/bin ] && append_path PATH /opt/local/bin
-[ -d /opt/local/share/man ] && append_path MANPATH /opt/local/share/man
-
-#eval `dbus-launch --auto-syntax`
+alias edit='xed'
 
 export LD_PREBIND=0
-#export MACOSX_DEPLOYMENT_TARGET=10.6
-export SVN_EDITOR=vi
+export EDITOR=vim
+export SVN_MERGE=~/.shattings/bin/svn_diff_wrapper
 export PATH
 export PKG_CONFIG_PATH
 export MANPATH
 export LIBRARY_PATH
 export CPATH
-
-
-##
-# Your previous /Users/darco/.profile file was backed up as /Users/darco/.profile.macports-saved_2010-04-02_at_14:28:17
-##
-
-# MacPorts Installer addition on 2010-04-02_at_14:28:17: adding an appropriate PATH variable for use with MacPorts.
-#export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-# Finished adapting your PATH environment variable for use with MacPorts.
 
