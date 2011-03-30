@@ -18,6 +18,8 @@ set autoindent		" we want to autoindent
 set sts=4 sw=4 ts=4
 "set sts=4 sw=4 ts=8 et
 
+set clipboard=unnamed
+
 " check for underlying system - needed for clipboard
 let uname = substitute(system("uname"),"\n","","g")
 
