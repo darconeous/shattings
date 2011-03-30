@@ -1,0 +1,22 @@
+startup_message off
+pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+shell -$SHELL
+defscrollback 10000
+termcapinfo xterm* OL=10000
+termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+
+# enable UTF8 encoding
+utf8 on
+
+# add backtick printer functions
+#backtick 1 3 3 repo_status.sh
+#backtick 2 1 1 screenpath.sh
+
+# set status line
+caption always "%{= .W}%n %{= .K}[ %H ]%?%{= .y}%1`%?%{= .K}%-18= %l "
+hardstatus alwayslastline "%?%{= .W} %L>%2`%? %?%{.g}%u%? %-18=%?%{= .K} %c %Y.%m.%d "
+
+# toggle status line and caption using 'f' and 'F'
+bind f eval "caption splitonly" "hardstatus ignore"
+bind F eval "caption always"    "hardstatus alwayslastline"
+
