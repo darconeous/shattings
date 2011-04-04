@@ -1,26 +1,5 @@
 #!/bin/sh
 
-TABWIDTH=4
-
-shopt -s histappend
-
-set completion-ignore-case on
-
-# Setup tabs
-tabs -$TABWIDTH
-alias less="less -x$TABWIDTH"
-
-# Enable fancy command line
-. ~/.shattings/bash/ps1-git-svn.sh
-
-# VIM-based 'less'
-[ -x /usr/share/vim/vim72/macros/less.sh ] && alias vless='/usr/share/vim/vim72/macros/less.sh'
-[ -x /usr/share/vim/vim73/macros/less.sh ] && alias vless='/usr/share/vim/vim73/macros/less.sh'
-
-# Grab any recently updated environment variables from launchd
-eval `launchctl export`
-
-# define append_path and prepend_path to add directory paths, e.g. PATH, MANPATH.
 # add to end of path
 append_path()
 {
@@ -39,15 +18,45 @@ prepend_path()
   fi
 }
 
-[ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ] && alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
-[ -x /Applications/GitX.app/Contents/Resources/gitx ] && alias gitx=/Applications/GitX.app/Contents/Resources/gitx
+TABWIDTH=4
 
-append_path MANPATH /usr/share/man
-append_path MANPATH /usr/local/share/man
-append_path MANPATH /Developer/usr/share/man
-append_path MANPATH /Developer/Platforms/iPhoneOS.platform/usr/local/share/man
+shopt -s histappend
+
+set completion-ignore-case on
+
+# Setup tabs
+tabs -$TABWIDTH
+alias less="less -x$TABWIDTH"
+export LS_COLWIDTHS=$TABWIDTH
+
+# Enable fancy command line
+. ~/.shattings/bash/ps1-git-svn.sh
+
+export CLICOLOR=1
+
+if
+	[ `uname` = "Darwin" ]
+then
+	# Grab any recently updated environment variables from launchd
+	eval `launchctl export`
+
+	[ -r /Developer/usr/share/man ] && append_path MANPATH /Developer/usr/share/man
+	[ -r /Developer/Platforms/iPhoneOS.platform/usr/local/share/man ] && append_path MANPATH /Developer/Platforms/iPhoneOS.platform/usr/local/share/man
+
+	[ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ] && alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
+	[ -x /Applications/GitX.app/Contents/Resources/gitx ] && alias gitx=/Applications/GitX.app/Contents/Resources/gitx
+
+	alias edit='xed'
+fi
 
 [ -r ~/bin ] && prepend_path PATH ~/bin
+
+# VIM-based 'less'
+[ -x /usr/share/vim/vim72/macros/less.sh ] && alias vless='/usr/share/vim/vim72/macros/less.sh'
+[ -x /usr/share/vim/vim73/macros/less.sh ] && alias vless='/usr/share/vim/vim73/macros/less.sh'
+
+[ -r /usr/share/man ] && append_path MANPATH /usr/share/man
+[ -r /usr/local/share/man ] && append_path MANPATH /usr/local/share/man
 
 [ -r ~/lib/pkgconfig ] && append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 [ -r /usr/local/lib/pkgconfig ] && append_path PKG_CONFIG_PATH /usr/local/lib/pkgconfig
@@ -61,8 +70,6 @@ append_path MANPATH /Developer/Platforms/iPhoneOS.platform/usr/local/share/man
 
 # DOSism...
 alias "cd.."='cd ..'
-
-alias edit='xed'
 
 export LD_PREBIND=0
 export EDITOR=vim
