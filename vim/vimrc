@@ -10,6 +10,7 @@ set sts=4 sw=4 ts=4
 
 runtime! ftplugin/man.vim
 
+runtime! plist.vim
 
 set number	" to show line numbers
 set wrap	" enable line wrapping
