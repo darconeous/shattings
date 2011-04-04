@@ -33,6 +33,8 @@ export LS_COLWIDTHS=$TABWIDTH
 . ~/.shattings/bash/ps1-git-svn.sh
 
 export CLICOLOR=1
+# Enable GIT tab completion
+. ~/.shattings/bash/git-completion.bash
 
 if
 	[ `uname` = "Darwin" ]
