@@ -32,7 +32,6 @@ export LS_COLWIDTHS=$TABWIDTH
 # Enable fancy command line
 . ~/.shattings/bash/ps1-git-svn.sh
 
-export CLICOLOR=1
 # Enable GIT tab completion
 . ~/.shattings/bash/git-completion.bash
 
@@ -49,6 +48,10 @@ then
 	[ -x /Applications/GitX.app/Contents/Resources/gitx ] && alias gitx=/Applications/GitX.app/Contents/Resources/gitx
 
 	alias edit='xed'
+
+	# Have BSD 'ls' use GNU colors.
+	export LSCOLORS=ExGxBxdxCxDxdxabagacad
+	export CLICOLOR=1
 fi
 
 [ -r ~/bin ] && prepend_path PATH ~/bin
