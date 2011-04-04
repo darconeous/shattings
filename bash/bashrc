@@ -18,13 +18,17 @@ prepend_path()
   fi
 }
 
-TABWIDTH=4
 
 shopt -s histappend
+export PROMPT_COMMAND='history -a && history -n'
+
+set mark-directories on
+set mark-symlinked-directories on
 
 set completion-ignore-case on
 
 # Setup tabs
+export TABWIDTH=4
 tabs -$TABWIDTH
 alias less="less -x$TABWIDTH"
 export LS_COLWIDTHS=$TABWIDTH
