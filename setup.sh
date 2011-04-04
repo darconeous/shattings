@@ -1,6 +1,6 @@
 #!/bin/sh
 
-HOMEDIR='~'
+HOMEDIR=~
 SHATDIR="$HOMEDIR/.shattings"
 
 function die() {
@@ -10,7 +10,7 @@ function die() {
 
 set -x
 
-if [ -e $HOMEDIR/.bashrc ]
+if [ -e "$HOMEDIR/.bashrc" ]
 then
 	{
 		echo '# Uncomment to enable'
@@ -36,6 +36,14 @@ else
 		echo "source \"$SHATDIR/vim/vimrc\""
 	} >> "${HOMEDIR}/.vimrc"
 	echo Created $HOMEDIR/.vimrc
+fi
+
+if [ -d "${HOMEDIR}/.vim" ]
+then
+	echo WARNING: "$HOMEDIR/.vim" already exists, skipping...
+else
+	ln -s "${SHATDIR}/vim" "${HOMEDIR}/.vim"
+	echo Linked $HOMEDIR/.vim
 fi
 
 if [ -e "${HOMEDIR}/.screenrc" ]
