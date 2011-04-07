@@ -12,22 +12,25 @@ function parse_git_branch() {
 }
 
 function parse_svn_revision() {
-  local DIRTY REV=$(svn info 2>/dev/null | grep Revision | sed -e 's/Revision: //')
-  [ "$REV" ] || return
-  [ "$(svn st | grep -e '^ \?[M?] ')" ] && DIRTY='*'
-  echo "(r$REV$DIRTY)"
+	[ -d .svn ] || return
+	local DIRTY REV=$(svn info 2>/dev/null | grep Revision | sed -e 's/Revision: //')
+	[ "$REV" ] || return
+	[ "$(svn st | grep -e '^ \?[M?] ')" ] && DIRTY='*'
+	echo "(r$REV$DIRTY)"
 }
 
-# add this line to your ~/.bashrc for git/svn status display in bash prompt
-#PS1='\h:\W$(parse_git_branch)$(parse_svn_revision) \$ '
-#
-# add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
-# normal users
-
-if ( which git 2> /dev/null ) ;
-then PS1='\[\033[1;32m\]\h:\[\033[1;34m\]\W \[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
-else PS1='\[\033[1;32m\]\h:\[\033[1;34m\]\W \[\033[33m\]\[\033[0m\] '
+if [ `whoami` = root ]
+then
+	PS1_PREFIX='\[\033[1;31m\]\h:\[\033[1;34m\]\W \[\033[33m\]'
+	PS1_SUFFIX='\[\033[0m\]\$ '
+else
+	PS1_PREFIX='\[\033[1;32m\]\h:\[\033[1;34m\]\W \[\033[33m\]'
+	PS1_SUFFIX='\[\033[0m\]\$ '
 fi
 
-# root user
-#PS1='\[\033[31m\]\h:\[\033[1;34m\]\W \[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+PS1="$PS1_PREFIX"
+( which git 2> /dev/null > /dev/null ) && PS1="$PS1"'$(parse_git_branch)'
+( which svn 2> /dev/null > /dev/null ) && PS1="$PS1"'$(parse_svn_revision)'
+PS1="$PS1$PS1_SUFFIX"
+
+
