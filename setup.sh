@@ -24,6 +24,20 @@ else
 	echo Created $HOMEDIR/.bashrc
 fi
 
+if [ -e "$HOMEDIR/.profile" ]
+then
+	{
+		echo '# Uncomment to enable'
+		echo '# '". ~/.bashrc"
+	} >> "${HOMEDIR}/.profile"
+	echo Added stub to existing $HOMEDIR/.profile
+else
+	{
+		echo ". ~/.bashrc"
+	} >> "${HOMEDIR}/.profile"
+	echo Created $HOMEDIR/.profile
+fi
+
 if [ -e "${HOMEDIR}/.vimrc" ]
 then
 	{
@@ -33,7 +47,7 @@ then
 	echo Added stub to existing $HOMEDIR/.vimrc
 else
 	{
-		echo "source \"$SHATDIR/vim/vimrc\""
+		echo "source $SHATDIR/vim/vimrc"
 	} >> "${HOMEDIR}/.vimrc"
 	echo Created $HOMEDIR/.vimrc
 fi
