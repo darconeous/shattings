@@ -74,4 +74,7 @@ else
 	echo Created $HOMEDIR/.screenrc
 fi
 
+[ -e ~/Library/KeyBindings/DefaultKeyBinding.dict ] && echo Skipping ~/Library/KeyBindings/DefaultKeyBinding.dict ||
+ln -s ../../.shattings/Library/KeyBindings/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict
 
+echo Done!

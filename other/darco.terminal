@@ -15,7 +15,7 @@
 	<key>Bell</key>
 	<false/>
 	<key>BlinkText</key>
-	<false/>
+	<string>YES</string>
 	<key>CharacterEncoding</key>
 	<integer>4</integer>
 	<key>CommandString</key>
@@ -42,7 +42,7 @@
 	<data>
 	YnBsaXN0MDDUAQIDBAUGGBlYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
 	AAGGoKQHCBESVSRudWxs1AkKCwwNDg8QViRjbGFzc1ZOU05hbWVWTlNTaXplWE5TZkZs
-	YWdzgAOAAiNAKgAAAAAAABAQVk1vbmFjb9ITFBUWWiRjbGFzc25hbWVYJGNsYXNzZXNW
+	YWdzgAOAAiNAKAAAAAAAABAQVk1vbmFjb9ITFBUWWiRjbGFzc25hbWVYJGNsYXNzZXNW
 	TlNGb250ohUXWE5TT2JqZWN0XxAPTlNLZXllZEFyY2hpdmVy0RobVHJvb3SAAQgRGiMt
 	Mjc8QktSWWBpa212eH+Ej5ifoqu9wMUAAAAAAAABAQAAAAAAAAAcAAAAAAAAAAAAAAAA
 	AAAAxw==
@@ -50,19 +50,19 @@
 	<key>FontAntialias</key>
 	<true/>
 	<key>FontHeightSpacing</key>
-	<real>0.92338709677419351</real>
+	<real>1</real>
 	<key>FontWidthSpacing</key>
-	<real>0.99596774193548387</real>
+	<real>1</real>
 	<key>Linewrap</key>
 	<true/>
 	<key>ProfileCurrentVersion</key>
-	<real>2.0099999999999998</real>
+	<real>2.02</real>
 	<key>ReverseLinewrap</key>
 	<true/>
 	<key>RunCommandAsShell</key>
 	<false/>
 	<key>ScrollbackLines</key>
-	<real>50000</real>
+	<integer>200000</integer>
 	<key>SelectionColor</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGFRZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
@@ -78,7 +78,7 @@
 	<key>ShowActiveProcessInTitle</key>
 	<true/>
 	<key>ShowCommandKeyInTitle</key>
-	<false/>
+	<true/>
 	<key>ShowDimensionsInTitle</key>
 	<false/>
 	<key>ShowShellCommandInTitle</key>
@@ -120,9 +120,9 @@
 	<key>colorPresetTag</key>
 	<integer>1</integer>
 	<key>columnCount</key>
-	<integer>180</integer>
+	<integer>100</integer>
 	<key>deleteSendsBackspace</key>
-	<true/>
+	<false/>
 	<key>keyMapBoundKeys</key>
 	<dict>
 		<key>$F708</key>
@@ -235,7 +235,7 @@
 		<string>[34~</string>
 	</dict>
 	<key>name</key>
-	<string>Shattings Default</string>
+	<string>darco</string>
 	<key>noWarnProcesses</key>
 	<array>
 		<dict>
@@ -250,17 +250,9 @@
 			<key>ProcessName</key>
 			<string>man</string>
 		</dict>
-		<dict>
-			<key>ProcessName</key>
-			<string>ping</string>
-		</dict>
-		<dict>
-			<key>ProcessName</key>
-			<string>ping6</string>
-		</dict>
 	</array>
 	<key>rowCount</key>
-	<integer>48</integer>
+	<integer>40</integer>
 	<key>scrollOnInput</key>
 	<true/>
 	<key>shellExitAction</key>

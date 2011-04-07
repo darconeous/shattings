@@ -117,27 +117,11 @@ inoremap <Up> <C-o>gk
 "
 
 
-" Default (global) group
-" Remove all autocommands
-au!
-au BufReadPre * set sw=4 tw=0 sts=4 nosm nocindent cinkeys& comments& formatoptions&
-"au BufReadPost * 
-
-
-augroup mail
-  " Remove all mail autocommands
-"  au!
-
-  " If you wonder, the big regexes are for matching temp files from cvs
-  au BufRead .followup,.article,.letter,/tmp/snd*,/tmp/mutt*,/tmp/moder*,/var/tmp/[a-z][a-z][a-z][a-z][0-9][0-9][0-9]*,/tmp/[0-9][0-9][0-9][0-9][0-9][a-z][a-z][a-z] set formatoptions=tcqro2 comments=n:>,n::,n:»,n:] tw=76 autoindent
-augroup END
-
-
-augroup html
+"augroup html
   " Remove all html autocommands
  " au!
 
-  au BufRead *.shtml,*.html,*.htm set tw=80 formatoptions=tcqro2 autoindent
+"  au BufRead *.shtml,*.html,*.htm set tw=80 formatoptions=tcqro2 autoindent
 
   " Show default HTML file when new.
 "  au BufNewFile *.shtml,*.html,*.htm 0r /etc/vim/skeleton.html
@@ -148,46 +132,46 @@ augroup html
 
   " Setup browser to display when writing files
   "au BufWritePost *.shtml,*.html,*.htm !netscape -remote 'openFile(%:p)'
-augroup END
+"augroup END
 
 
-augroup cprog
+"augroup cprog
   " Remove all cprog autocommands
 "  au!
 
-  au BufRead *.cpp,*.c,*.h set formatoptions=croq sm sw=4 sts=4 cindent comments=sr:/*,mb:*,el:*/,:// | if file_readable("tags.vim") | so tags.vim | endif
-augroup END
+"  au BufRead *.cpp,*.c,*.h set formatoptions=croq sm sw=4 sts=4 cindent comments=sr:/*,mb:*,el:*/,:// | if file_readable("tags.vim") | so tags.vim | endif
+"augroup END
 
 
-augroup perl
+"augroup perl
   " Remove all perl autocommands
 "  au!
 
-  au BufReadPre *.pl,*.pm set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e' " tags=./tags,tags,~/devel/tags,~/devel/CVS/bin/contrib/tags
+"  au BufReadPre *.pl,*.pm set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e' " tags=./tags,tags,~/devel/tags,~/devel/CVS/bin/contrib/tags
   " au BufReadPost */CVS/lib/perl5/netapp/*.pm so ~/devel/CVS/bin/contrib/tags.vim
   " The default syntax highlight syncing scheme is too slow (which makes
   " backwards scrolling very slow), so we reset it to something faster
   " au BufReadPost *.pm,*.pl syntax sync clear | syntax sync lines=30
-augroup END
+"augroup END
 
 
-augroup python
+"augroup python
   " Remove all python autocommands
 "  au!
 
-  au BufReadPre *.py set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e'
-augroup END
+"  au BufReadPre *.py set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e'
+"augroup END
 
 
-augroup shell
+"augroup shell
   " Remove all shell autocommands
 "  au!
 
-  au BufRead profile,bashrc,.profile,.bashrc,.bash_*,.kshrc,*.sh,*.ksh,*.bash,*.env,.login,.cshrc,*.csh,*.tcsh,.z*,zsh*,zlog* set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e'
-augroup END
+"  au BufRead profile,bashrc,.profile,.bashrc,.bash_*,.kshrc,*.sh,*.ksh,*.bash,*.env,.login,.cshrc,*.csh,*.tcsh,.z*,zsh*,zlog* set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e'
+"augroup END
 
 
-" Also, support editing of gzip-compressed files. DO NOT REMOVE THIS!
+" Also, support editing of gzip-compressed files.
 " This is also used when loading the compressed helpfiles.
 augroup gzip
   " Remove all gzip autocommands
@@ -242,31 +226,6 @@ augroup bzip2
   autocmd FileAppendPost                *.bz2 !bzip2 -9 --repetitive-best <afile>:r
 augroup END
 
-" Converts binary plists as XML plists.
-"if uname == "Darwin"
-"augroup plist
-  
-"  autocmd BufReadPre,FileReadPre        *.plist set bin
-"  autocmd BufReadPre,FileReadPre        *.plist let ch_save = &ch|set ch=2
-"  autocmd BufReadPost,FileReadPost      *.plist set cmdheight=2|'[,']!plutil -convert xml1 -o - -
-
-" TODO: Check plist formatting is correct before saving!
-
-
-"  autocmd BufReadPost,FileReadPost      *.plist set cmdheight=1 nobin|execute ":doautocmd BufReadPost " . expand("%:r")
-"  autocmd BufReadPost,FileReadPost      *.plist let &ch = ch_save|unlet ch_save
-
-"  autocmd BufWritePost,FileWritePost    *.plist !mv <afile> <afile>:r
-"  autocmd BufWritePost,FileWritePost    *.plist !bzip2 <afile>:r
-
-"  autocmd FileAppendPre                 *.bz2 !bunzip2 <afile>
-"  autocmd FileAppendPre                 *.bz2 !mv <afile>:r <afile>
-"  autocmd FileAppendPost                *.bz2 !mv <afile> <afile>:r
-"  autocmd FileAppendPost                *.bz2 !bzip2 -9 --repetitive-best <afile>:r
-
-"augroup END
-"endif
-
 if uname == "Darwin"
   nmap <F6> :.w !pbcopy<CR><CR>
   vmap <F6> :w !pbcopy<CR><CR>
@@ -277,45 +236,14 @@ elseif uname == "Linux"
   map <F7> :-1r !xclip -o -sel clip<CR>
 endif
 
-
-" This lets me override syntax defaults
-" Usually, one does not need to override this file
-" let mysyntaxfile = "/etc/vim/vim_mysyntax"
-"let myfiletypefile = "/etc/vim/vim_myfiletypes"
-"let myscriptsfile = "/etc/vim/vim_myscripts"
-
-"
-" Colors
-"
-
-" XTerm colors
-" It used to be 16, but it seems to trigger a bug on Solaris, which then shows
-" almost no colors. It doesn't seem to work with Eterm on Suse 6.3 either...
-"set t_Co=8
-"if has("terminfo")
-"  set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm
-"  set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm
-"else
+"if &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
+"  set t_Co=16
 "  set t_Sf=[3%dm
 "  set t_Sb=[4%dm
 "endif
 
-if &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
-  set t_Co=16
-  set t_Sf=[3%dm
-  set t_Sb=[4%dm
-endif
-
-" Default is while background
-"highlight normal ctermbg=0 ctermfg=7 guibg=black guifg=grey
-" Default is some unreadable yellow
-"highlight Search term=reverse  ctermbg=4 ctermfg=3  guibg=blue guifg=yellow
-" The selection highlight in gvim renders the font unreadable
-"highlight Visual gui=reverse guifg=NONE guibg=NONE
-
 " Press space to clear search highlighting and any message already displayed.
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
-
 
 set background=dark
 
@@ -338,37 +266,6 @@ set   statusline=Vim-%{Version()}\ %{getcwd()}\ \ %1*[%02n]%*\ %(%M%R%H%)\ %2*%F
 "       User3: color for position
   hi    User3 cterm=NONE    ctermfg=blue   ctermbg=white  guifg=blue   guibg=white
 
-fu! Version()
-        return version
-endf
-
-fu! Options()
-"           let opt="Opt:"
-            let opt=""
-  " autoindent
-  if &ai|   let opt=opt." ai"   |endif
-  "  expandtab
-  if &et|   let opt=opt." et"   |endif
-  "  hlsearch
-  if &hls|  let opt=opt." hls"  |endif
-  "  paste
-  if &paste|let opt=opt." paste"|endif
-  "  shiftwidth
-  if &shiftwidth!=8|let opt=opt." sw=".&shiftwidth|endif
-  "  textwidth - show always!
-  let opt=opt." tw=".&tw
-  return opt
-endf
-
-
-" Debian specific stuff
-augroup filetype
-  au BufRead reportbug.*		set ft=mail
-augroup END
-
-" Debian uses compressed helpfiles. We must inform vim that the main
-" helpfiles is compressed. Other helpfiles are stated in the tags-file.
-set helpfile=$VIMRUNTIME/doc/help.txt.gz
 
 set dictionary+=/usr/share/dict/words
 "set encoding=utf-8 fileencodings=
