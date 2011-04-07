@@ -23,6 +23,11 @@ function parse_svn_revision() {
 #
 # add one of these lines to your ~/.bashrc for git/svn status display in bash prompt with colors
 # normal users
-PS1='\[\033[1;32m\]\h:\[\033[1;34m\]\W \[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+
+if ( which git 2> /dev/null ) ;
+then PS1='\[\033[1;32m\]\h:\[\033[1;34m\]\W \[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
+else PS1='\[\033[1;32m\]\h:\[\033[1;34m\]\W \[\033[33m\]\[\033[0m\] '
+fi
+
 # root user
 #PS1='\[\033[31m\]\h:\[\033[1;34m\]\W \[\033[33m\]$(parse_git_branch)$(parse_svn_revision)\[\033[0m\] '
