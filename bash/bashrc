@@ -83,7 +83,7 @@ append_path PATH ~/.shattings/bin
 
 export LD_PREBIND=0
 export EDITOR=vim
-export SVN_MERGE=~/.shattings/bin/svn_diff_wrapper
+export SVN_MERGE=~/.shattings/bin/svn-diff-wrapper
 export PATH
 export PKG_CONFIG_PATH
 export MANPATH
