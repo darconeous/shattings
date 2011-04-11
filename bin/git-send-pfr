@@ -1,0 +1,21 @@
+#!/bin/sh
+
+git config format.to >/dev/null || {
+	echo Git config key \"format.to\" is not set.
+	echo You can set it with the following command:
+	echo ""
+	echo "    git config format.to <email-addr>"
+	echo ""
+	exit 1
+}
+
+for patch in `git format-patch --attach $*`
+do
+	for dest_addr in `git config format.to`
+	do
+		echo "$patch --> $dest_addr"
+		sendmail "$dest_addr" < "$patch"
+	done
+	rm "$patch"
+done
+
