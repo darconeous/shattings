@@ -39,8 +39,7 @@ export LS_COLWIDTHS=$TABWIDTH
 # Enable GIT tab completion
 . ~/.shattings/bash/git-completion.bash
 
-if
-	[ `uname` = "Darwin" ]
+if [ `uname` = "Darwin" ]
 then
 	# Grab any recently updated environment variables from launchd
 	eval `launchctl export`
@@ -79,6 +78,8 @@ fi
 
 # DOSism...
 alias "cd.."='cd ..'
+
+append_path PATH ~/.shattings/bin
 
 export LD_PREBIND=0
 export EDITOR=vim
