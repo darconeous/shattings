@@ -1,0 +1,7 @@
+#!/bin/sh
+function printlladdr() {
+	printf "FE80::%02X%02X:%02XFF:FE%02X:%02X%02X\n" $((`printf "%d" 0x$1` ^ 2)) 0x$2 0x$3 0x$4 0x$5 0x$6
+	
+}
+#printf "FE80::02%02X:%02XFF:FE%02X:%02X%02X\n" $(echo $1 | sed 's/^00//;s/:/ 0x/g')
+printlladdr $(echo $1 | tr ':' ' ')
