@@ -39,6 +39,8 @@ export LS_COLWIDTHS=$TABWIDTH
 # Enable GIT tab completion
 . ~/.shattings/bash/git-completion.bash
 
+. ~/.shattings/bash/man-completion.bash
+
 if [ `uname` = "Darwin" ]
 then
 	# Grab any recently updated environment variables from launchd
