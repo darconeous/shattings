@@ -7,40 +7,38 @@ _man_complete()
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-	opts="-a -d -f -h -k -t -w -W -M -P -S -M -p"
+	opts="-a -d -f -h -k -t -w -W -M -P -S -M -p --path"
 
 	paths="`man -w`"
 	
-	#xargs -0 -n 1 printf "%s/man1\000" | 
+	[ "$section" != "" ] &&
+		paths="`tr ':\n' '\000' <<<$paths | xargs -0 -n 1 printf "%s/man$section:"`"
 	
-
-
-	case "${cur}" in
-		-*)
-			COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-			return 0
-		;;
-		[123456789]*)
-			COMPREPLY=( $(compgen -W "1 2 3 4 5 6 7 8 9" -- ${cur}) )
-			return 0
-		;;
-		"")
-			if [ "$section" = ""]
-			then COMPREPLY=( $(compgen -W "${opts} 1 2 3 4 5 6 7 8 9" -- ${cur}) )
-			else COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-			fi
-			return 0
-		;;
+	case "${prev}" in
+		-M|-P|-S|-m|-p|-C);;
 		*)
-			case "${prev}" in
-				-[MPSmp]) ;;
+			case "${cur}" in
+				-*)
+					COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+					return 0
+				;;
+				1|2|3|4|5|6|7|8|9)
+					COMPREPLY=( $(compgen -W "1 2 3 4 5 6 7 8 9" -- ${cur}) )
+					return 0
+				;;
+				"")
+					if [ "$section" = "" ]
+					then COMPREPLY=( $(compgen -W "${opts} 1 2 3 4 5 6 7 8 9" -- ${cur}) )
+					else COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+					fi
+					return 0
+				;;
 				*)
-					COMPREPLY=( $(compgen -W "`tr ':\n' '\000' <<<$paths | xargs -0 -n 1 -J % find % -type f -name $cur'*' -exec basename {} ';' | sed 's/\([^.]*\)\..*$/\1/'`" -- ${cur}) )
+					COMPREPLY=( $(compgen -W "`tr ':\n' '\000' <<<$paths | xargs -0 -n 1 -J % find % -type f -name "$(printf %q $cur)"'*' -exec basename {} ';' | sed 's/\([^.]*\)\..*$/\1/'`" -- ${cur}) )
 					return 0
 				;;
 			esac
 		;;
-
 	esac
 
 }
