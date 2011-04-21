@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# sf2email v0.1 (2011-04-20)
+# By Robert Quattlebaum <darco@deepdarc.com>
+#
+# PUBLIC DOMAIN
+#
+# This shell script was originally designed to be used as the 'authors-prog'
+# for git-svn. It takes the sourceforge username as an argument, and outputs
+# the name and email address of the individual to stdout.
+#
+# The results are cached locally to speed up future checks.
+#
+# This script uses cURL to grab the user's sourceforge page and then scrapes
+# their real name from the HTML.
+#
+
+[ $# = 1 ] || {
+	[ $# > 1 ] && echo "$0: error: Too many arguments."
+	echo "sf2email - Converts a sourceforge username to an name+email line"
+	echo "Usage: $0 " '<sf-username>'
+	exit 1
+} 2>&1
+
+which -s curl || {
+	echo "$0: error: 'curl' command not found."
+	exit 2
+} 1>&2
+
+SF_USERNAME=$1
+
+# Handle "(no author)" cases. 
+[ "$SF_USERNAME" = "(no author)" ] && {
+	echo "(no author)"
+	exit 0
+}
+
+SF_USERNAME_LC=`echo $1 | tr '[:upper:]' '[:lower:]' | tr -C -d '[:alnum:].'`
+
+[ "$SF_USERNAME_LC" = "." -o "$SF_USERNAME_LC" = ".." -o "$SF_USERNAME_LC" = "" ] && {
+	echo "$0: error: Invalid username \"$SF_USERNAME\""
+	exit 2
+} 1>&2
+
+CACHE_DIR="$TMPDIR/sf2email.cache"
+
+# If the cache dir doesn't exist, make it.
+[ -d $CACHE_DIR ] || mkdir -p $CACHE_DIR
+
+if [ -r "$CACHE_DIR/$SF_USERNAME_LC" ]
+then # Cache hit
+	SF_EMAIL=`cat "$CACHE_DIR/$SF_USERNAME_LC"`
+else # Cache miss
+	
+	# Try to scrape their real name from their user page
+	SF_REALNAME="$(
+		curl -s "http://sourceforge.net/users/$SF_USERNAME" |
+			grep '<label>Public Name:</label>' |
+			sed -E '
+				s/<[^>]*>//g;
+				s/Public Name://g;
+				s/^[[:space:]]*([^[:space:]])/\1/;
+				s/([^[:space:]])[[:space:]]*$/\1/;
+			'
+	)"
+	
+	# If the above command didn't work, we can just try using the username as-is
+	[ "$SF_REALNAME" = "" ] && {
+		SF_REALNAME=$SF_USERNAME
+		echo "$0: warning: Unable to scrape real name for \"$SF_USERNAME\"." 1>&2
+	}
+
+	SF_EMAIL="$SF_REALNAME <$SF_USERNAME_LC@users.sourceforge.net>"
+	
+	# Cache the result to avoid future processing.
+	echo $SF_EMAIL > "$CACHE_DIR/$SF_USERNAME"
+fi
+
+echo $SF_EMAIL
+
+
+
