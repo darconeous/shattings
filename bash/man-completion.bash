@@ -34,7 +34,7 @@ _man_complete()
 					return 0
 				;;
 				*)
-					COMPREPLY=( $(compgen -W "`tr ':\n' '\000' <<<$paths | xargs -0 -n 1 -J % find % -type f -name "$(printf %q $cur)"'*' -exec basename {} ';' | sed 's/\([^.]*\)\..*$/\1/'`" -- ${cur}) )
+					COMPREPLY=( $(compgen -W "`tr ':\n' '\000' <<<$paths | xargs -0 -n 1 -I % find % -type f -name "$(printf %q $cur)"'*' -exec basename {} ';' | sed 's/\([^.]*\)\..*$/\1/'`" -- ${cur}) )
 					return 0
 				;;
 			esac
