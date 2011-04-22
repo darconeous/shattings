@@ -6,11 +6,11 @@ die () {
 }
 
 cd ~
-[ -d .shattings ] && die Shattings already installed
+[ -x .shattings/setup.sh ] && die Shattings already installed
 
 if which -s git
 then
-	git clone git://github.com/darconeous/shattings.git .shattings || die Unable to clone shattings repository
+	git clone http://github.com/darconeous/shattings.git .shattings || die Unable to clone shattings repository
 else
 	curl -L https://github.com/darconeous/shattings/tarball/master | tar xvz || die Unable to download archive
 	mv darconeous-shattings* .shattings || die Unable to move archive contents
