@@ -839,6 +839,7 @@ __git_list_all_commands ()
 		*) echo $i;;
 		esac
 	done
+	echo filter-branch
 }
 
 __git_all_commands=
@@ -1387,6 +1388,59 @@ _git_difftool ()
 		;;
 	esac
 	__git_complete_file
+}
+
+
+_git_filter_branch ()
+{
+	__git_has_doubledash && return
+
+	local cur prev
+	_get_comp_words_by_ref -n =: cur prev
+
+
+	case "$prev" in
+	--*-filter)	# Takes shellscript argument
+		COMPREPLY=()
+		return;
+		;;
+	--original) # takes namespace argument
+		COMPREPLY=()
+		return;
+		;;
+	-d) # Takes a directory argument
+		return;
+		;;
+	--)
+		# --all
+		__git_complete_revlist
+		return
+		;;
+	*)
+		case "$cur" in
+		-*)
+			__gitcomp "
+				--env-filter
+				--tree-filter
+				--index-filter
+				--parent-filter
+				--msg-filter
+				--commit-filter
+				--tag-name-filter
+				--subdirectory-filter
+				--prune-empty
+				--original
+				-d
+				-f
+				--force
+				--
+				"
+			return
+			;;
+		esac
+		;;
+	esac
+	__git_complete_revlist
 }
 
 __git_fetch_options="
