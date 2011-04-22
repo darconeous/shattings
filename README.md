@@ -7,3 +7,10 @@ Shattings is a collection of scripts and settings which improve my productivity 
 
 Work in progress.
 
+## Quick Install ##
+
+Type:
+
+    curl https://github.com/darconeous/shattings/raw/master/quick_start.sh | bash
+
+
