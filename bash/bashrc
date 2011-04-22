@@ -63,8 +63,13 @@ fi
 [ -r ~/share/man ] && prepend_path MANPATH ~/share/man
 
 # VIM-based 'less'
-[ -x /usr/share/vim/vim72/macros/less.sh ] && alias vless='/usr/share/vim/vim72/macros/less.sh'
-[ -x /usr/share/vim/vim73/macros/less.sh ] && alias vless='/usr/share/vim/vim73/macros/less.sh'
+[ -x /usr/share/vim/vim72/macros/less.sh ] && VLESS='/usr/share/vim/vim72/macros/less.sh'
+[ -x /usr/share/vim/vim73/macros/less.sh ] && VLESS='/usr/share/vim/vim73/macros/less.sh'
+
+[ -x "$VLESS" ] && {
+#	export PAGER="$VLESS"
+	alias vless="$VLESS"
+}
 
 [ -r /usr/share/man ] && append_path MANPATH /usr/share/man
 [ -r /usr/local/share/man ] && append_path MANPATH /usr/local/share/man
