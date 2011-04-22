@@ -60,6 +60,7 @@ then
 fi
 
 [ -r ~/bin ] && prepend_path PATH ~/bin
+[ -r ~/share/man ] && prepend_path MANPATH ~/share/man
 
 # VIM-based 'less'
 [ -x /usr/share/vim/vim72/macros/less.sh ] && alias vless='/usr/share/vim/vim72/macros/less.sh'
