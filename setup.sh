@@ -74,6 +74,20 @@ else
 	echo Created $HOMEDIR/.screenrc
 fi
 
+if [ -e "${HOMEDIR}/.inputrc" ]
+then
+	{
+		echo '# Uncomment to enable'
+		echo '# '"\$include $SHATDIR/etc/inputrc\""
+	} >> "${HOMEDIR}"/.inputrc
+	echo Added stub to existing $HOMEDIR/.inputrc
+else
+	{
+		echo "\$include $SHATDIR/etc/inputrc"
+	} >> "${HOMEDIR}"/.inputrc
+	echo Created $HOMEDIR/.inputrc
+fi
+
 [ -e ~/Library/KeyBindings/DefaultKeyBinding.dict ] && echo Skipping ~/Library/KeyBindings/DefaultKeyBinding.dict ||
 ln -s ../../.shattings/Library/KeyBindings/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict
 
