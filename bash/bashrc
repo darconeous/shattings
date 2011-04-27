@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # add to end of path
 append_path()
@@ -18,28 +18,21 @@ prepend_path()
   fi
 }
 
-
 shopt -s histappend
 export PROMPT_COMMAND='history -a && history -n'
+export HISTCONTROL="ignoredups"
+export HISTFILESIZE=2000
 
-set mark-directories on
-set mark-symlinked-directories on
+set mark-directories On
+set mark-symlinked-directories On
 
-set completion-ignore-case on
+set completion-ignore-case On
 
 # Setup tabs
 export TABWIDTH=4
 tabs -$TABWIDTH
 alias less="less -x$TABWIDTH"
 export LS_COLWIDTHS=$TABWIDTH
-
-# Enable fancy command line
-. ~/.shattings/bash/ps1-git-svn.sh
-
-# Enable GIT tab completion
-. ~/.shattings/bash/git-completion.bash
-
-. ~/.shattings/bash/man-completion.bash
 
 if [ `uname` = "Darwin" ]
 then
@@ -98,3 +91,10 @@ export MANPATH
 export LIBRARY_PATH
 export CPATH
 
+# Enable fancy command line
+. ~/.shattings/bash/ps1-git-svn.sh
+
+# Enable GIT tab completion
+. ~/.shattings/bash/git-completion.bash
+
+. ~/.shattings/bash/man-completion.bash
