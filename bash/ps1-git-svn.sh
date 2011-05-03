@@ -9,7 +9,7 @@ function parse_git_branch() {
   STATUS=$(git status --porcelain 2>/dev/null)
   [ $? -eq 128 ] && return
   [ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')"    ] || DIRTY="*"
-  [ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="*"
+  [ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="${DIRTY}?"
   [ -z "$(echo "$STATUS" | grep -e '^[RMDA]')" ] || DIRTY="${DIRTY}+"
   [ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
   echo "($(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')$DIRTY)"
