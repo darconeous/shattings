@@ -1,12 +1,16 @@
 #!/bin/bash
 
+# Original version of this file:
+# https://github.com/nesono/nesono-bin/blob/master/bashtils/ps1status
+
 # Prompt setup, with SCM status
 function parse_git_branch() {
   local DIRTY STATUS
   STATUS=$(git status --porcelain 2>/dev/null)
   [ $? -eq 128 ] && return
-  [ -z "$(echo "$STATUS" | grep -e '^ M')"    ] || DIRTY="*"
-  [ -z "$(echo "$STATUS" | grep -e '^[MDA]')" ] || DIRTY="${DIRTY}+"
+  [ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')"    ] || DIRTY="*"
+  [ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="*"
+  [ -z "$(echo "$STATUS" | grep -e '^[RMDA]')" ] || DIRTY="${DIRTY}+"
   [ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
   echo "($(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')$DIRTY)"
 }
