@@ -1,0 +1,32 @@
+#!/usr/bin/python -O
+from Foundation import *
+from ScriptingBridge import *
+from os import *
+from tempfile import *
+import sys
+
+if __name__ == "__main__":
+	import getopt
+
+	mail = SBApplication.applicationWithBundleIdentifier_("com.apple.mail")
+	messages = mail.selection().mutableCopy()
+
+	mbox = NamedTemporaryFile(delete=False)
+
+	for msg in sorted(messages,key=lambda x: "%08X %s"%(x.dateSent().timeIntervalSince1970(),x.subject())):
+		mbox.write("From %s Mon Sep 17 00:00:00 2001\r\n"%(msg.messageId()))
+		mbox.write(msg.source())
+		mbox.write("\r\n")
+		
+	mbox.close()
+
+	cmd = 'git am'
+	for a in sys.argv[1:]:
+		cmd = "%s %s" % (cmd, a)
+	cmd = "%s %s" % (cmd, mbox.name)
+
+	ret = system(cmd)
+
+	unlink(mbox.name)
+
+	sys.exit(ret)
