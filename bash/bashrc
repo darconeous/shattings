@@ -39,8 +39,10 @@ then
 	# Grab any recently updated environment variables from launchd
 	eval `launchctl export`
 
-	[ -r /Developer/usr/share/man ] && append_path MANPATH /Developer/usr/share/man
-	[ -r /Developer/Platforms/iPhoneOS.platform/usr/local/share/man ] && append_path MANPATH /Developer/Platforms/iPhoneOS.platform/usr/local/share/man
+	append_path PATH /Developer/usr/bin
+	append_path MANPATH /Developer/usr/share/man
+	
+	append_path MANPATH /Developer/Platforms/iPhoneOS.platform/usr/local/share/man
 
 	[ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ] && alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
 	[ -x /Applications/GitX.app/Contents/Resources/gitx ] && alias gitx=/Applications/GitX.app/Contents/Resources/gitx
@@ -52,9 +54,6 @@ then
 	export CLICOLOR=1
 fi
 
-[ -r ~/bin ] && prepend_path PATH ~/bin
-[ -r ~/share/man ] && prepend_path MANPATH ~/share/man
-
 # VIM-based 'less'
 [ -x /usr/share/vim/vim72/macros/less.sh ] && VLESS='/usr/share/vim/vim72/macros/less.sh'
 [ -x /usr/share/vim/vim73/macros/less.sh ] && VLESS='/usr/share/vim/vim73/macros/less.sh'
@@ -65,7 +64,7 @@ fi
 }
 
 [ -r /usr/share/man ] && append_path MANPATH /usr/share/man
-[ -r /usr/local/share/man ] && append_path MANPATH /usr/local/share/man
+#[ -r /usr/local/share/man ] && append_path MANPATH /usr/local/share/man
 
 [ -r ~/lib/pkgconfig ] && append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 [ -r /usr/local/lib/pkgconfig ] && append_path PKG_CONFIG_PATH /usr/local/lib/pkgconfig
@@ -81,6 +80,10 @@ fi
 alias "cd.."='cd ..'
 
 append_path PATH ~/.shattings/bin
+append_path MANPATH ~/.shattings/share/man
+
+[ -r ~/bin ] && prepend_path PATH ~/bin
+[ -r ~/share/man ] && prepend_path MANPATH ~/share/man
 
 export LD_PREBIND=0
 export EDITOR=vim
