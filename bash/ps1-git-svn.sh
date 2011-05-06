@@ -5,14 +5,33 @@
 
 # Prompt setup, with SCM status
 function parse_git_branch() {
-  local DIRTY STATUS
-  STATUS=$(git status --porcelain 2>/dev/null)
-  [ $? -eq 128 ] && return
-  [ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')"    ] || DIRTY="*"
-  [ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="${DIRTY}?"
-  [ -z "$(echo "$STATUS" | grep -e '^[RMDA]')" ] || DIRTY="${DIRTY}+"
-  [ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
-  echo "($(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')$DIRTY)"
+	local DIRTY STATUS BRANCH MODE TOPLEVEL
+	STATUS=$(git status --porcelain 2>/dev/null)
+	[ $? -eq 128 ] && return
+	[ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')"    ] || DIRTY="*"
+	[ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="${DIRTY}?"
+	[ -z "$(echo "$STATUS" | grep -e '^[RMDA]')" ] || DIRTY="${DIRTY}+"
+	[ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
+	BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')"
+	TOPLEVEL="$(git rev-parse --show-toplevel)"
+	if [ -f "${TOPLEVEL}/.git/rebase-merge/interactive" ]
+	then
+		BRANCH='['$(basename `cat "${TOPLEVEL}/.git/rebase-merge/head-name"`)']'
+		MODE="<rebase-i>"
+	elif [ -f "${TOPLEVEL}/.git/rebase-apply/rebasing" ]
+	then MODE="<rebase>"
+	elif [ -f "${TOPLEVEL}/.git/rebase-apply/applying" ]
+	then MODE="<am>"
+	elif [ -d "${TOPLEVEL}/.git/rebase-apply" ]
+	then MODE="<rebase?>"
+	elif [ -f "${TOPLEVEL}/.git/MERGE_HEAD" ]
+	then MODE="<merge>"
+	elif [ -f "${TOPLEVEL}/.git/CHERRY_PICK_HEAD" ]
+	then MODE="<cherry-pick>"
+	elif [ -f "${TOPLEVEL}/.git/BISECT_LOG" ]
+	then MODE="<bisect>"
+	fi
+	printf '('${MODE}${BRANCH}${DIRTY}')'
 }
 
 function parse_svn_revision() {
