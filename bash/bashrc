@@ -102,8 +102,6 @@ export MANPATH
 export LIBRARY_PATH
 export CPATH
 
-echo Finally PATH=$PATH
-
 # Enable fancy command line
 . ~/.shattings/bash/ps1-git-svn.sh
 
