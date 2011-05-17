@@ -34,9 +34,6 @@ tabs -$TABWIDTH
 alias less="less -x$TABWIDTH"
 export LS_COLWIDTHS=$TABWIDTH
 
-[ -z "$PATH" ] && PATH=/bin:/sbin:/usr/bin:/usr/sbin
-
-
 if [ `uname` = "Darwin" ]
 then
 	# Grab any recently updated environment variables from launchd
@@ -57,6 +54,33 @@ then
 	export CLICOLOR=1
 fi
 
+append_path PATH /bin
+append_path PATH /sbin
+
+append_path PATH /usr/bin
+append_path PATH /usr/sbin
+append_path MANPATH /usr/share/man
+append_path PKG_CONFIG_PATH /usr/lib/pkgconfig
+
+append_path PATH /usr/local/bin
+append_path PATH /usr/local/sbin
+append_path MANPATH /usr/local/share/man
+append_path PKG_CONFIG_PATH /usr/local/lib/pkgconfig
+
+append_path PATH /usr/X11R6/bin
+append_path MANPATH /usr/X11R6/man
+append_path PKG_CONFIG_PATH /usr/X11R6/lib/pkgconfig
+
+append_path PATH /usr/X11/bin
+append_path MANPATH /usr/X11/man
+
+append_path PATH ~/.shattings/bin
+append_path MANPATH ~/.shattings/share/man
+
+prepend_path PATH ~/bin
+prepend_path MANPATH ~/share/man
+append_path PKG_CONFIG_PATH ~/lib/pkgconfig
+
 # VIM-based 'less'
 [ -x /usr/share/vim/vim72/macros/less.sh ] && VLESS='/usr/share/vim/vim72/macros/less.sh'
 [ -x /usr/share/vim/vim73/macros/less.sh ] && VLESS='/usr/share/vim/vim73/macros/less.sh'
@@ -66,27 +90,8 @@ fi
 	alias vless="$VLESS"
 }
 
-[ -r /usr/share/man ] && append_path MANPATH /usr/share/man
-#[ -r /usr/local/share/man ] && append_path MANPATH /usr/local/share/man
-
-[ -r ~/lib/pkgconfig ] && append_path PKG_CONFIG_PATH ~/lib/pkgconfig
-[ -r /usr/local/lib/pkgconfig ] && append_path PKG_CONFIG_PATH /usr/local/lib/pkgconfig
-[ -r /usr/X11R6/lib/pkgconfig ] && append_path PKG_CONFIG_PATH /usr/X11R6/lib/pkgconfig
-[ -r /usr/lib/pkgconfig ] && append_path PKG_CONFIG_PATH /usr/lib/pkgconfig
-
-[ -r /usr/X11R6/bin ] && append_path PATH /usr/X11R6/bin
-[ -r /usr/X11R6/man ] && append_path MANPATH /usr/X11R6/man
-[ -r /usr/X11/bin ] && append_path PATH /usr/X11/bin
-[ -r /usr/X11/man ] && append_path MANPATH /usr/X11/man
-
 # DOSism...
 alias "cd.."='cd ..'
-
-append_path PATH ~/.shattings/bin
-append_path MANPATH ~/.shattings/share/man
-
-[ -r ~/bin ] && prepend_path PATH ~/bin
-[ -r ~/share/man ] && prepend_path MANPATH ~/share/man
 
 export LD_PREBIND=0
 export EDITOR=vim
@@ -96,6 +101,8 @@ export PKG_CONFIG_PATH
 export MANPATH
 export LIBRARY_PATH
 export CPATH
+
+echo Finally PATH=$PATH
 
 # Enable fancy command line
 . ~/.shattings/bash/ps1-git-svn.sh
