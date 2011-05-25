@@ -13,4 +13,8 @@ Type:
 
     curl https://github.com/darconeous/shattings/raw/master/quick_start.sh | bash
 
+Another good complement to shattings on MacOS X is [Homebrew](http://mxcl.github.com/homebrew/).
+
+    ruby -e "$(curl -fsSL https://gist.github.com/raw/323731/install_homebrew.rb)"
+
 
