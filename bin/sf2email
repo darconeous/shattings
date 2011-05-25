@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# sf2email v0.1 (2011-04-20)
+# sf2email v0.2 (2011-05-11)
 # By Robert Quattlebaum <darco@deepdarc.com>
 #
 # PUBLIC DOMAIN
@@ -13,6 +13,14 @@
 #
 # This script uses cURL to grab the user's sourceforge page and then scrapes
 # their real name from the HTML.
+#
+# Up-to-date versions of this script can be found here:
+#
+#     <https://gist.github.com/gists/935424>
+#
+# Warning: Currently only tested on MacOS X.
+#
+# Feedback and improvements are welcome!
 #
 
 [ $# = 1 ] || {
@@ -31,7 +39,7 @@ SF_USERNAME=$1
 
 # Handle "(no author)" cases. 
 [ "$SF_USERNAME" = "(no author)" ] && {
-	echo "(no author)"
+	echo "(no author) <nobody@localhost>"
 	exit 0
 }
 
@@ -77,6 +85,5 @@ else # Cache miss
 fi
 
 echo $SF_EMAIL
-
 
 
