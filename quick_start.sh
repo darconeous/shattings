@@ -6,7 +6,14 @@ die () {
 }
 
 cd ~
-[ -x .shattings/setup.sh ] && die Shattings already installed
+[ -x .shattings/setup.sh ] && die 'Shattings already installed, run ~/.shattings/setup.sh'
+
+echo 'Shattings Quick Installer'
+echo ''
+echo 'This script will place the shattings root in ~/.shattings,'
+echo 'and then execute the shattings setup script.'
+echo ''
+read -p 'Press any key to continue installing or CTRL-C to abort.'
 
 if which -s git
 then
@@ -17,5 +24,4 @@ else
 fi
 cd .shattings || die Unable to move into .shattings
 ./setup.sh
-. ~/.bashrc
 
