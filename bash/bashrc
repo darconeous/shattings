@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # add to end of path
 append_path()
@@ -30,7 +30,7 @@ set completion-ignore-case On
 
 # Setup tabs
 export TABWIDTH=4
-tabs -$TABWIDTH
+tabs -$TABWIDTH > /dev/null 2>&1
 alias less="less -x$TABWIDTH"
 export LS_COLWIDTHS=$TABWIDTH
 
@@ -41,13 +41,24 @@ then
 
 	append_path PATH /Developer/usr/bin
 	append_path MANPATH /Developer/usr/share/man
-	
 	append_path MANPATH /Developer/Platforms/iPhoneOS.platform/usr/local/share/man
 
-	[ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ] && alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
-	[ -x /Applications/GitX.app/Contents/Resources/gitx ] && alias gitx=/Applications/GitX.app/Contents/Resources/gitx
+	[ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ] &&
+		alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
+
+	[ -x /Applications/GitX.app/Contents/Resources/gitx ] &&
+		alias gitx=/Applications/GitX.app/Contents/Resources/gitx
 
 	alias edit='xed'
+
+	# make svn use opendiff
+	export SVN_MERGE=~/.shattings/bin/svn-diff-wrapper
+fi
+
+# enable color support of ls and also add handy aliases
+if [ "$TERM" != "dumb" ]
+then
+	ls --version > /dev/null 2>&1 && alias='ls --color=auto'
 
 	# Have BSD 'ls' use GNU colors.
 	export LSCOLORS=ExGxBxdxCxDxdxabagacad
@@ -95,7 +106,6 @@ alias "cd.."='cd ..'
 
 export LD_PREBIND=0
 export EDITOR=vim
-export SVN_MERGE=~/.shattings/bin/svn-diff-wrapper
 export PATH
 export PKG_CONFIG_PATH
 export MANPATH
