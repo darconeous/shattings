@@ -6,6 +6,10 @@
 # Prompt setup, with SCM status
 function parse_git_branch() {
 	local DIRTY STATUS BRANCH MODE TOPLEVEL
+	TOPLEVEL="$(git rev-parse --show-toplevel 2>/dev/null)"
+	[ "$TOPLEVEL" = "" ] && return
+	[ "$TOPLEVEL" = "/.git" ] && return
+	[ "$TOPLEVEL" = "/" ] && return
 	STATUS=$(git status --porcelain 2>/dev/null)
 	[ $? -eq 128 ] && return
 	[ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')"    ] || DIRTY="*"
@@ -13,7 +17,6 @@ function parse_git_branch() {
 	[ -z "$(echo "$STATUS" | grep -e '^[RMDA]')" ] || DIRTY="${DIRTY}+"
 	[ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
 	BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')"
-	TOPLEVEL="$(git rev-parse --show-toplevel 2>/dev/null)"
 	if [ -f "${TOPLEVEL}/.git/rebase-merge/interactive" ]
 	then
 		BRANCH='['$(basename `cat "${TOPLEVEL}/.git/rebase-merge/head-name"`)']'
