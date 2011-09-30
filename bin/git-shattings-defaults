@@ -3,15 +3,26 @@
 set -x
 
 [ `uname` = 'Darwin' ] && {
+	git config --global diff.plist.textconv "plutil -convert xml1 -o - -"
 	git config --global filter.plist.clean "plutil -convert xml1 -o - -"
 	git config --global filter.plist.smudge "plutil -convert binary1 -o - -"
+	
+	git config --global filter.plist-xml.clean "plutil -convert xml1 -o - -"
+	git config --global filter.plist-xml.smudge "plutil -convert xml1 -o - -"
+
+	git config --global diff.plist-bin.textconv "plutil -convert xml1 -o - -"
+	git config --global filter.plist-bin.clean "plutil -convert binary1 -o - -"
+	git config --global filter.plist-bin.smudge "plutil -convert binary1 -o - -"
 }
 
 git config --global diff.sqlite3.textconv "sqlite3 /dev/stdin .dump <"
 
+# Useful aliases
 git config --global alias.show-compact "log --graph --full-history --branches --all --pretty=format:%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"
 git config --global alias.co "checkout"
 git config --global alias.st "status"
+git config --global alias.root '!pwd'
+git config --global alias.package-version "describe --tags --abbrev=0"
 
 git config --global instaweb.httpd "webrick"
 git config --global instaweb.local "true"
