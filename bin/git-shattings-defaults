@@ -3,16 +3,16 @@
 set -x
 
 [ `uname` = 'Darwin' ] && {
-	git config --global diff.plist.textconv "plutil -convert xml1 -o - -"
+	git config --global diff.plist.textconv "plutil -convert xml1 -o -"
+	git config --global diff.plist.cachetextconv true
+
 	git config --global filter.plist.clean "plutil -convert xml1 -o - -"
 	git config --global filter.plist.smudge "plutil -convert binary1 -o - -"
 	
 	git config --global filter.plist-xml.clean "plutil -convert xml1 -o - -"
-	git config --global filter.plist-xml.smudge "plutil -convert xml1 -o - -"
-
-	git config --global diff.plist-bin.textconv "plutil -convert xml1 -o - -"
 	git config --global filter.plist-bin.clean "plutil -convert binary1 -o - -"
-	git config --global filter.plist-bin.smudge "plutil -convert binary1 -o - -"
+
+	git config --global diff.image.textconv "mdls"
 }
 
 git config --global diff.sqlite3.textconv "sqlite3 /dev/stdin .dump <"
