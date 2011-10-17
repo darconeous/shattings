@@ -11,7 +11,7 @@ Work in progress.
 
 Type:
 
-    curl https://github.com/darconeous/shattings/raw/master/quick_start.sh | bash
+    curl -L https://raw.github.com/darconeous/shattings/master/quick_start.sh | bash
 
 Another good complement to shattings on MacOS X is [Homebrew](http://mxcl.github.com/homebrew/).
 
