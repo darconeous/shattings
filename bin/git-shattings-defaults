@@ -12,7 +12,7 @@ set -x
 	git config --global filter.plist-xml.clean "plutil -convert xml1 -o - -"
 	git config --global filter.plist-bin.clean "plutil -convert binary1 -o - -"
 
-	git config --global diff.image.textconv "mdls"
+	git config --global diff.image.textconv "sips -g allxml"
 }
 
 git config --global diff.sqlite3.textconv "sqlite3 /dev/stdin .dump <"
