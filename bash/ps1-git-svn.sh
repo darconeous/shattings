@@ -6,6 +6,10 @@
 # Prompt setup, with SCM status
 function parse_git_branch() {
 	local DIRTY STATUS BRANCH MODE TOPLEVEL
+
+	# If this environment variable is set, we skip this part.
+	[ "${DISABLE_GIT_PROMPT}" = "" ] || return
+
 	TOPLEVEL="$(git rev-parse --show-toplevel 2>/dev/null)"
 	[ "$TOPLEVEL" = "" ] && return
 	[ "$TOPLEVEL" = "/.git" ] && return
@@ -38,6 +42,8 @@ function parse_git_branch() {
 }
 
 function parse_svn_revision() {
+	# If this environment variable is set, we skip this part.
+	[ "${DISABLE_SVN_PROMPT}" = "" ] || return
 	[ -d .svn ] || return
 	local DIRTY REV=$(svn info 2>/dev/null | grep Revision | sed -e 's/Revision: //')
 	[ "$REV" ] || return
