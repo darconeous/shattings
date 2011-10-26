@@ -14,30 +14,40 @@ function parse_git_branch() {
 	[ "$TOPLEVEL" = "" ] && return
 	[ "$TOPLEVEL" = "/.git" ] && return
 	[ "$TOPLEVEL" = "/" ] && return
-	STATUS=$(git status --porcelain 2>/dev/null)
-	[ $? -eq 128 ] && return
-	[ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')"    ] || DIRTY="*"
-	[ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="${DIRTY}?"
-	[ -z "$(echo "$STATUS" | grep -e '^[RMDA]')" ] || DIRTY="${DIRTY}+"
-	[ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
+	PROMPT_TYPE=$(git config gitprompt.type)
+	[ "$PROMPT_TYPE" = "0" ] && return
+	[ "$PROMPT_TYPE" = "disabled" ] && return
+	[ "${PROMPT_TYPE:0:1}" = "f" ] && return
+	[ "${PROMPT_TYPE:0:1}" = "F" ] && return
+
 	BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')"
-	if [ -f "${TOPLEVEL}/.git/rebase-merge/interactive" ]
-	then
-		BRANCH='['$(basename `cat "${TOPLEVEL}/.git/rebase-merge/head-name"`)']'
-		MODE="<rebase-i>"
-	elif [ -f "${TOPLEVEL}/.git/rebase-apply/rebasing" ]
-	then MODE="<rebase>"
-	elif [ -f "${TOPLEVEL}/.git/rebase-apply/applying" ]
-	then MODE="<am>"
-	elif [ -d "${TOPLEVEL}/.git/rebase-apply" ]
-	then MODE="<rebase?>"
-	elif [ -f "${TOPLEVEL}/.git/MERGE_HEAD" ]
-	then MODE="<merge>"
-	elif [ -f "${TOPLEVEL}/.git/CHERRY_PICK_HEAD" ]
-	then MODE="<cherry-pick>"
-	elif [ -f "${TOPLEVEL}/.git/BISECT_LOG" ]
-	then MODE="<bisect>"
-	fi
+
+	[ "${PROMPT_TYPE}" != "simple" ] && {
+		STATUS=$(git status --porcelain 2>/dev/null)
+		[ $? -eq 128 ] && return
+		[ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')"    ] || DIRTY="*"
+		[ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="${DIRTY}?"
+		[ -z "$(echo "$STATUS" | grep -e '^[RMDA]')" ] || DIRTY="${DIRTY}+"
+		[ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
+		if [ -f "${TOPLEVEL}/.git/rebase-merge/interactive" ]
+		then
+			BRANCH='['$(basename `cat "${TOPLEVEL}/.git/rebase-merge/head-name"`)']'
+			MODE="<rebase-i>"
+		elif [ -f "${TOPLEVEL}/.git/rebase-apply/rebasing" ]
+		then MODE="<rebase>"
+		elif [ -f "${TOPLEVEL}/.git/rebase-apply/applying" ]
+		then MODE="<am>"
+		elif [ -d "${TOPLEVEL}/.git/rebase-apply" ]
+		then MODE="<rebase?>"
+		elif [ -f "${TOPLEVEL}/.git/MERGE_HEAD" ]
+		then MODE="<merge>"
+		elif [ -f "${TOPLEVEL}/.git/CHERRY_PICK_HEAD" ]
+		then MODE="<cherry-pick>"
+		elif [ -f "${TOPLEVEL}/.git/BISECT_LOG" ]
+		then MODE="<bisect>"
+		fi
+	}
+
 	echo -n '('${MODE}${BRANCH}${DIRTY}')'
 }
 
