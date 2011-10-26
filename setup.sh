@@ -35,14 +35,14 @@ then
 	then echo $HOMEDIR/.bashrc is already good to go.
 	else
 		{
-			echo '# Uncomment to enable'
-			echo '# '". \"$SHATDIR/bash/bashrc\""
+			echo '# Uncomment to enable shattings'
+			echo '# '"[ -d \"$SHATDIR\" ] && . \"$SHATDIR/bash/bashrc\""
 		} >> "${HOMEDIR}/.bashrc"
 		echo Added stub to existing $HOMEDIR/.bashrc, make sure you edit it
 	fi
 else
 	{
-		echo ". \"$SHATDIR/bash/bashrc\""
+		echo "[ -d \"$SHATDIR\" ] && . \"$SHATDIR/bash/bashrc\""
 	} >> "${HOMEDIR}/.bashrc"
 	echo Created $HOMEDIR/.bashrc
 fi
@@ -53,7 +53,7 @@ then
 	then echo $HOMEDIR/.profile is already good to go.
 	else
 		{
-			echo '# Uncomment to enable'
+			echo '# Uncomment to enable shattings'
 			echo '# '". ~/.bashrc"
 		} >> "${HOMEDIR}/.profile"
 		echo Added stub to existing $HOMEDIR/.profile, make sure you edit it
@@ -71,7 +71,7 @@ then
 	then echo $HOMEDIR/.vimrc is already good to go.
 	else
 		{
-			echo '" Uncomment to enable'
+			echo '" Uncomment to enable shattings'
 			echo '" '"source $SHATDIR/vim/vimrc"
 		} >> "${HOMEDIR}/.vimrc"
 		echo Added stub to existing $HOMEDIR/.vimrc, make sure you edit it
@@ -97,7 +97,7 @@ then
 	then echo $HOMEDIR/.screenrc is already good to go.
 	else
 		{
-			echo '# Uncomment to enable'
+			echo '# Uncomment to enable shattings'
 			echo '# '"source \"$SHATDIR/screen/screenrc\""
 		} >> "${HOMEDIR}"/.screenrc
 		echo Added stub to existing $HOMEDIR/.screenrc, make sure you edit it
@@ -115,7 +115,7 @@ then
 	then echo $HOMEDIR/.inputrc is already good to go.
 	else
 		{
-			echo '# Uncomment to enable'
+			echo '# Uncomment to enable shattings'
 			echo '# '"\$include $SHATDIR/etc/inputrc\""
 		} >> "${HOMEDIR}"/.inputrc
 		echo Added stub to existing $HOMEDIR/.inputrc, make sure you edit it

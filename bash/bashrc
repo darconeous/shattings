@@ -18,10 +18,23 @@ prepend_path()
   fi
 }
 
-shopt -s histappend
-export PROMPT_COMMAND='history -a && history -n'
-export HISTCONTROL="ignoredups"
-export HISTFILESIZE=2000
+{
+	[ "$USER" = "rquattle" ] && {
+		SHATTINGS_HISTORY=1
+		SHATTINGS_TABS=1
+	}
+	[ "$USER" = "darco" ] && {
+		SHATTINGS_HISTORY=1
+		SHATTINGS_TABS=1
+	}
+}
+
+[ "$SHATTINGS_HISTORY" = 1 ] && {
+	shopt -s histappend
+	export PROMPT_COMMAND='history -a && history -n'
+	export HISTCONTROL="ignoredups"
+	export HISTFILESIZE=2000
+}
 
 set mark-directories On
 set mark-symlinked-directories On
@@ -29,10 +42,12 @@ set mark-symlinked-directories On
 set completion-ignore-case On
 
 # Setup tabs
-export TABWIDTH=4
-tabs -$TABWIDTH > /dev/null 2>&1
-alias less="less -x$TABWIDTH"
-export LS_COLWIDTHS=$TABWIDTH
+[ "$SHATTINGS_TABS" = 1 ] && {
+	export TABWIDTH=4
+	tabs -$TABWIDTH > /dev/null 2>&1
+	alias less="less -x$TABWIDTH"
+	export LS_COLWIDTHS=$TABWIDTH
+}
 
 if [ `uname` = "Darwin" ]
 then
