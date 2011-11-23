@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 HOMEDIR=~
 SHATDIR="$HOMEDIR/.shattings"
 
-function die() {
+die () {
 	echo $*
 	exit 1
 }
