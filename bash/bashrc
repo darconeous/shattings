@@ -66,6 +66,8 @@ then
 
 	alias edit='xed'
 
+	alias join='"/System/Library/Automator/Combine PDF Pages.action/Contents/Resources/join.py"'
+
 	# make svn use opendiff
 	export SVN_MERGE=~/.shattings/bin/svn-diff-wrapper
 fi
