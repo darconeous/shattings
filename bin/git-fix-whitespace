@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Loosely based on <https://github.com/RichardBronosky/git-fix-whitespace>.
+
+USAGE='[tree-ish]'
+LONG_USAGE='Fixes the whitespace issues that "git-diff --check" complains about.'
+
+SUBDIRECTORY_OK=Yes
+OPTIONS_KEEPDASHDASH=
+OPTIONS_SPEC="\
+git fix-whitespace tree-ish
+
+$LONG_USAGE
+--
+ Available options are
+add          automatically add modified files to index
+"
+
+. git-sh-setup
+cd_to_toplevel
+
+set -o pipefail
+
+SHOULD_ADD_TO_INDEX=
+
+[ -z "${TEMP}" ] && TEMP=/tmp/
+
+PATCH=$(mktemp ${TEMP}${0##*/}.patch.XXXXXX)
+
+
+total_argc=$#
+while test $# != 0
+do
+    case "$1" in
+    --help|-h)
+		usage
+		;;
+	--add)
+		SHOULD_ADD_TO_INDEX=1
+        ;;
+	--)
+        shift
+		break
+		;;
+	*)
+		break
+        ;;
+	esac
+    shift
+done
+
+[ -z "$*" ] && set -- HEAD
+
+git diff "$@" > "$PATCH" || die Diff failed.
+
+FILES=$(sed '/^+++ /!d;s?^+++ b/??' "$PATCH")
+
+say "Files with whitespace errors:"
+for file in $FILES ; do
+	say "    "$file
+done
+
+say Applying patches...
+
+git apply --whitespace=fix -R "$PATCH" 2> /dev/null || die Patch failed, unable to remove whitespace.
+git apply --whitespace=fix "$PATCH" 2> /dev/null || die Patch failed, unable to remove whitespace.
+
+git reset HEAD $FILES
+
+[ "$SHOULD_ADD_TO_INDEX" = "1" ] && git add $FILES
+
+rm $PATCH
