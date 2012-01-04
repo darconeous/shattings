@@ -51,22 +51,28 @@ done
 
 [ -z "$*" ] && set -- HEAD
 
-git diff "$@" > "$PATCH" || die Diff failed.
+git diff --no-ext-diff --patch-with-raw -z --binary "$@" > "$PATCH" || die Diff failed.
 
-FILES=$(sed '/^+++ /!d;s?^+++ b/??' "$PATCH")
+FILES=$(git diff --check "$@" | sed '/^[^+-][^:]*:.*/!d;s/^\([^:]*\):.*/\1/' | sort -u )
+
+[ -z "$FILES" ] && die "No whitespace errors detected in diff with $@."
 
 say "Files with whitespace errors:"
 for file in $FILES ; do
 	say "    "$file
 done
 
-say Applying patches...
 
-git apply --whitespace=fix -R "$PATCH" 2> /dev/null || die Patch failed, unable to remove whitespace.
-git apply --whitespace=fix "$PATCH" 2> /dev/null || die Patch failed, unable to remove whitespace.
+say "Applying reverse patch..."
+git apply --whitespace=nowarn -R "$PATCH"  || die "Patch failed, unable to remove whitespace."
+
+say "Applying patch while fixing whitespace..."
+git apply --whitespace=fix "$PATCH"  || die "Patch failed, unable to remove whitespace."
 
 git reset HEAD $FILES
 
 [ "$SHOULD_ADD_TO_INDEX" = "1" ] && git add $FILES
 
 rm $PATCH
+
+say Finished.
