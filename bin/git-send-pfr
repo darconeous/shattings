@@ -9,8 +9,9 @@ git config format.to >/dev/null || {
 	exit 1
 }
 
-for patch in `git format-patch --attach $*`
+for patch in `git format-patch --thread --attach "$@"`
 do
+	[ $patch = 0000-cover-letter.patch ] && { vi 0000-cover-letter.patch || exit 1 ; }
 	for dest_addr in `git config format.to`
 	do
 		echo "$patch --> $dest_addr"

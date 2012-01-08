@@ -55,7 +55,7 @@ git diff --no-ext-diff --patch-with-raw -z --binary "$@" > "$PATCH" || die Diff 
 
 FILES=$(git diff --check "$@" | sed '/^[^+-][^:]*:.*/!d;s/^\([^:]*\):.*/\1/' | sort -u )
 
-[ -z "$FILES" ] && die "No whitespace errors detected in diff with $@."
+[ -z "$FILES" ] && { say "No whitespace errors detected in diff with $@." ; exit 0 ; }
 
 say "Files with whitespace errors:"
 for file in $FILES ; do
