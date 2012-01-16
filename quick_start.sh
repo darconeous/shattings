@@ -19,7 +19,12 @@ if ( which git 1>/dev/null )
 then
 	git clone http://github.com/darconeous/shattings.git .shattings || die Unable to clone shattings repository
 else
-	curl -L https://github.com/darconeous/shattings/tarball/master | tar xvz || die Unable to download archive
+	if ( which curl 1>/dev/null )
+	then
+		curl -L https://github.com/darconeous/shattings/tarball/master | tar xvz || die Unable to download archive
+	else
+		wget --output-document=/dev/stdout https://github.com/darconeous/shattings/tarball/master | tar xvz || die Unable to download archive
+	fi
 	mv darconeous-shattings* .shattings || die Unable to move archive contents
 fi
 cd .shattings || die Unable to move into .shattings
