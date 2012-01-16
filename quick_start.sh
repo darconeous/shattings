@@ -15,6 +15,8 @@ echo 'and then execute the shattings setup script.'
 echo ''
 read -p 'Press any key to continue installing or CTRL-C to abort.'
 
+sleep 1
+
 if ( which git 1>/dev/null )
 then
 	git clone http://github.com/darconeous/shattings.git .shattings || die Unable to clone shattings repository

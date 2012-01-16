@@ -28,6 +28,7 @@ echo 'enable shattings.'
 echo ''
 
 read -p 'Press any key to continue setup or CTRL-C to abort.'
+sleep 1
 
 if [ -e "$HOMEDIR/.bashrc" ]
 then
