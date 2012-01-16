@@ -122,7 +122,7 @@ append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 alias "cd.."='cd ..'
 
 export LD_PREBIND=0
-export EDITOR=vim
+export EDITOR="vim -n"
 export PATH
 export PKG_CONFIG_PATH
 export MANPATH
