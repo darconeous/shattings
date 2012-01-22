@@ -121,8 +121,14 @@ append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 # DOSism...
 alias "cd.."='cd ..'
 
-export LD_PREBIND=0
+if ( which vim 1>/dev/null )
+then
 export EDITOR="vim -n"
+else
+export EDITOR="vi"
+fi
+
+export LD_PREBIND=0
 export PATH
 export PKG_CONFIG_PATH
 export MANPATH
