@@ -22,7 +22,7 @@ function parse_git_branch() {
 	[ "$TOPLEVEL" = "/" ] && return
 	[ "$TOPLEVEL" = "--show-toplevel" ] && {
 		# Older versions of GIT.
-		TOPLEVEL=./
+		TOPLEVEL="$(git rev-parse --show-cdup 2>/dev/null)"
 	}
 
 	BRANCH="$(sed -n '/ref: /!{a\
