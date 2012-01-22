@@ -20,6 +20,10 @@ function parse_git_branch() {
 	[ "$TOPLEVEL" = "" ] && return
 	[ "$TOPLEVEL" = "/.git" ] && return
 	[ "$TOPLEVEL" = "/" ] && return
+	[ "$TOPLEVEL" = "--show-toplevel" ] && {
+		# Older versions of GIT.
+		TOPLEVEL=.git
+	}
 
 	BRANCH="$(sed -n '/ref: /!{a\
 <detached>
