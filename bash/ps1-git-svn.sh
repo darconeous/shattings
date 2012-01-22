@@ -10,17 +10,23 @@ function parse_git_branch() {
 	# If this environment variable is set, we skip this part.
 	[ "${DISABLE_GIT_PROMPT}" = "" ] || return
 
-	TOPLEVEL="$(git rev-parse --show-toplevel 2>/dev/null)"
-	[ "$TOPLEVEL" = "" ] && return
-	[ "$TOPLEVEL" = "/.git" ] && return
-	[ "$TOPLEVEL" = "/" ] && return
 	PROMPT_TYPE=$(git config gitprompt.type)
 	[ "$PROMPT_TYPE" = "0" ] && return
 	[ "$PROMPT_TYPE" = "disabled" ] && return
 	[ "${PROMPT_TYPE:0:1}" = "f" ] && return
 	[ "${PROMPT_TYPE:0:1}" = "F" ] && return
 
-	BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')"
+	TOPLEVEL="$(git rev-parse --show-toplevel 2>/dev/null)"
+	[ "$TOPLEVEL" = "" ] && return
+	[ "$TOPLEVEL" = "/.git" ] && return
+	[ "$TOPLEVEL" = "/" ] && return
+
+	BRANCH="$(sed -n '/ref: /!{a\
+<detached>
+};/ref: /{s/ref: //;s:^refs/heads/::;p;};' "$TOPLEVEL"/.git/HEAD)"
+
+	#Too slow!
+	#BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')"
 
 	[ "${PROMPT_TYPE}" != "simple" ] && {
 		STATUS=$(git status --porcelain 2>/dev/null)
