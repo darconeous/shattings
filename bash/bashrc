@@ -1,4 +1,63 @@
 #!/bin/sh
+#
+# IMPORTANT
+# =========
+#
+# This file contains code obtained from multiple sources. The following
+# disclaimer applies to all parts of this file *EXCEPT* those sections
+# noted otherwise.
+#
+# This file was written by Robert Quattlebaum <darco@deepdarc.com>.
+# 
+# This work is provided as-is. Unless otherwise provided in writing,
+# Robert Quattlebaum makes no representations or warranties of any
+# kind concerning this work, express, implied, statutory or otherwise,
+# including without limitation warranties of title, merchantability,
+# fitness for a particular purpose, non infringement, or the absence
+# of latent or other defects, accuracy, or the present or absence of
+# errors, whether or not discoverable, all to the greatest extent
+# permissible under applicable law.
+# 
+# To the extent possible under law, Robert Quattlebaum has waived all
+# copyright and related or neighboring rights to this work. This work
+# is published from the United States.
+# 
+# I, Robert Quattlebaum, dedicate any and all copyright interest in
+# this work to the public domain. I make this dedication for the
+# benefit of the public at large and to the detriment of my heirs and
+# successors. I intend this dedication to be an overt act of
+# relinquishment in perpetuity of all present and future rights to
+# this code under copyright law. In jurisdictions where this is not
+# possible, I hereby release this code under the Creative Commons
+# Zero (CC0) license.
+# 
+#  * <http://creativecommons.org/publicdomain/zero/1.0/>
+#
+
+# ------------------------------------------------------------------
+# This section is based on a snippit of init.sh from Fink.
+# It has been modified slightly to behave better on non-mac
+# systems.
+#
+# Fink - a package manager that downloads source and installs it
+# Copyright (c) 2001 Christoph Pfisterer
+# Copyright (c) 2001-2004 The Fink Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA   
+# 02111-1307, USA.
+#
 
 # add to end of path
 append_path()
@@ -17,6 +76,9 @@ prepend_path()
     eval "$1=$2:\$$1"
   fi
 }
+
+# END FINK SECTION
+# ------------------------------------------------------------------
 
 {
 	[ "$USER" = "rquattle" ] && {

@@ -1,7 +1,17 @@
 #!/bin/bash
-
-# Original version of this file:
-# https://github.com/nesono/nesono-bin/blob/master/bashtils/ps1status
+#
+# IMPORTANT
+# =========
+#
+# The author of the original version of this file is currently unknown.
+# As such, the license terms for using this file are unclear.
+#
+# This file has been heavily modified by Robert Quattlebaum <darco@deepdarc.com>.
+#
+# The original version of this file can be found here:
+#
+#  * <https://github.com/nesono/nesono-bin/blob/master/bashtils/ps1status>
+#
 
 # Prompt setup, with SCM status
 function parse_git_branch() {
