@@ -8,9 +8,9 @@
 	<data>
 	YnBsaXN0MDDUAQIDBAUGFRZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
 	AAGGoKMHCA9VJG51bGzTCQoLDA0OViRjbGFzc1xOU0NvbG9yU3BhY2VVTlNSR0KAAhAB
-	TxAQMCAwIDAgMC44ODM4ODg5ANIQERITWiRjbGFzc25hbWVYJGNsYXNzZXNXTlNDb2xv
-	cqISFFhOU09iamVjdF8QD05TS2V5ZWRBcmNoaXZlctEXGFRyb290gAEIERojLTI3O0FI
-	T1xiZGZ5fomSmp2muLvAAAAAAAAAAQEAAAAAAAAAGQAAAAAAAAAAAAAAAAAAAMI=
+	SjAgMCAwIDAuOADSEBESE1okY2xhc3NuYW1lWCRjbGFzc2VzV05TQ29sb3KiEhRYTlNP
+	YmplY3RfEA9OU0tleWVkQXJjaGl2ZXLRFxhUcm9vdIABCBEaIy0yNztBSE9cYmRmcXaB
+	ipKVnrCzuAAAAAAAAAEBAAAAAAAAABkAAAAAAAAAAAAAAAAAAAC6
 	</data>
 	<key>Bell</key>
 	<false/>
@@ -42,10 +42,10 @@
 	<data>
 	YnBsaXN0MDDUAQIDBAUGGBlYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
 	AAGGoKQHCBESVSRudWxs1AkKCwwNDg8QViRjbGFzc1ZOU05hbWVWTlNTaXplWE5TZkZs
-	YWdzgAOAAiNAKAAAAAAAABAQVk1vbmFjb9ITFBUWWiRjbGFzc25hbWVYJGNsYXNzZXNW
-	TlNGb250ohUXWE5TT2JqZWN0XxAPTlNLZXllZEFyY2hpdmVy0RobVHJvb3SAAQgRGiMt
-	Mjc8QktSWWBpa212eH+Ej5ifoqu9wMUAAAAAAAABAQAAAAAAAAAcAAAAAAAAAAAAAAAA
-	AAAAxw==
+	YWdzgAOAAiNAKAAAAAAAABAQXU1lbmxvLVJlZ3VsYXLSExQVFlokY2xhc3NuYW1lWCRj
+	bGFzc2VzVk5TRm9udKIVF1hOU09iamVjdF8QD05TS2V5ZWRBcmNoaXZlctEaG1Ryb290
+	gAEIERojLTI3PEJLUllgaWttdniGi5afpqmyxMfMAAAAAAAAAQEAAAAAAAAAHAAAAAAA
+	AAAAAAAAAAAAAM4=
 	</data>
 	<key>FontAntialias</key>
 	<true/>
@@ -80,7 +80,7 @@
 	<key>ShowCommandKeyInTitle</key>
 	<true/>
 	<key>ShowDimensionsInTitle</key>
-	<false/>
+	<true/>
 	<key>ShowShellCommandInTitle</key>
 	<false/>
 	<key>ShowTTYNameInTitle</key>
@@ -90,7 +90,7 @@
 	<key>StrictVTKeypad</key>
 	<false/>
 	<key>TerminalType</key>
-	<string>xterm-color</string>
+	<string>xterm-256color</string>
 	<key>TextBoldColor</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGFRZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
@@ -120,7 +120,7 @@
 	<key>colorPresetTag</key>
 	<integer>1</integer>
 	<key>columnCount</key>
-	<integer>100</integer>
+	<integer>80</integer>
 	<key>deleteSendsBackspace</key>
 	<false/>
 	<key>keyMapBoundKeys</key>
@@ -252,7 +252,7 @@
 		</dict>
 	</array>
 	<key>rowCount</key>
-	<integer>40</integer>
+	<integer>24</integer>
 	<key>scrollOnInput</key>
 	<true/>
 	<key>shellExitAction</key>
