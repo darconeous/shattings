@@ -52,8 +52,8 @@ fi
 
 {
 	echo Changing key repeat rate to be FAST...
-	defaults write -globalDomain "InitialKeyRepeat" "15"
-	defaults write -globalDomain "KeyRepeat" "2"
+	defaults write -globalDomain "InitialKeyRepeat" -int "15"
+	defaults write -globalDomain "KeyRepeat" -int "2"
 	[ -x /System/Library/PrivateFrameworks/Admin.framework/Versions/A/Resources/activateSettings ] && /System/Library/PrivateFrameworks/Admin.framework/Versions/A/Resources/activateSettings -u -newKeyboardContext
 }
 
