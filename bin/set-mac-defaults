@@ -33,9 +33,27 @@
 #defaults write com.apple.Terminal "Default Window Settings" "Pro"
 #defaults write com.apple.Terminal "Startup Window Settings" "Pro"
 
-open ~/.shattings/other/darco.terminal
-defaults write com.apple.Terminal "Default Window Settings" "darco"
-defaults write com.apple.Terminal "Startup Window Settings" "darco"
-defaults write -globalDomain "InitialKeyRepeat" "25"
-defaults write -globalDomain "KeyRepeat" "2"
+term_settings="`defaults read com.apple.Terminal 'Default Window Settings'`"
+
+if [ $term_settings '!=' "Pro" ] && [ $term_settings '!=' "darco" ]
+then
+	echo Setting up terminal settings...
+	open ~/.shattings/other/darco.terminal
+	sleep 1
+	defaults write com.apple.Terminal "Default Window Settings" "darco"
+	defaults write com.apple.Terminal "Startup Window Settings" "darco"
+fi
+
+[ -f ~/Library/KeyBindings/DefaultKeyBinding.dict ] || {
+	echo Setting up key bindings...
+	mkdir ~/Library/KeyBindings
+	ln -s ~/.shattings/Library/KeyBindings/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict
+}
+
+{
+	echo Changing key repeat rate to be FAST...
+	defaults write -globalDomain "InitialKeyRepeat" "15"
+	defaults write -globalDomain "KeyRepeat" "2"
+	[ -x /System/Library/PrivateFrameworks/Admin.framework/Versions/A/Resources/activateSettings ] && /System/Library/PrivateFrameworks/Admin.framework/Versions/A/Resources/activateSettings -u -newKeyboardContext
+}
 
