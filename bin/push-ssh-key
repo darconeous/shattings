@@ -32,8 +32,16 @@
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
+[ "$1" = "" ] && {
+	echo syntax: $0 '<host>'
+	exit 1
+}
 
-[ "$1" = "" ] && { echo syntax: $0 '<host>' ; exit 1 ; }
+[ -f ~/.ssh/id_dsa.pub ] || {
+	echo ~/.ssh/id_dsa.pub doesn\'t exist.
+	echo Running \'sshkeygen -t dsa\' . . .
+	ssh-keygen -t dsa || exit -1
+}
 
 ssh $1 "mkdir -p .ssh ; cat >> .ssh/authorized_keys2" < ~/.ssh/id_dsa.pub
 
