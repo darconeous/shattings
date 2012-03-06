@@ -65,7 +65,9 @@ append_path()
   if ! eval test -z "\"\${$1##*:$2:*}\"" -o -z "\"\${$1%%*:$2}\"" -o -z "\"\${$1##$2:*}\"" -o -z "\"\${$1##$2}\"" ; then
     eval "$1=\$$1:$2"
   else
-	eval "$1=$2"
+    if eval test -z '"$'$1'"' ; then
+	  eval "$1=$2"
+	fi
   fi
 }
 
@@ -93,22 +95,21 @@ prepend_path()
 
 [ "$SHATTINGS_HISTORY" = 1 ] && {
 	shopt -s histappend
-	export PROMPT_COMMAND='history -a && history -n'
+	PROMPT_COMMAND='history -a && history -n'
 	export HISTCONTROL="ignoredups"
 	export HISTFILESIZE=2000
 }
 
 set mark-directories On
 set mark-symlinked-directories On
-
 set completion-ignore-case On
 
 # Setup tabs
 [ "$SHATTINGS_TABS" = 1 ] && {
 	export TABWIDTH=4
+	export LS_COLWIDTHS=$TABWIDTH
 	tabs -$TABWIDTH > /dev/null 2>&1
 	alias less="less -x$TABWIDTH"
-	export LS_COLWIDTHS=$TABWIDTH
 }
 
 if [ `uname` = "Darwin" ]
@@ -116,9 +117,16 @@ then
 	# Grab any recently updated environment variables from launchd
 	eval `launchctl export`
 
-	append_path PATH /Developer/usr/bin
-	append_path MANPATH /Developer/usr/share/man
-	append_path MANPATH /Developer/Platforms/iPhoneOS.platform/usr/local/share/man
+	DEVELOPER_DIR=/Developer
+	which -s xcode-select && DEVELOPER_DIR="`xcode-select -print-path`"
+
+	[ -d "$DEVELOPER_DIR" ] && {
+		append_path PATH "$DEVELOPER_DIR"/usr/bin
+		append_path MANPATH "$DEVELOPER_DIR"/usr/share/man
+		append_path MANPATH "$DEVELOPER_DIR"/Platforms/iPhoneOS.platform/usr/local/share/man
+	}
+
+	which -s cc || export CC=gcc
 
 	[ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ] &&
 		alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
@@ -137,11 +145,31 @@ fi
 # enable color support of ls and also add handy aliases
 if [ "$TERM" != "dumb" ]
 then
+	# Have GNU 'ls' use colors.
 	ls --version > /dev/null 2>&1 && alias ls='ls --color=auto'
 
 	# Have BSD 'ls' use GNU colors.
 	export LSCOLORS=ExGxBxdxCxDxdxabagacad
 	export CLICOLOR=1
+fi
+
+# VIM-based 'less'
+[ -x /usr/share/vim/vim72/macros/less.sh ] && VLESS='/usr/share/vim/vim72/macros/less.sh'
+[ -x /usr/share/vim/vim73/macros/less.sh ] && VLESS='/usr/share/vim/vim73/macros/less.sh'
+
+[ -x "$VLESS" ] && {
+#	PAGER="$VLESS"
+	alias vless="$VLESS"
+}
+
+# DOSism...
+alias "cd.."='cd ..'
+
+if ( which vim 1>/dev/null )
+then
+	EDITOR="vim -n"
+else
+	EDITOR="vi"
 fi
 
 append_path PATH /bin
@@ -171,25 +199,7 @@ prepend_path PATH ~/bin
 prepend_path MANPATH ~/share/man
 append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 
-# VIM-based 'less'
-[ -x /usr/share/vim/vim72/macros/less.sh ] && VLESS='/usr/share/vim/vim72/macros/less.sh'
-[ -x /usr/share/vim/vim73/macros/less.sh ] && VLESS='/usr/share/vim/vim73/macros/less.sh'
-
-[ -x "$VLESS" ] && {
-#	export PAGER="$VLESS"
-	alias vless="$VLESS"
-}
-
-# DOSism...
-alias "cd.."='cd ..'
-
-if ( which vim 1>/dev/null )
-then
-export EDITOR="vim -n"
-else
-export EDITOR="vi"
-fi
-
+export EDITOR
 export LD_PREBIND=0
 export PATH
 export PKG_CONFIG_PATH
