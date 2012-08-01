@@ -8,8 +8,7 @@ Shattings
 
 This colleciton of works is Copyright (C) 2012 Robert Quattlebaum. The
 individual files contained in this collection may or may not be covered
-by this license. Such files are clearly marked and are not covered by
-this license.
+by this license. Such files are clearly marked.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -31,7 +30,8 @@ SOFTWARE.
 
 ## About ##
 
-Shattings is a collection of scripts and settings which improve my productivity at the terminal. YMMV.
+Shattings is a collection of scripts and settings which improve my own
+productivity at the terminal. YMMV.
 
 It is a work in progress. Not guaranteed to be useful for anyone except me.
 
@@ -51,6 +51,6 @@ If you have wget installed, type:
 
 Another good complement to shattings on MacOS X is [Homebrew](http://mxcl.github.com/homebrew/).
 
-    ruby -e "$(curl -fsSL https://gist.github.com/raw/323731/install_homebrew.rb)"
+    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
 
 

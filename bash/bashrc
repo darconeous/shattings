@@ -91,6 +91,14 @@ prepend_path()
 		SHATTINGS_HISTORY=1
 		SHATTINGS_TABS=1
 	}
+	[ "$USER" = "apple" ] && {
+		SHATTINGS_HISTORY=1
+		SHATTINGS_TABS=1
+	}
+	[ "$USER" = "admin" ] && {
+		SHATTINGS_HISTORY=1
+		SHATTINGS_TABS=1
+	}
 }
 
 [ "$SHATTINGS_HISTORY" = 1 ] && {
@@ -213,4 +221,5 @@ export CPATH
 # Enable GIT tab completion
 . ~/.shattings/bash/git-completion.bash
 
+# Enable man page tab completion
 . ~/.shattings/bash/man-completion.bash
