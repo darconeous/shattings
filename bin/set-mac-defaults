@@ -35,6 +35,11 @@
 
 term_settings="`defaults read com.apple.Terminal 'Default Window Settings'`"
 
+[ `uname` = 'Darwin' ] || {
+	echo 'Not a Mac!'
+	exit 1
+}
+
 if [ $term_settings '!=' "Pro" ] && [ $term_settings '!=' "darco" ]
 then
 	echo Setting up terminal settings...
@@ -46,7 +51,7 @@ fi
 
 [ -f ~/Library/KeyBindings/DefaultKeyBinding.dict ] || {
 	echo Setting up key bindings...
-	mkdir ~/Library/KeyBindings
+	mkdir -p ~/Library/KeyBindings
 	ln -s ~/.shattings/Library/KeyBindings/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict
 }
 

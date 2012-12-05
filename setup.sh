@@ -44,9 +44,6 @@ echo '    ~/.vimrc'
 echo '    ~/.screenrc'
 echo '    ~/.inputrc'
 echo '    ~/.bashrc'
-[ `uname` = 'Darwin' ] && {
-	echo '    ~/Library/KeyBindings/DefaultKeyBinding.dict'
-}
 echo ''
 echo 'If the file already exists, it will be non-destructively'
 echo 'modified by appending commented-out commands. In this case'
@@ -155,14 +152,6 @@ else
 	echo Created $HOMEDIR/.inputrc
 fi
 
-[ `uname` = 'Darwin' ] && {
-	if [ -e ~/Library/KeyBindings/DefaultKeyBinding.dict ]
-	then
-		echo Skipping ~/Library/KeyBindings/DefaultKeyBinding.dict
-	else
-		ln -s ../../.shattings/Library/KeyBindings/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict
-	fi
-}
 
 echo 'Done! Shattings is now set up.'
 echo 'Remember to edit the files mentioned above, if any.'
