@@ -184,18 +184,18 @@ else
 	EDITOR="vi"
 fi
 
-append_path PATH /bin
 append_path PATH /sbin
+append_path PATH /bin
 
-append_path PATH /usr/bin
-append_path PATH /usr/sbin
-append_path MANPATH /usr/share/man
-append_path PKG_CONFIG_PATH /usr/lib/pkgconfig
-
-append_path PATH /usr/local/bin
 append_path PATH /usr/local/sbin
+append_path PATH /usr/local/bin
 append_path MANPATH /usr/local/share/man
 append_path PKG_CONFIG_PATH /usr/local/lib/pkgconfig
+
+append_path PATH /usr/sbin
+append_path PATH /usr/bin
+append_path MANPATH /usr/share/man
+append_path PKG_CONFIG_PATH /usr/lib/pkgconfig
 
 append_path PATH /usr/X11R6/bin
 append_path MANPATH /usr/X11R6/man
