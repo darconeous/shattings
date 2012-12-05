@@ -51,6 +51,4 @@ If you have wget installed, type:
 
 Another good complement to shattings on MacOS X is [Homebrew](http://mxcl.github.com/homebrew/).
 
-    ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
-
-
+	ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
