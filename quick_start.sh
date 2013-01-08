@@ -46,7 +46,7 @@ sleep 1
 
 if ( which git 1>/dev/null )
 then
-	git clone http://github.com/darconeous/shattings.git .shattings || die Unable to clone shattings repository
+	git clone git://github.com/darconeous/shattings.git .shattings || die Unable to clone shattings repository
 else
 	if ( which curl 1>/dev/null )
 	then
