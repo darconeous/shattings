@@ -65,5 +65,6 @@ git config --global instaweb.httpd "webrick"
 git config --global instaweb.local "true"
 
 git config --global color.ui "auto"
+git config --global rebase.autosquash "true"
 
 git config --global rerere.enabled "true"

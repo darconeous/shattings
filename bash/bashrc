@@ -87,23 +87,17 @@ prepend_path()
 # ------------------------------------------------------------------
 
 {
-	[ "$USER" = "rquattle" ] && {
-		SHATTINGS_HISTORY=1
-		SHATTINGS_TABS=1
-	}
-	[ "$USER" = "darco" ] && {
-		SHATTINGS_HISTORY=1
-		SHATTINGS_TABS=1
-	}
-	[ "$USER" = "apple" ] && {
-		SHATTINGS_HISTORY=1
-		SHATTINGS_TABS=1
-	}
-	[ "$USER" = "admin" ] && {
+	[ "$USER" = "rquattle" ] \
+	|| [ "$USER" = "darco" ] \
+	|| [ "$USER" = "apple" ] \
+	|| [ "$USER" = "admin" ] \
+	&& {
 		SHATTINGS_HISTORY=1
 		SHATTINGS_TABS=1
 	}
 }
+
+[ x"$LANG" = x ] && LANG=en_US.UTF-8
 
 [ "$SHATTINGS_HISTORY" = 1 ] && {
 	shopt -s histappend
@@ -225,6 +219,7 @@ export PKG_CONFIG_PATH
 export MANPATH
 export LIBRARY_PATH
 export CPATH
+export LANG
 
 # Enable fancy command line
 . ~/.shattings/bash/ps1-git-svn.sh
