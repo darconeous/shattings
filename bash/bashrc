@@ -109,7 +109,7 @@ prepend_path()
 	shopt -s histappend
 	PROMPT_COMMAND='history -a && history -n'
 	export HISTCONTROL="ignoredups"
-	export HISTFILESIZE=2000
+	export HISTFILESIZE=5000
 }
 
 set mark-directories On
@@ -140,13 +140,13 @@ then
 
 	which -s cc || export CC=gcc
 
-	[ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ] &&
-		alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
+	if [ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ]
+	then alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
+	elif [ -x /Applications/GitX.app/Contents/Resources/gitx ]
+	then alias gitx=/Applications/GitX.app/Contents/Resources/gitx
+	fi
 
-	[ -x /Applications/GitX.app/Contents/Resources/gitx ] &&
-		alias gitx=/Applications/GitX.app/Contents/Resources/gitx
-
-	alias edit='xed'
+	which -s xed && alias edit='xed'
 
 	alias join='"/System/Library/Automator/Combine PDF Pages.action/Contents/Resources/join.py"'
 
