@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -o monitor
+
 [ $# '<' 2 ] && {
 	echo Insufficient arguments. > /dev/stderr
 	echo Syntax: > /dev/stderr
@@ -23,12 +25,19 @@ shift
 
 #ulimit -t "$TIME_IN_SECONDS"
 
-PID=$$
+$* &
 
-( sleep $TIME_IN_SECONDS && kill $PID 2> /dev/null ) &
+PID=$!
+
+( sleep $TIME_IN_SECONDS ; kill $PID 2> /dev/null ; sleep 1 ; kill -9 $PID 2> /dev/null ) &
+
 WATCHDOG_PID=$!
 
-$*
+fg %-
 
-kill $WATCHDOG_PID 2> /dev/null
+EXIT_CODE=$?
+
+kill -9 $WATCHDOG_PID 2> /dev/null
+
+exit $EXIT_CODE
 
