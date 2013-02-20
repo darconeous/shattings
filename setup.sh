@@ -42,8 +42,10 @@ echo ''
 echo '    ~/.bashrc'
 echo '    ~/.vimrc'
 echo '    ~/.screenrc'
+echo '    ~/.tmux.conf'
 echo '    ~/.inputrc'
-echo '    ~/.bashrc'
+echo '    ~/.profile'
+echo '    ~/.Xdefaults'
 echo ''
 echo 'If the file already exists, it will be non-destructively'
 echo 'modified by appending commented-out commands. In this case'
@@ -152,6 +154,32 @@ else
 	echo Created $HOMEDIR/.inputrc
 fi
 
+if [ -e "${HOMEDIR}/.tmux.conf" ]
+then
+	if grep -q "$SHATDIR/etc/tmux.conf" $HOMEDIR/.tmux.conf
+	then echo $HOMEDIR/.tmux.conf is already good to go.
+	else
+		{
+			echo '# Uncomment to enable shattings'
+			echo '# '"source \"$SHATDIR/etc/tmux.conf\""
+		} >> "${HOMEDIR}"/.tmux.conf
+		echo Added stub to existing $HOMEDIR/.tmux.conf, make sure you edit it
+	fi
+else
+	{
+		echo "source \"$SHATDIR/etc/tmux.conf\""
+	} >> "${HOMEDIR}"/.tmux.conf
+	echo Created $HOMEDIR/.tmux.conf
+fi
+
+
+if [ -e "${HOMEDIR}/.Xdefaults" ]
+then
+	echo "${HOMEDIR}/.Xdefaults already exists. Skipping..."
+else
+	ln -s "${SHATDIR}/etc/Xdefaults" "${HOMEDIR}/.Xdefaults"
+	echo Linked "$HOMEDIR/.Xdefaults" to "${SHATDIR}/etc/Xdefaults".
+fi
 
 echo 'Done! Shattings is now set up.'
 echo 'Remember to edit the files mentioned above, if any.'

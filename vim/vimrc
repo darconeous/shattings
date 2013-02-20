@@ -8,6 +8,10 @@ set autoindent		" we want to autoindent
 set sts=4 sw=4 ts=4
 "set sts=4 sw=4 ts=8 et
 
+if has("mouse")
+	set mouse=a
+endif
+
 runtime! ftplugin/man.vim
 
 so ~/.shattings/vim/plist.vim

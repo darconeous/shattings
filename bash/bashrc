@@ -97,6 +97,7 @@ prepend_path()
 	}
 }
 
+# No lang? Assume `en_us.UTF-8`.
 [ x"$LANG" = x ] && LANG=en_US.UTF-8
 
 [ "$SHATTINGS_HISTORY" = 1 ] && {
@@ -136,6 +137,8 @@ then
 
 	if [ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ]
 	then alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
+	elif [ -x ~/Applications/GitX.app/Contents/Resources/gitx ]
+	then alias gitx=~/Applications/GitX.app/Contents/Resources/gitx
 	elif [ -x /Applications/GitX.app/Contents/Resources/gitx ]
 	then alias gitx=/Applications/GitX.app/Contents/Resources/gitx
 	fi
@@ -146,6 +149,14 @@ then
 
 	# make svn use opendiff
 	export SVN_MERGE=~/.shattings/bin/svn-diff-wrapper
+
+	# Quick way to rebuild the Launch Services database and get rid
+	# of duplicates in the Open With submenu.
+	# <http://www.leancrew.com/all-this/2013/02/getting-rid-of-open-with-duplicates/>
+	alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
+
+	#prepend_path DYLD_FRAMEWORK_PATH /usr/local/lib
+	#export DYLD_FRAMEWORK_PATH
 fi
 
 # enable color support of ls and also add handy aliases
@@ -205,15 +216,12 @@ prepend_path PATH ~/bin
 prepend_path MANPATH ~/share/man
 append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 
-prepend_path DYLD_FRAMEWORK_PATH /usr/local/lib
 prepend_path PATH /usr/local/share/python
 
 prepend_path PYTHONPATH /usr/local/lib/python2.7/site-packages
 
 export PYTHONPATH
-export DYLD_FRAMEWORK_PATH
 export EDITOR
-export LD_PREBIND=0
 export PATH
 export PKG_CONFIG_PATH
 export MANPATH
