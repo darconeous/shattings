@@ -7,7 +7,6 @@ defscrollback 10000
 
 # enable UTF8 encoding
 defutf8 on
-#utf8 on
 
 # add backtick printer functions
 #backtick 1 3 3 repo_status.sh
@@ -30,3 +29,4 @@ attrcolor b ".I"
 termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 # erase background with current bg color
 defbce "on"
+termcapinfo xterm* ti@:te@
