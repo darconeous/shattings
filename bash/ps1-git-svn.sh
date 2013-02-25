@@ -104,11 +104,11 @@ function parse_svn_revision() {
 
 if [ `whoami` = root ]
 then
-	PS1_PREFIX='\[\033[1;31m\]\h:\[\033[1;34m\]\W \[\033[0;1m\]'
-	PS1_SUFFIX='\[\033[0m\]\$ '
+	PS1_PREFIX='\[\033[0;1;31m\]\h:\[\033[1;34m\]\W \[\033[0;1m\]'
+	PS1_SUFFIX='\[\033[0m\]\$ \033[K'
 else
-	PS1_PREFIX='\[\033[1;32m\]\h:\[\033[1;34m\]\W \[\033[0;1m\]'
-	PS1_SUFFIX='\[\033[0m\]\$ '
+	PS1_PREFIX='\[\033[0;1;32m\]\h:\[\033[1;34m\]\W \[\033[0;1m\]'
+	PS1_SUFFIX='\[\033[0m\]\$ \033[K'
 fi
 
 PS1="$PS1_PREFIX"
