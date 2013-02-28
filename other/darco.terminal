@@ -2,6 +2,30 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ANSIBlueColor</key>
+	<data>
+	YnBsaXN0MDDUAQIDBAUGFRZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
+	AAGGoKMHCA9VJG51bGzTCQoLDA0OVU5TUkdCXE5TQ29sb3JTcGFjZVYkY2xhc3NPEBMw
+	IDAuMjkxNjY2NjY2NyAwLjcAEAKAAtIQERITWiRjbGFzc25hbWVYJGNsYXNzZXNXTlND
+	b2xvcqISFFhOU09iamVjdF8QD05TS2V5ZWRBcmNoaXZlctEXGFRyb290gAEIERojLTI3
+	O0FITltieHp8gYyVnaCpu77DAAAAAAAAAQEAAAAAAAAAGQAAAAAAAAAAAAAAAAAAAMU=
+	</data>
+	<key>ANSIBrightBlueColor</key>
+	<data>
+	YnBsaXN0MDDUAQIDBAUGFRZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
+	AAGGoKMHCA9VJG51bGzTCQoLDA0OVU5TUkdCXE5TQ29sb3JTcGFjZVYkY2xhc3NPEBEw
+	IDAuNDE2NjY2NjY2NyAxABACgALSEBESE1okY2xhc3NuYW1lWCRjbGFzc2VzV05TQ29s
+	b3KiEhRYTlNPYmplY3RfEA9OU0tleWVkQXJjaGl2ZXLRFxhUcm9vdIABCBEaIy0yNztB
+	SE5bYnZ4en+Kk5uep7m8wQAAAAAAAAEBAAAAAAAAABkAAAAAAAAAAAAAAAAAAADD
+	</data>
+	<key>ANSIBrightWhiteColor</key>
+	<data>
+	YnBsaXN0MDDUAQIDBAUGFRZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
+	AAGGoKMHCA9VJG51bGzTCQoLDA0OVU5TUkdCXE5TQ29sb3JTcGFjZVYkY2xhc3NPEA8w
+	Ljk1IDAuOTUgMC45NQAQAoAC0hAREhNaJGNsYXNzbmFtZVgkY2xhc3Nlc1dOU0NvbG9y
+	ohIUWE5TT2JqZWN0XxAPTlNLZXllZEFyY2hpdmVy0RcYVHJvb3SAAQgRGiMtMjc7QUhO
+	W2J0dnh9iJGZnKW3ur8AAAAAAAABAQAAAAAAAAAZAAAAAAAAAAAAAAAAAAAAwQ==
+	</data>
 	<key>BackgroundAlpha</key>
 	<real>1</real>
 	<key>BackgroundColor</key>
@@ -234,6 +258,31 @@
 		<key>~F712</key>
 		<string>[34~</string>
 	</dict>
+	<key>mouseLeftClick</key>
+	<data>
+	BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU051bWJlcgCEhAdOU1ZhbHVlAISECE5TT2Jq
+	ZWN0AIWEASqEhAFjlwGG
+	</data>
+	<key>mouseMiddleClick</key>
+	<data>
+	BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU051bWJlcgCEhAdOU1ZhbHVlAISECE5TT2Jq
+	ZWN0AIWEASqEhAFjlwGG
+	</data>
+	<key>mouseRightClick</key>
+	<data>
+	BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU051bWJlcgCEhAdOU1ZhbHVlAISECE5TT2Jq
+	ZWN0AIWEASqEhAFjlwGG
+	</data>
+	<key>mouseWheel</key>
+	<data>
+	BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU051bWJlcgCEhAdOU1ZhbHVlAISECE5TT2Jq
+	ZWN0AIWEASqEhAFjlwGG
+	</data>
+	<key>mouseWheelEmulation</key>
+	<data>
+	BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU051bWJlcgCEhAdOU1ZhbHVlAISECE5TT2Jq
+	ZWN0AIWEASqEhAFjlwGG
+	</data>
 	<key>name</key>
 	<string>darco</string>
 	<key>noWarnProcesses</key>
@@ -250,11 +299,35 @@
 			<key>ProcessName</key>
 			<string>man</string>
 		</dict>
+		<dict>
+			<key>ProcessName</key>
+			<string>smcp</string>
+		</dict>
+		<dict>
+			<key>ProcessName</key>
+			<string>vless</string>
+		</dict>
+		<dict>
+			<key>ProcessName</key>
+			<string>more</string>
+		</dict>
+		<dict>
+			<key>ProcessName</key>
+			<string>ping</string>
+		</dict>
+		<dict>
+			<key>ProcessName</key>
+			<string>ping6</string>
+		</dict>
+		<dict>
+			<key>ProcessName</key>
+			<string>top</string>
+		</dict>
 	</array>
 	<key>rowCount</key>
 	<integer>24</integer>
 	<key>scrollOnInput</key>
-	<false/>
+	<true/>
 	<key>shellExitAction</key>
 	<integer>1</integer>
 	<key>type</key>
