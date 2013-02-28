@@ -37,18 +37,18 @@ It is a work in progress. Not guaranteed to be useful for anyone except me.
 
 ## Quick Install ##
 
-If you have cURL installed, type:
+If you have `curl` installed, type:
 
     bash -c "$(curl -L https://raw.github.com/darconeous/shattings/master/quick_start.sh)"
 
-If you have wget installed, type:
+If you don't have` curl`, but have `wget`, type:
 
 	bash -c "$(wget -O /dev/stdout https://raw.github.com/darconeous/shattings/master/quick_start.sh)"
-
-
 
 ------------------------
 
 Another good complement to shattings on MacOS X is [Homebrew](http://mxcl.github.com/homebrew/).
 
 	ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+
+[MouseTerm](https://bitheap.org/mouseterm/) is also useful for enabling mouse support in vim.

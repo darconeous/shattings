@@ -5,12 +5,13 @@ set ruler		" shows ruler at the bottom of the screen
 set bs=2		" allow backspacing over everything in insert mode
 set tabstop=4		" Set tabs to 4 spaces
 set autoindent		" we want to autoindent
-set sts=4 sw=4 ts=4
+set sts=4 sw=4 ts=4 noet
 "set sts=4 sw=4 ts=8 et
 
 if has("mouse")
 	set mouse=a
 endif
+
 
 runtime! ftplugin/man.vim
 
@@ -53,7 +54,6 @@ set viminfo='50,\"200	" read/write a .viminfo file, remember filemarks for 50
 "set confirm		" To get a dialog when a command fails
 "set titlestring=It\ feels\ good\ to\ be\ using\ vim
 "set titleold=Vim\ Rules.\ Please\ come\ again\ :-)
-
 
 " For debugging
 "set verbose=9
@@ -166,6 +166,27 @@ inoremap <Up> <C-o>gk
 "  au BufReadPre *.py set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e'
 "augroup END
 
+
+augroup ruby
+	au!
+	" Most ruby projects seem to use two-space, no-tab indentation
+	autocmd BufRead        *.rb set sts=2 sw=2 ts=8 et
+augroup END
+
+augroup contiki
+	au!
+
+	" Contiki uses two-space, no-tab indentation.
+	autocmd BufRead,BufNewFile        */contiki*/* set sts=2 sw=2 ts=8 et
+augroup END
+
+augroup makefiles
+	au!
+
+	" Makefiles require tabs!
+	autocmd BufRead,BufNewFile        */[Mm]akefile set sts=4 sw=4 ts=4 noet
+	autocmd BufRead,BufNewFile        */[Mm]akefile.* set sts=4 sw=4 ts=4 noet
+augroup END
 
 "augroup shell
   " Remove all shell autocommands
