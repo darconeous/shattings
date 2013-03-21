@@ -7,7 +7,7 @@
 
 BREW_ROOT=`dirname $(dirname $(which brew))`
 BREW_GROUP=admin
-BREW_DIRS=".git bin sbin Library share etc lib"
+BREW_DIRS=".git bin sbin Library Cellar share etc lib"
 
 set -x
 	
