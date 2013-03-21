@@ -1,0 +1,25 @@
+#!/bin/bash
+
+[ -e `which brew` ] || {
+	echo Homebrew doesn\'t appear to be installed.
+	exit -1
+}
+
+BREW_ROOT=`dirname $(dirname $(which brew))`
+BREW_GROUP=admin
+BREW_DIRS=".git bin sbin Library share etc lib"
+
+set -x
+	
+sudo chmod g+w "$BREW_ROOT"
+sudo chgrp $BREW_GROUP "$BREW_ROOT"
+
+for dir in $BREW_DIRS ; do {
+	sudo chmod -R g+w "$BREW_ROOT/$dir"
+	sudo chgrp -R $BREW_GROUP "$BREW_ROOT/$dir"
+} ; done
+
+cd $BREW_ROOT
+git stash
+git clean -d -f Library
+
