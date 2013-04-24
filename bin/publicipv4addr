@@ -1,0 +1,10 @@
+#!/bin/sh
+
+LAST_IP_FILE=~/.lastipaddr
+
+IPV4_ADDR=`curl -s http://checkip.dyndns.org/ | grep -o '[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*.[0-9]*'`
+[ "${IPV4_ADDR}"x = x ] && IPV4_ADDR=`curl -s http://91.198.22.70/ | grep -o '[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*.[0-9]*'`
+
+[ "${IPV4_ADDR}"x != x ] && echo ${IPV4_ADDR} > ${LAST_IP_FILE}
+[ -e "${LAST_IP_FILE}" ] && cat ${LAST_IP_FILE}
+

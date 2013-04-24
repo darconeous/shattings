@@ -1,0 +1,2 @@
+#!/bin/sh
+dd if=/dev/random bs=9 count=1 | openssl  base64
