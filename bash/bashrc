@@ -237,3 +237,5 @@ export LANG
 
 # Enable man page tab completion
 . ~/.shattings/bash/man-completion.bash
+
+[ -f /usr/local/etc/bash_completion.d/tmux ] && . /usr/local/etc/bash_completion.d/tmux
