@@ -1,0 +1,9 @@
+#!/bin/sh
+
+
+DEFAULT_INTERFACE=`netstat -f inet6 -r -l -n | grep -e '^default' | sed 's/  */ /g' | cut -d ' ' -f 7` || exit -1
+
+PREFIX=`netstat -f inet6 -r -l -n | sed 's/  /  /g' | grep -e '^[^Ff][0-9a-f:]*:/64.* link#.* '"$DEFAULT_INTERFACE"'$' | sed 's/\([0-9a-f:]*\)::.*/\1:/'` || exit -1
+
+echo $PREFIX
+
