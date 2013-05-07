@@ -23,21 +23,23 @@ TIME_IN_SECONDS="$(($1))" || {
 
 shift
 
-#ulimit -t "$TIME_IN_SECONDS"
+ulimit -t "$TIME_IN_SECONDS"
 
 $* &
 
 PID=$!
 
-( sleep $TIME_IN_SECONDS ; kill $PID 2> /dev/null ; sleep 1 ; kill -9 $PID 2> /dev/null ) &
+( sleep $TIME_IN_SECONDS ; kill $PID; sleep 1 ;kill -9 $PID ) >/dev/null 2>/dev/null &
 
 WATCHDOG_PID=$!
 
-fg %-
+fg %- > /dev/null 2> /dev/null
 
 EXIT_CODE=$?
 
-kill -9 $WATCHDOG_PID 2> /dev/null
+disown -a
+
+kill -KILL $WATCHDOG_PID 2> /dev/null
 
 exit $EXIT_CODE
 

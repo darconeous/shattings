@@ -64,7 +64,7 @@ function parse_git_branch() {
 	#BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')"
 
 	[ "${PROMPT_TYPE}" != "simple" ] && {
-		STATUS=$(git status --porcelain 2>/dev/null)
+		STATUS=$(exec-for 1 git status --porcelain 2>/dev/null)
 		[ $? -eq 128 ] && return
 		[ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')"    ] || DIRTY="*"
 		[ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="${DIRTY}?"
