@@ -30,6 +30,8 @@
 # Note to self:
 # usage: man [-adfhktwW] [section] [-M path] [-P pager] [-S list] [-m system] [-p string] name ...
 
+[ "$MANPATH" = "" ] && export MANPATH="`man -w 2> /dev/null`"
+
 _man_complete() 
 {
     local cur prev opts paths section
@@ -38,8 +40,10 @@ _man_complete()
     prev="${COMP_WORDS[COMP_CWORD-1]}"
 	opts="-a -d -f -h -k -t -w -W -M -P -S -M -p --path"
 
-	paths="`man -w`"
-	
+	paths="$MANPATH"
+	[ "$paths" = "" ] && return 1
+
+
 	[ "$section" != "" ] &&
 		paths="`tr ':\n' '\000' <<<$paths | xargs -0 -n 1 printf "%s/man$section:"`"
 	
@@ -63,7 +67,7 @@ _man_complete()
 					return 0
 				;;
 				*)
-					COMPREPLY=( $(compgen -W "`tr ':\n' '\000' <<<$paths | xargs -0 -n 1 -I % find % -type f -name "$(printf %q $cur)"'*' -exec basename {} ';' | sed 's/\([^.]*\)\..*$/\1/'`" -- ${cur}) )
+					COMPREPLY=( $(compgen -W "`tr ':\n' '\000' <<<$paths | xargs -0 -n 1 -I % find % -type f -name "$(printf %q $cur)"'*' -exec basename {} ';' 2>/dev/null |sed 's/\([^.]*\)\..*$/\1/'`" -- ${cur} 2>/dev/null) )
 					return 0
 				;;
 			esac
