@@ -89,6 +89,7 @@ prepend_path()
 {
 	[ "$USER" = "rquattle" ] \
 	|| [ "$USER" = "darco" ] \
+	|| [ "$USER" = "rquattlebaum" ] \
 	|| [ "$USER" = "apple" ] \
 	|| [ "$USER" = "admin" ] \
 	&& {
