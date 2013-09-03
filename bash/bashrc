@@ -117,7 +117,8 @@ set completion-ignore-case On
 	export TABWIDTH=4
 	export LS_COLWIDTHS=$TABWIDTH
 	tabs -$TABWIDTH > /dev/null 2>&1
-	alias less="less -x$TABWIDTH"
+	alias less="less -x $TABWIDTH"
+	export PAGER='less -x $TABWIDTH'
 }
 
 if [ `uname` = "Darwin" ]
