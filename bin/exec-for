@@ -1,50 +1,91 @@
-#!/bin/bash
+#!/bin/sh
+#
+# exec-for
+# ========
+#
+# Shell script for setting an upper-bound on the real-time execution
+# of a command, while otherwise being entirely transparent.
+#
+# ----------------
+#
+# This file was written by Robert Quattlebaum <darco@deepdarc.com>.
+#
+# This work is provided as-is. Unless otherwise provided in writing,
+# Robert Quattlebaum makes no representations or warranties of any
+# kind concerning this work, express, implied, statutory or otherwise,
+# including without limitation warranties of title, merchantability,
+# fitness for a particular purpose, non infringement, or the absence
+# of latent or other defects, accuracy, or the present or absence of
+# errors, whether or not discoverable, all to the greatest extent
+# permissible under applicable law.
+#
+# To the extent possible under law, Robert Quattlebaum has waived all
+# copyright and related or neighboring rights to this work. This work
+# is published from the United States.
+#
+# I, Robert Quattlebaum, dedicate any and all copyright interest in
+# this work to the public domain. I make this dedication for the
+# benefit of the public at large and to the detriment of my heirs and
+# successors. I intend this dedication to be an overt act of
+# relinquishment in perpetuity of all present and future rights to
+# this code under copyright law. In jurisdictions where this is not
+# possible, I hereby release this code under the Creative Commons
+# Zero (CC0) license.
+#
+#  * <http://creativecommons.org/publicdomain/zero/1.0/>
+#
 
 set -o monitor
 
 [ $# '<' 2 ] && {
-	echo Insufficient arguments. > /dev/stderr
-	echo Syntax: > /dev/stderr
-	echo "	$0 [TIME-IN-SECONDS] [COMMAND]" > /dev/stderr
+	echo "Insufficient arguments." > /dev/stderr
+	echo "Syntax:" > /dev/stderr
+	echo "	$0 [TIME-IN-SECONDS] [COMMAND] <COMMAND-ARGUMENTS> ..." > /dev/stderr
 	exit -1
 }
 
 TIME_IN_SECONDS=0
 
 TIME_IN_SECONDS="$(($1))" || {
-	echo Bad time >/dev/stderr
+	echo "error: Bad execution time." >/dev/stderr
 	exit -2
 }
 
 [ $TIME_IN_SECONDS = 0 ] && {
-	echo time is zero >/dev/stderr
+	echo "error: Execution time is zero." >/dev/stderr
 	exit -2
 }
 
+# Drop the 'exec-for' script from the argument list.
+# This makes the number of seconds argument $0, the
+# command name $1, etc.
 shift
 
-ulimit -t "$TIME_IN_SECONDS"
+# Eh, might as well.
+ulimit -t ${TIME_IN_SECONDS}
 
+# Execute the requested command, with arguments.
 $* &
 
+# Keep track of the PID of the command we just spawned.
 PID=$!
 
-# Start watchdog thread.
+# Start a watchdog thread.
 (
-	sleep $TIME_IN_SECONDS
-	if kill $PID
-	then sleep 1 && kill -9 $PID
+	sleep ${TIME_IN_SECONDS}
+	if kill ${PID}
+	then sleep 1 && kill -9 ${PID}
 	fi
-) >/dev/null 2>/dev/null &
+) >/dev/null 2>&1 &
 WATCHDOG_PID=$!
 
-fg %- >/dev/null 2>/dev/null
+fg %- >/dev/null 2>&1
 
 EXIT_CODE=$?
 
 disown -a
 
-kill -KILL $WATCHDOG_PID 2>/dev/null
+kill -KILL ${WATCHDOG_PID} 2>/dev/null
 
-exit $EXIT_CODE
+exit ${EXIT_CODE}
 
