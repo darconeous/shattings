@@ -186,6 +186,14 @@ augroup contiki
 	autocmd BufRead,BufNewFile        */contiki*/* set sts=2 sw=2 ts=8 et
 augroup END
 
+augroup nestlabs
+	au!
+
+	" Nest Labs tends to use four-space, no-tab indentation.
+	autocmd BufRead,BufNewFile        */nestlabs/* set sts=4 sw=4 ts=4 et
+augroup END
+
+
 augroup makefiles
 	au!
 
