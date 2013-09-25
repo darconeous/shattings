@@ -227,7 +227,7 @@ class WrappedTextBox (TextBox):
 
     # The second grouping prevents **strong** from tripping this
     # regular expression.
-    __beginningOfLineTokens = re.compile(r"^([0-9]+\.|[*+-]([^*]|$)|#)")
+    __beginningOfLineTokens = re.compile(r"^([0-9]+\.|[*+-]([^*A-Za-z0-9]|$)|#)")
 
     def __writeFirstWordOnLine(self, word, writer):
         """Writes the first word using writer, adding escaping if needed.
@@ -671,9 +671,9 @@ class MarkdownTransformer (object):
         return "`" * codeDelimiterLength
 
     def _transformEmphasized(self, node, parentBox):
-        parentBox.addText("_")
+        parentBox.addText("*")
         self.__dispatchChildren(node, parentBox)
-        parentBox.addText("_")
+        parentBox.addText("*")
 
     def _transformLineBreak(self, node, parentBox):
         parentBox.addLineBreak()
