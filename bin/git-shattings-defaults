@@ -54,6 +54,7 @@ set -x
 }
 
 git config --global diff.sqlite3.textconv "sqlite3 /dev/stdin .dump <"
+git config --global core.autocrlf input
 
 # Useful aliases
 git config --global alias.show-compact "log --graph --full-history --branches --all --pretty=format:%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s"
