@@ -50,6 +50,7 @@ set -x
 	git config --global diff.keychain.textconv 'function blah() { cd `dirname $1` ; security dump-keychain "`pwd`/`basename $1`" | grep -v ^keychain: ; } ; blah '
 
 	git config --global diff.binary.textconv 'hexdump -C'
+	git config --global credential.helper osxkeychain
 }
 
 git config --global diff.sqlite3.textconv "sqlite3 /dev/stdin .dump <"
