@@ -1,0 +1,13 @@
+#!/bin/sh
+
+test $# -gt 0 || {
+	echo "Syntax: $0 <filename>"
+	exit
+}
+
+tempfile="`mktemp -t mdrefmtXXXXXXXX`"
+
+mdfmt "$1" > "$tempfile"
+cat "$tempfile" > "$1"
+rm "$tempfile"
+
