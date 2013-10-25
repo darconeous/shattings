@@ -224,6 +224,13 @@ append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 
 prepend_path PYTHONPATH /usr/local/lib/python2.7/site-packages
 
+append_path C_INCLUDE_PATH /usr/local/include
+append_path CPLUS_INCLUDE_PATH /usr/local/include
+append_path LIBRARY_PATH /usr/local/lib
+
+export C_INCLUDE_PATH
+export CPLUS_INCLUDE_PATH
+export LIBRRAY_PATH
 export PYTHONPATH
 export EDITOR
 export PATH
