@@ -33,8 +33,9 @@
 #
 
 function printlladdr() {
-	printf "FE80::%02X%02X:%02XFF:FE%02X:%02X%02X\n" $((`printf "%d" 0x$1` ^ 2)) 0x$2 0x$3 0x$4 0x$5 0x$6
-	
+	if test $# -eq 8
+	then printf "FE80::%02X%02X:%02X%02X:%02X%02X:%02X%02X\n" $((`printf "%d" 0x$1` ^ 2)) 0x$2 0x$3 0x$4 0x$5 0x$6 0x$7 0x$8
+	else printf "FE80::%02X%02X:%02XFF:FE%02X:%02X%02X\n" $((`printf "%d" 0x$1` ^ 2)) 0x$2 0x$3 0x$4 0x$5 0x$6
+	fi
 }
-#printf "FE80::02%02X:%02XFF:FE%02X:%02X%02X\n" $(echo $1 | sed 's/^00//;s/:/ 0x/g')
-printlladdr $(echo $1 | tr ':' ' ')
+printlladdr $(echo $1 | sed 's/://g;s/-//g;' | sed 's/\([0-9a-fA-F][0-9a-fA-F]\)/\1 /g')
