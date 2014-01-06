@@ -33,9 +33,20 @@
 #
 
 function printlladdr() {
+	local prefix=$1
+	shift
 	if test $# -eq 8
-	then printf "FE80::%02X%02X:%02X%02X:%02X%02X:%02X%02X\n" $((`printf "%d" 0x$1` ^ 2)) 0x$2 0x$3 0x$4 0x$5 0x$6 0x$7 0x$8
-	else printf "FE80::%02X%02X:%02XFF:FE%02X:%02X%02X\n" $((`printf "%d" 0x$1` ^ 2)) 0x$2 0x$3 0x$4 0x$5 0x$6
+	then printf "%s:%02X%02X:%02X%02X:%02X%02X:%02X%02X\n" "$prefix" $((`printf "%d" 0x$1` ^ 2)) 0x$2 0x$3 0x$4 0x$5 0x$6 0x$7 0x$8
+	else printf "%s:%02X%02X:%02XFF:FE%02X:%02X%02X\n" "$prefix" $((`printf "%d" 0x$1` ^ 2)) 0x$2 0x$3 0x$4 0x$5 0x$6
 	fi
 }
-printlladdr $(echo $1 | sed 's/://g;s/-//g;' | sed 's/\([0-9a-fA-F][0-9a-fA-F]\)/\1 /g')
+
+if test $# -eq 1
+then printlladdr FE80: $(echo $1 | sed 's/://g;s/-//g;' | sed 's/\([0-9a-fA-F][0-9a-fA-F]\)/\1 /g')
+elif test $# -eq 2
+then printlladdr $2 $(echo $1 | sed 's/://g;s/-//g;' | sed 's/\([0-9a-fA-F][0-9a-fA-F]\)/\1 /g')
+else {
+	echo usage:
+	echo "    $0 <hw-addr> [prefix]"
+}
+fi
