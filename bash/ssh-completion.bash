@@ -67,11 +67,11 @@ _ssh_complete()
 			return 0
 		;;
 		"")
-			COMPREPLY=( $(compgen -W "${opts} ${argopts} $(_ssh_list_hosts)" -- ${cur}) )
+			COMPREPLY=( $(compgen -W "$(_ssh_list_hosts)" -- ${cur}) )
 			return 0
 		;;
 		*)
-			COMPREPLY=( $(compgen -W "${opts} ${argopts} $(_ssh_list_hosts)" -- ${cur}) )
+			COMPREPLY=( $(compgen -W "$(_ssh_list_hosts)" -- ${cur}) )
 			return 0
 		;;
 	esac
