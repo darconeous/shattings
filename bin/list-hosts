@@ -1,0 +1,10 @@
+#!/bin/sh
+
+(
+	[ -f /etc/hosts ] && cat /etc/hosts | sed 's/\([^\]\)#.*/\1/;s/^#.*//;s/^[^[:space:]]*[[:space:]]//'
+	[ -f /etc/ssh_config ] && cat /etc/ssh_config | grep -i '^host[[:space:]]*' | sed 's/^[Hh][Oo][Ss][Tt][[:space:]]*//;'
+	[ -f ~/.ssh/config ] && cat ~/.ssh/config | grep -i '^host[[:space:]]*' | sed 's/^[Hh][Oo][Ss][Tt][[:space:]]*//;'
+) | xargs -n 1 | sort -u | grep -v '\*'
+
+
+
