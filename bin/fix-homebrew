@@ -5,21 +5,47 @@
 	exit -1
 }
 
-BREW_ROOT=`dirname $(dirname $(which brew))`
+BREW_ROOT="`dirname $(dirname $(which brew))`"
 BREW_GROUP=admin
-BREW_DIRS=".git bin sbin Library Cellar share etc lib"
+BREW_DIRS=".git bin sbin Library Cellar share etc lib opt CONTRIBUTING.md README.md SUPPORTERS.md"
 
-set -x
-	
-sudo chmod g+w "$BREW_ROOT"
-sudo chgrp $BREW_GROUP "$BREW_ROOT"
+echo "This script will recursively update the group on the following paths"
+echo "to the '${BREW_GROUP}' group and make them group writable:"
+echo ""
 
 for dir in $BREW_DIRS ; do {
-	sudo chmod -R g+w "$BREW_ROOT/$dir"
-	sudo chgrp -R $BREW_GROUP "$BREW_ROOT/$dir"
+	[ -e "$BREW_ROOT/$dir" ] && echo "    $BREW_ROOT/$dir "
 } ; done
 
+echo ""
+echo "It will also stash any changes that are currently in the homebrew repo."
+echo ""
+
+read -p 'Press any key to continue or CTRL-C to abort.'
+
+echo "You may be asked below for your login password."
+echo ""
+
+# Non-recursively update the root brew path.
+echo Updating "$BREW_ROOT" . . .
+sudo chgrp "$BREW_GROUP" "$BREW_ROOT"
+sudo chmod g+w "$BREW_ROOT"
+
+# Recursively update the other paths.
+for dir in $BREW_DIRS ; do {
+	[ -e "$BREW_ROOT/$dir" ] && (
+		echo Recursively updating "$BREW_ROOT/$dir" . . .
+		sudo chmod -R g+w "$BREW_ROOT/$dir"
+		sudo chgrp -R "$BREW_GROUP" "$BREW_ROOT/$dir"
+	)
+} ; done
+
+# Non-distructively move any git crud out of the way
+echo Stashing changes in "$BREW_ROOT" . . .
 cd $BREW_ROOT
+git add .
 git stash
 git clean -d -f Library
+
+echo Finished.
 
