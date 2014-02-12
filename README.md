@@ -1,4 +1,3 @@
-
 Shattings
 =========
 
@@ -45,7 +44,7 @@ If you have `curl` installed, type:
 
 If you don't have`curl`, but have `wget`, type:
 
-    bash -c "$(wget -O /dev/stdout https://raw.github.com/darconeous/shattings/master/quick_start.sh)"
+    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 
 ---
 
