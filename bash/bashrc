@@ -130,12 +130,16 @@ then
 	which -s xcode-select && DEVELOPER_DIR="`xcode-select -print-path`"
 
 	[ -d "$DEVELOPER_DIR" ] && {
-#		append_path PATH "$DEVELOPER_DIR"/usr/bin
+		append_path PATH "$DEVELOPER_DIR"/usr/bin
 		append_path PATH "$DEVELOPER_DIR"/Tools
 		append_path MANPATH "$DEVELOPER_DIR"/usr/share/man
 		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/share/man
 		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Resources/Documentation/man
-		append_path MANPATH "$DEVELOPER_DIR"/usr/subversion-1.6/share/man
+		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/share/man
+		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Resources/Documentation/man
+		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/share/man
+		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Resources/Documentation/man
+		append_path MANPATH "$DEVELOPER_DIR"/usr/subversion-*/share/man
 		append_path MANPATH "$DEVELOPER_DIR"/Toolchains/XcodeDefault.xctoolchain/usr/share/man
 		append_path MANPATH "$DEVELOPER_DIR"/Platforms/iPhoneOS.platform/usr/local/share/man
 		append_path MANPATH "$DEVELOPER_DIR"/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk/usr/share/man
