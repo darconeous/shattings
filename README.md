@@ -44,14 +44,14 @@ If you have `curl` installed, type:
 
 If you don't have`curl`, but have `wget`, type:
 
-    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+    bash -c "$(wget -O /dev/stdout https://raw.github.com/darconeous/shattings/master/quick_start.sh)"
 
 ---
 
 Another good complement to shattings on MacOS X is
-[Homebrew](http://mxcl.github.com/homebrew/).
+[Homebrew](http://brew.sh).
 
-    ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"
+    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 
 [MouseTerm](https://bitheap.org/mouseterm/) is also useful for
 enabling mouse support in vim.
