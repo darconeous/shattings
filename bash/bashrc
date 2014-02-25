@@ -202,10 +202,11 @@ fi
 # DOSism...
 alias "cd.."='cd ..'
 
-if ( which vim 1>/dev/null )
+if ( which vim > /dev/null 2>&1 )
 then
 	EDITOR="vim -n"
-else
+elif ( which vi > /dev/null 2>&1 )
+then
 	EDITOR="vi"
 fi
 
