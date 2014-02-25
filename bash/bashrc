@@ -105,7 +105,7 @@ prepend_path()
 	shopt -s histappend
 	PROMPT_COMMAND='history -a && history -n'
 	export HISTCONTROL="ignoredups"
-	export HISTFILESIZE=50000
+	export HISTFILESIZE=100000
 }
 
 set mark-directories On
