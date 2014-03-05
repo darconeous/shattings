@@ -1,0 +1,4 @@
+#!/bin/sh
+
+/cygdrive/c/Windows/explorer.exe /e,`cygpath -w "$1"`
+
