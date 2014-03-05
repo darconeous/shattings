@@ -63,10 +63,10 @@
 append_path()
 {
   if ! eval test -z "\"\${$1##*:$2:*}\"" -o -z "\"\${$1%%*:$2}\"" -o -z "\"\${$1##$2:*}\"" -o -z "\"\${$1##$2}\"" ; then
-    eval "$1=\$$1:$2"
+    eval "$1=\"\$$1:$2\""
   else
     if eval test -z '"$'$1'"' ; then
-	  eval "$1=$2"
+	  eval "$1=\"$2\""
 	fi
   fi
 }
@@ -75,10 +75,10 @@ append_path()
 prepend_path()
 {
   if ! eval test -z "\"\${$1##*:$2:*}\"" -o -z "\"\${$1%%*:$2}\"" -o -z "\"\${$1##$2:*}\"" -o -z "\"\${$1##$2}\"" ; then
-    eval "$1=$2:\$$1"
+    eval "$1=\"$2:\$$1\""
   else
     if eval test -z '"$'$1'"' ; then
-	  eval "$1=$2"
+	  eval "$1=\"$2\""
 	fi
   fi
 }
