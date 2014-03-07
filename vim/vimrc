@@ -6,39 +6,12 @@ set bs=2		" allow backspacing over everything in insert mode
 set tabstop=4		" Set tabs to 4 spaces
 set autoindent		" we want to autoindent
 set sts=4 sw=4 ts=4 noet
-"set sts=4 sw=4 ts=8 et
-
-if has("mouse")
-	set mouse=a
-endif
-
-
-runtime! ftplugin/man.vim
-
-so ~/.shattings/vim/plist.vim
-
 set number	" to show line numbers
 set wrap	" enable line wrapping
-
-let c_space_errors=1 " make blank spaces at EOL red
-
-"set clipboard=unnamed
-
-" check for underlying system - needed for clipboard
-let uname = substitute(system("uname"),"\n","","g")
-
 set nocp
-filetype plugin on
-
 set showcmd		" Show (partial) command in status line
-
-" Those 2 are really useful, but they may confuse unsuspecting users -- Marc
 set hlsearch		" Switch on syntax highlighting.
 set incsearch		" show matches on the fly
-
-" Newer vims let you paste without holding shift, so let's make this a default
-"set mouse=a		" Use mouse to select and point 
-			" (use shift+click to get old cut/paste behavior)
 set ignorecase		" for pattern machine
 set smartcase		" Except when a mix of case is given
 set exrc
@@ -51,9 +24,28 @@ set history=100		" Number of history commands to remember
 set viminfo='50,\"200	" read/write a .viminfo file, remember filemarks for 50
 			" files and store 200 lines of registers
 
-"set confirm		" To get a dialog when a command fails
-"set titlestring=It\ feels\ good\ to\ be\ using\ vim
-"set titleold=Vim\ Rules.\ Please\ come\ again\ :-)
+if has("mouse")
+	set mouse=a
+endif
+
+runtime! ftplugin/man.vim
+
+if has("filetype")
+	filetype plugin on
+endif
+
+if has("autocmd")
+	so ~/.shattings/vim/plist.vim
+	so ~/.shattings/vim/autocmd.vim
+endif
+
+if has("syntax")
+	let c_space_errors=1 " make blank spaces at EOL red
+endif
+
+"set clipboard=unnamed
+
+so ~/.shattings/vim/clipboard.vim
 
 " For debugging
 "set verbose=9
@@ -64,8 +56,6 @@ set viminfo='50,\"200	" read/write a .viminfo file, remember filemarks for 50
 " Suffixes that get lower priority when doing tab completion for filenames.
 " These are files we are not likely to want to edit or read.
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
-
-
 
 "
 " Key mappings
@@ -84,25 +74,12 @@ nmap :W :w
 nmap :X :x
 nmap :Q :q
 
-" For Amy :-) (without this, PHP editing in a .html file is painful) -- Marc
-"nmap <F6> :set noai<CR>:syntax off<CR>:so /etc/vim/unhtml.vim<CR>:set tw=0<CR>
-" Switches match highlighting on and off
-"nmap <F7> :set hls!<CR>
-
-" Leaves highlighting off but clears the search pattern
-":map <F8>  /^<CR>
-
-"set pastetoggle=<F9>
-
 " Call the external spell module (with uses ispell)
 " so /etc/vim/vimspell.vim
 
 " Enable and disable highlighted spell checking
 "map <F10> :so /etc/vim/engspchk.vim<CR>
 "map <F12> :hi link BadWord none<CR>
-
-
-
 
 " Move cursor by lines on *screen* instead of lines in *file*
 nnoremap j gj
@@ -115,173 +92,6 @@ vnoremap <Down> gj
 vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
-
-"
-" Autoload commands
-"
-
-
-"augroup html
-  " Remove all html autocommands
- " au!
-
-"  au BufRead *.shtml,*.html,*.htm set tw=80 formatoptions=tcqro2 autoindent
-
-  " Show default HTML file when new.
-"  au BufNewFile *.shtml,*.html,*.htm 0r /etc/vim/skeleton.html
-
-  " Add HTML menu
-"  au BufEnter *.shtml,*.html,*.htm so /etc/vim/html.vim
-"  au BufLeave *.shtml,*.html,*.htm so /etc/vim/unhtml.vim
-
-  " Setup browser to display when writing files
-  "au BufWritePost *.shtml,*.html,*.htm !netscape -remote 'openFile(%:p)'
-"augroup END
-
-
-"augroup cprog
-  " Remove all cprog autocommands
-"  au!
-
-"  au BufRead *.cpp,*.c,*.h set formatoptions=croq sm sw=4 sts=4 cindent comments=sr:/*,mb:*,el:*/,:// | if file_readable("tags.vim") | so tags.vim | endif
-"augroup END
-
-
-"augroup perl
-  " Remove all perl autocommands
-"  au!
-
-"  au BufReadPre *.pl,*.pm set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e' " tags=./tags,tags,~/devel/tags,~/devel/CVS/bin/contrib/tags
-  " au BufReadPost */CVS/lib/perl5/netapp/*.pm so ~/devel/CVS/bin/contrib/tags.vim
-  " The default syntax highlight syncing scheme is too slow (which makes
-  " backwards scrolling very slow), so we reset it to something faster
-  " au BufReadPost *.pm,*.pl syntax sync clear | syntax sync lines=30
-"augroup END
-
-
-"augroup python
-  " Remove all python autocommands
-"  au!
-
-"  au BufReadPre *.py set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e'
-"augroup END
-
-
-augroup ruby
-	au!
-	" Most ruby projects seem to use two-space, no-tab indentation
-	autocmd BufRead        *.rb set sts=2 sw=2 ts=8 et
-augroup END
-
-augroup adruino
-	au!
-	" Most ruby projects seem to use two-space, no-tab indentation
-	autocmd BufRead        *.ino set sts=2 sw=2 ts=8 et cindent
-augroup END
-
-augroup contiki
-	au!
-
-	" Contiki uses two-space, no-tab indentation.
-	autocmd BufRead,BufNewFile        */contiki*/* set sts=2 sw=2 ts=8 et
-augroup END
-
-augroup silabs
-	au!
-
-	" silabs uses two-space, no-tab indentation.
-	autocmd BufRead,BufNewFile        */silabs*/* set sts=2 sw=2 ts=8 et
-augroup END
-
-
-augroup nestlabs
-	au!
-
-	" Nest Labs tends to use four-space, no-tab indentation.
-	autocmd BufRead,BufNewFile        */nestlabs/* set sts=4 sw=4 ts=4 et
-augroup END
-
-
-augroup makefiles
-	au!
-
-	" Makefiles require tabs!
-	autocmd BufRead,BufNewFile        */[Mm]akefile set sts=4 sw=4 ts=4 noet
-	autocmd BufRead,BufNewFile        */[Mm]akefile.* set sts=4 sw=4 ts=4 noet
-augroup END
-
-"augroup shell
-  " Remove all shell autocommands
-"  au!
-
-"  au BufRead profile,bashrc,.profile,.bashrc,.bash_*,.kshrc,*.sh,*.ksh,*.bash,*.env,.login,.cshrc,*.csh,*.tcsh,.z*,zsh*,zlog* set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e'
-"augroup END
-
-
-" Also, support editing of gzip-compressed files.
-" This is also used when loading the compressed helpfiles.
-augroup gzip
-  " Remove all gzip autocommands
-  au!
-
-  " Enable editing of gzipped files
-  "	  read:	set binary mode before reading the file
-  "		uncompress text in buffer after reading
-  "	 write:	compress file after writing
-  "	append:	uncompress file, append, compress file
-  autocmd BufReadPre,FileReadPre	*.gz set bin
-  autocmd BufReadPre,FileReadPre	*.gz let ch_save = &ch|set ch=2
-  autocmd BufReadPost,FileReadPost	*.gz '[,']!gunzip
-  autocmd BufReadPost,FileReadPost	*.gz set nobin
-  autocmd BufReadPost,FileReadPost	*.gz let &ch = ch_save|unlet ch_save
-  " Old vims use this
-  "autocmd BufReadPost,FileReadPost	*.gz execute ":doautocmd BufReadPost " . %:r
-  autocmd BufReadPost,FileReadPost	*.gz execute ":doautocmd BufReadPost " . expand("%:r")
-
-  autocmd BufWritePost,FileWritePost	*.gz !mv <afile> <afile>:r
-  autocmd BufWritePost,FileWritePost	*.gz !gzip <afile>:r
-
-  autocmd FileAppendPre			*.gz !gunzip <afile>
-  autocmd FileAppendPre			*.gz !mv <afile>:r <afile>
-  autocmd FileAppendPost		*.gz !mv <afile> <afile>:r
-  autocmd FileAppendPost		*.gz !gzip <afile>:r
-augroup END
-
-augroup bzip2
-  " Remove all bzip2 autocommands
-  au!
-
-  " Enable editing of bzipped files
-  "       read: set binary mode before reading the file
-  "             uncompress text in buffer after reading
-  "      write: compress file after writing
-  "     append: uncompress file, append, compress file
-  autocmd BufReadPre,FileReadPre        *.bz2 set bin
-  autocmd BufReadPre,FileReadPre        *.bz2 let ch_save = &ch|set ch=2
-  autocmd BufReadPost,FileReadPost      *.bz2 set cmdheight=2|'[,']!bunzip2
-  " Old vims use this
-  "autocmd BufReadPost,FileReadPost      *.bz2 set cmdheight=1 nobin|execute ":doautocmd BufReadPost " . %:r
-  autocmd BufReadPost,FileReadPost      *.bz2 set cmdheight=1 nobin|execute ":doautocmd BufReadPost " . expand("%:r")
-  autocmd BufReadPost,FileReadPost      *.bz2 let &ch = ch_save|unlet ch_save
-
-  autocmd BufWritePost,FileWritePost    *.bz2 !mv <afile> <afile>:r
-  autocmd BufWritePost,FileWritePost    *.bz2 !bzip2 <afile>:r
-
-  autocmd FileAppendPre                 *.bz2 !bunzip2 <afile>
-  autocmd FileAppendPre                 *.bz2 !mv <afile>:r <afile>
-  autocmd FileAppendPost                *.bz2 !mv <afile> <afile>:r
-  autocmd FileAppendPost                *.bz2 !bzip2 -9 --repetitive-best <afile>:r
-augroup END
-
-if uname == "Darwin"
-  nmap <F6> :.w !pbcopy<CR><CR>
-  vmap <F6> :w !pbcopy<CR><CR>
-  nmap <F7> :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-  imap <F7> <Esc>:set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-elseif uname == "Linux"
-  vmap <F6> :!xclip -f -sel clip<CR>
-  map <F7> :-1r !xclip -o -sel clip<CR>
-endif
 
 "if &term =~ "xterm-debian" || &term =~ "xterm-xfree86"
 "  set t_Co=16
@@ -296,7 +106,7 @@ set background=dark
 
 " We kind of want color syntaxing in text mode too :-)
 if &t_Co > 2 || has("gui_running")
-  syntax on
+	syntax on
 endif
 
 " Really fancy status line from Sven Guckes
