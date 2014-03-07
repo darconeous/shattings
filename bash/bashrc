@@ -126,10 +126,10 @@ then
 	# Grab any recently updated environment variables from launchd
 	eval `launchctl export`
 
-	DEVELOPER_DIR=/Developer
-	which -s xcode-select && DEVELOPER_DIR="`xcode-select -print-path`"
+	[ -d /Developer ] && DEVELOPER_DIR=/Developer
+	which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select -print-path)"
 
-	[ -d "$DEVELOPER_DIR" ] && {
+	[ x"$DEVELOPER_DIR" '!=' x ] && [ -d "$DEVELOPER_DIR" ] && {
 		append_path PATH "$DEVELOPER_DIR"/usr/bin
 		append_path PATH "$DEVELOPER_DIR"/Tools
 		append_path MANPATH "$DEVELOPER_DIR"/usr/share/man
@@ -145,7 +145,9 @@ then
 		append_path MANPATH "$DEVELOPER_DIR"/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk/usr/share/man
 	}
 
-	which -s cc || export CC=gcc
+	[ -z "$CC" ] && {
+		which -s cc || export CC=gcc
+	}
 
 	if [ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ]
 	then alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
@@ -177,6 +179,7 @@ then
 	export C_INCLUDE_PATH
 	export CPLUS_INCLUDE_PATH
 	export LIBRRAY_PATH
+
 fi
 
 # enable color support of ls and also add handy aliases
