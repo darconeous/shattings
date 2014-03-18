@@ -38,6 +38,9 @@
 USAGE='[tree-ish]'
 LONG_USAGE='Fixes the whitespace issues that "git-diff --check" complains about.'
 
+export LC_CTYPE=C
+export LANG=C
+
 SUBDIRECTORY_OK=Yes
 OPTIONS_KEEPDASHDASH=
 OPTIONS_SPEC="\

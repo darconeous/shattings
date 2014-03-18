@@ -41,6 +41,9 @@ die ()
 	exit -1
 }
 
+export LC_CTYPE=C
+export LANG=C
+
 ( which -s diff ) && COMPARE_FILES="diff -q"
 ( which -s cmp ) && COMPARE_FILES="cmp"
 
@@ -56,7 +59,7 @@ while test $# -gt "0"
 do
 	filename="$1"
 	shift
-	sed "${SED_SCRIPT}" < "$filename" > "$TMPFILE" || die
+	sed "${SED_SCRIPT}" < "$filename" > "$TMPFILE" || continue
 	$COMPARE_FILES "$filename" "$TMPFILE" || ( cp "$TMPFILE" "$filename" || die "Unable to copy file" )
 done
 rm -f $TMPFILE
