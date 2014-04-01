@@ -44,6 +44,8 @@ function parse_git_branch() {
 	PROMPT_TYPE=$(git config gitprompt.type)
 	[ "$PROMPT_TYPE" = "0" ] && return
 	[ "$PROMPT_TYPE" = "disabled" ] && return
+	[ "$PROMPT_TYPE" = "off" ] && return
+	[ "$PROMPT_TYPE" = "no" ] && return
 	[ "${PROMPT_TYPE:0:1}" = "f" ] && return
 	[ "${PROMPT_TYPE:0:1}" = "F" ] && return
 

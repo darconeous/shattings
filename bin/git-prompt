@@ -1,14 +1,9 @@
 #!/bin/bash
 #
-# git-fix-whitespace
+# git-prompt
 # ==================
 #
-# 2012-01-28
-#
-# This file was written by Robert Quattlebaum <darco@deepdarc.com>.
-# It was inspired by and loosely based on the work by Richard Bronosky:
-#
-#  * <https://github.com/RichardBronosky/git-fix-whitespace>
+# 2014-04-01
 #
 # This work is provided as-is. Unless otherwise provided in writing,
 # Robert Quattlebaum makes no representations or warranties of any
@@ -18,11 +13,11 @@
 # of latent or other defects, accuracy, or the present or absence of
 # errors, whether or not discoverable, all to the greatest extent
 # permissible under applicable law.
-# 
+#
 # To the extent possible under law, Robert Quattlebaum has waived all
 # copyright and related or neighboring rights to this work. This work
 # is published from the United States.
-# 
+#
 # I, Robert Quattlebaum, dedicate any and all copyright interest in
 # this work to the public domain. I make this dedication for the
 # benefit of the public at large and to the detriment of my heirs and
@@ -31,12 +26,12 @@
 # this code under copyright law. In jurisdictions where this is not
 # possible, I hereby release this code under the Creative Commons
 # Zero (CC0) license.
-# 
+#
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
-# 
+#
 
-USAGE='[tree-ish]'
-LONG_USAGE='Fixes the whitespace issues that "git-diff --check" complains about.'
+USAGE='[prompt-type]'
+LONG_USAGE='Gets or sets `getprompt.type`.'
 
 export LC_CTYPE=C
 export LANG=C
@@ -44,12 +39,14 @@ export LANG=C
 SUBDIRECTORY_OK=Yes
 OPTIONS_KEEPDASHDASH=
 OPTIONS_SPEC="\
-git fix-whitespace tree-ish
+git prompt [new-prompt-type]
 
 $LONG_USAGE
+Valid values are: 'on', 'off', and 'simple'
 --
  Available options are
-add          automatically add modified files to index
+global          Set this option globally
+unset           Unset this option
 "
 
 . "$(git --exec-path)/git-sh-setup"
@@ -57,12 +54,7 @@ cd_to_toplevel
 
 set -o pipefail
 
-SHOULD_ADD_TO_INDEX=
-
-[ -z "${TEMP}" ] && TEMP=/tmp/
-
-PATCH=$(mktemp ${TEMP}${0##*/}.patch.XXXXXX)
-
+SET_ARGS=
 
 total_argc=$#
 while test $# != 0
@@ -71,42 +63,29 @@ do
     --help|-h)
 		usage
 		;;
-	--add)
-		SHOULD_ADD_TO_INDEX=1
-        ;;
 	--)
         shift
 		break
 		;;
+	-*)
+		SET_ARGS+="$1 "
+        ;;
 	*)
 		break
         ;;
 	esac
-    shift
+	shift
 done
+[ "$1" = "--" ] && shift
 
-[ -z "$*" ] && set -- HEAD
-
-git diff --no-ext-diff --patch-with-raw -z --binary "$@" > "$PATCH" || die Diff failed.
-
-FILES=$(git diff --check "$@" | sed '/^[^+-][^:]*:.*/!d;s/^\([^:]*\):.*/\1/' | sort -u )
-
-[ -z "$FILES" ] && { say "No whitespace errors detected in diff with $@." ; exit 0 ; }
-
-say "Files with whitespace errors:"
-for file in $FILES ; do
-	say "    "$file
-done
-
-
-say "Applying reverse patch..."
-git apply --whitespace=nowarn -R "$PATCH"  || die "Patch failed, unable to remove whitespace."
-
-say "Applying patch while fixing whitespace..."
-git apply --whitespace=fix "$PATCH"  || die "Patch failed, unable to remove whitespace."
-
-[ "$SHOULD_ADD_TO_INDEX" = "1" ] && git add $FILES
-
-rm $PATCH
-
-say Finished.
+if [ -z "$1" ] || [ "$1" = "--" ]
+then git config $SET_ARGS gitprompt.type || echo "on"
+else case "$1" in
+on|off|1|0|true|false|simple)
+	git config $SET_ARGS --replace-all gitprompt.type $1
+	;;
+*)
+	usage
+	;;
+esac
+fi
