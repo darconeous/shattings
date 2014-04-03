@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# symlink-tree
+# Syntax: <source-directory> <destination-directory> [max-depth]
+#
+# Written by Robert Quattlebaum <darco@deepdarc.com>
+
+die() {
+	echo error: "$*" > /dev/stderr
+	exit -1
+}
+
+[ "$#" -lt 2 ] && die "Syntax: <source-directory> <destination-directory> [max-depth]"
+
+SRC_DIR="`cd "$(dirname "$1")" && pwd`/$(basename "$1")" || die "Can't enter $1"
+DST_DIR="$2"
+MAX_DEPTH="$3"
+
+[ "$MAX_DEPTH"x = x ] && MAX_DEPTH=3
+
+[ -e "$SRC_DIR" ] || die "Can't find '$SRC_DIR'"
+
+if [ "$MAX_DEPTH" = 0 ] || [ '!' -d "$SRC_DIR" ]
+then ln -f -s "$SRC_DIR" "$DST_DIR"
+else
+	MAX_DEPTH=$((MAX_DEPTH-1))
+	mkdir -p "$DST_DIR"
+	for path in "${SRC_DIR}"/*
+	do
+		"$0" "${path}" "${DST_DIR}/$(basename "${path}")" ${MAX_DEPTH} || die Oops
+	done
+
+fi
+
+
