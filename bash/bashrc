@@ -268,4 +268,7 @@ export LANG
 # Enable ssh tab completion
 . ~/.shattings/bash/ssh-completion.bash
 
+# Enable homebrew tab completion (if present)
+( which brew > /dev/null 2>&1 ) && . `brew --repository`/Library/Contributions/brew_bash_completion.sh
+
 [ -f /usr/local/etc/bash_completion.d/tmux ] && . /usr/local/etc/bash_completion.d/tmux
