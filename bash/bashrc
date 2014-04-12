@@ -208,6 +208,7 @@ alias "cd.."='cd ..'
 if ( which vim > /dev/null 2>&1 )
 then
 	EDITOR="vim -n"
+	alias vi=vim
 elif ( which vi > /dev/null 2>&1 )
 then
 	EDITOR="vi"
