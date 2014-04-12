@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ps -A | grep -e 'i[Cc]al' -e '[Cc]alendar' -e Cal | grep -v -e kill-ical -e grep | cut -f 1 -d ' '| xargs kill -9
