@@ -50,7 +50,7 @@ export LANG=C
 TMPFILE="`mktemp -t $(basename $0)`"
 
 test x"$COMPARE_FILES" = x && die "Can't find \"diff\" or \"cmp\""
-test $# -gt "1" || die "Invalid number of arguments"
+test $# -gt "1" || die "Syntax: $0 <sed-script> [file1] [file2] ..."
 
 SED_SCRIPT="$1"
 shift
