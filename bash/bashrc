@@ -159,6 +159,16 @@ then
 	then alias gitx=/Applications/GitX.app/Contents/Resources/gitx
 	fi
 
+	if [ -x ~/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD ]
+	then
+		alias openscad=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
+		append_path PATH /Applications/OpenSCAD.app/Contents/MacOS
+	elif [ -x /Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD ]
+	then
+		alias openscad=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
+		append_path PATH /Applications/OpenSCAD.app/Contents/MacOS
+	fi
+
 	which -s xed && alias edit='xed'
 
 	alias join='"/System/Library/Automator/Combine PDF Pages.action/Contents/Resources/join.py"'
