@@ -1,3 +1,8 @@
 #!/bin/sh
 
-ps -A | grep -e 'i[Cc]al' -e '[Cc]alendar' -e Cal | grep -v -e kill-ical -e grep | cut -f 1 -d ' '| xargs kill -9
+launchctl remove com.apple.CalendarAgent 2>/dev/null
+ps -A | grep -e 'i[Cc]al' -e '[Cc]alendar' -e Cal | grep -v -e kill-ical -e grep | cut -f 1 -d ' '| xargs kill -9 2>/dev/null
+killall -9 CalendarAgent 2>/dev/null
+ps -A | grep -e 'i[Cc]al' -e '[Cc]alendar' -e Cal | grep -v -e kill-ical -e grep | cut -f 1 -d ' '| xargs kill -9 2>/dev/null
+killall -9 CalendarAgent 2>/dev/null
+launchctl remove com.apple.CalendarAgent 2>/dev/null
