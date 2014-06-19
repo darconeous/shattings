@@ -44,6 +44,14 @@ read -p 'Press any key to continue installing or CTRL-C to abort.'
 
 sleep 1
 
+if [ `uname` = "Darwin" ]
+then
+	if ( which git 1>/dev/null ) && ( which xcode-select 1>/dev/null )
+	then
+		git --version 1>/dev/null || die Xcode command line tools are needed. Install them and try again.
+	fi
+fi
+
 if ( which git 1>/dev/null )
 then
 	git clone git://github.com/darconeous/shattings.git .shattings || die Unable to clone shattings repository
