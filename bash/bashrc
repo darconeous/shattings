@@ -127,7 +127,9 @@ then
 	eval `launchctl export` 2> /dev/null
 
 	[ -d /Developer ] && DEVELOPER_DIR=/Developer
-	which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select -print-path)"
+	which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select --print-path)"
+
+	which -s "xmpp" || { [ -x "/System/Library//PrivateFrameworks/VCXMPP.framework/Versions/A/Resources/xmpp" ] && alias xmpp="/System/Library//PrivateFrameworks/VCXMPP.framework/Versions/A/Resources/xmpp" ; }
 
 	[ x"$DEVELOPER_DIR" '!=' x ] && [ -d "$DEVELOPER_DIR" ] && {
 		append_path PATH "$DEVELOPER_DIR"/usr/bin
