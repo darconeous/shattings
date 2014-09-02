@@ -1,0 +1,37 @@
+# .kermrc
+#
+# This file makes kermit slightly more usable by giving it good defaults.
+# In fact, unless you have this file in ~/, there is no way to connect
+# via serial using kermit from a single host command line.
+#
+# Connect to a device as follows:
+#     [HOST]
+#     sudo kermit -l /dev/ttyUSB0 -b 115200 -c
+#
+# Upload a file:
+#     [REMOTE]
+#     kermit -r
+#     CTRL+\ C
+#     [HOST]
+#     send <filename>
+#
+# Download a file:
+#     [REMOTE]
+#     kermit -s <filename>
+#
+set carrier-watch off
+set flow-control none
+set file type binary
+
+
+#set line /dev/tty.usbserial-A901KNLS
+#set speed 115200
+#set carrier-watch off
+#set reliable
+#fast
+#set flow-control none
+#set prefixing all
+#set file type bin
+#set rec pack 4096
+#set send pack 4096
+#set window 5

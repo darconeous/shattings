@@ -41,6 +41,7 @@ echo 'This script will either create or update the following files:'
 echo ''
 echo '    ~/.bashrc'
 echo '    ~/.vimrc'
+echo '    ~/.kermrc'
 echo '    ~/.screenrc'
 echo '    ~/.tmux.conf'
 echo '    ~/.inputrc'
@@ -179,6 +180,24 @@ then
 else
 	ln -s "${SHATDIR}/etc/Xdefaults" "${HOMEDIR}/.Xdefaults"
 	echo Linked "$HOMEDIR/.Xdefaults" to "${SHATDIR}/etc/Xdefaults".
+fi
+
+if [ -e "${HOMEDIR}/.kermrc" ]
+then
+	if grep -q "$SHATDIR/etc/kermrc" $HOMEDIR/.kermrc
+	then echo $HOMEDIR/.kermrc is already good to go.
+	else
+		{
+			echo '# Uncomment to enable shattings'
+			echo '# '"take $SHATDIR/etc/kermrc"
+		} >> "${HOMEDIR}/.kermrc"
+		echo Added stub to existing $HOMEDIR/.kermrc, make sure you edit it
+	fi
+else
+	{
+		echo "take $SHATDIR/etc/kermrc"
+	} >> "${HOMEDIR}/.kermrc"
+	echo Created $HOMEDIR/.kermrc
 fi
 
 echo 'Done! Shattings is now set up.'
