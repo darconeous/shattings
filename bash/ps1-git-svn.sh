@@ -62,6 +62,11 @@ function parse_git_branch() {
 <detached>
 };/ref: /{s/ref: //;s:^refs/heads/::;p;};' "$TOPLEVEL"/.git/HEAD)"
 
+	if [ "$BRANCH" = '<detached>' ]
+	then
+		branch="<$(exec-for 1 git describe --always)>" && BRANCH="$branch"
+	fi
+
 	#Too slow!
 	#BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* //')"
 
