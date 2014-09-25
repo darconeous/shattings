@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 [ -e `which brew` ] || {
 	echo Homebrew doesn\'t appear to be installed.
