@@ -161,12 +161,23 @@ then
 
 	if [ -x ~/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD ]
 	then
-		alias openscad=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
-		append_path PATH /Applications/OpenSCAD.app/Contents/MacOS
+		alias openscad=~/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
+		append_path PATH ~/Applications/OpenSCAD.app/Contents/MacOS
 	elif [ -x /Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD ]
 	then
 		alias openscad=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
 		append_path PATH /Applications/OpenSCAD.app/Contents/MacOS
+	fi
+
+	# Slic3r.app/Contents/MacOS/slic3r
+	if [ -x ~/Applications/Slic3r.app/Contents/MacOS/slic3r ]
+	then
+		alias slic3r=~/Applications/Slic3r.app/Contents/MacOS/slic3r
+		append_path PATH ~/Applications/Slic3r.app/Contents/MacOS
+	elif [ -x /Applications/Slic3r.app/Contents/MacOS/slic3r ]
+	then
+		alias slic3r=/Applications/Slic3r.app/Contents/MacOS/slic3r
+		append_path PATH /Applications/Slic3r.app/Contents/MacOS
 	fi
 
 	which -s xed && alias edit='xed'
