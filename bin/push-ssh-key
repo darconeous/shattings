@@ -37,10 +37,10 @@
 	exit 1
 }
 
-[ -f ~/.ssh/id_dsa.pub ] || {
-	echo ~/.ssh/id_dsa.pub doesn\'t exist.
-	echo Running \'sshkeygen -t dsa\' . . .
-	ssh-keygen -t dsa || exit -1
+[ -f ~/.ssh/id_rsa.pub ] || {
+	echo ~/.ssh/id_rsa.pub doesn\'t exist.
+	echo Running \'sshkeygen -t rsa\' . . .
+	ssh-keygen -b 2048 -t rsa || exit -1
 }
 
 ssh $1 "mkdir -p .ssh ; cat >> .ssh/authorized_keys" < ~/.ssh/id_dsa.pub
