@@ -124,7 +124,7 @@ set completion-ignore-case On
 if [ `uname` = "Darwin" ]
 then
 	# Grab any recently updated environment variables from launchd
-	eval `launchctl export` 2> /dev/null
+	#eval `launchctl export` 2> /dev/null
 
 	[ -d /Developer ] && DEVELOPER_DIR=/Developer
 	which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select --print-path)"
