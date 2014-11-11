@@ -126,6 +126,12 @@ then
 	# Grab any recently updated environment variables from launchd
 	#eval `launchctl export` 2> /dev/null
 
+	[ -x /usr/local/MacGPG2/bin/gpg2 ] && {
+		alias gpg2=/usr/local/MacGPG2/bin/gpg2
+		alias gpg=/usr/local/MacGPG2/bin/gpg2
+		export GPG=/usr/local/MacGPG2/bin/gpg2
+	}
+
 	[ -d /Developer ] && DEVELOPER_DIR=/Developer
 	which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select --print-path)"
 
