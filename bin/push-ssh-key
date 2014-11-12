@@ -43,5 +43,6 @@
 	ssh-keygen -b 2048 -t rsa || exit -1
 }
 
-ssh $1 "mkdir -p .ssh ; cat >> .ssh/authorized_keys" < ~/.ssh/id_dsa.pub
+ssh $1 "mkdir -p .ssh ; cat >> .ssh/authorized_keys" < ~/.ssh/id_rsa.pub &&
+ssh $1 "mkdir -p .ssh ; cat >> .ssh/authorized_keys2" < ~/.ssh/id_rsa.pub
 
