@@ -121,6 +121,10 @@ set completion-ignore-case On
 	export PAGER='less -x $TABWIDTH'
 }
 
+if [ "$SSH_AUTH_SOCK"x '!=' x ] ;
+then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
+fi
+
 if [ -f "${HOME}/.gpg-agent-info" ]; then
 	. ~/.gpg-agent-info
 else [ -e ~/.gnupg/S.gpg-agent.ssh ]
@@ -135,6 +139,8 @@ then
 	#eval `launchctl export` 2> /dev/null
 
 	[ -x /usr/local/MacGPG2/bin/gpg2 ] && {
+		append_path PATH /usr/local/MacGPG2/bin
+		append_path MANPATH /usr/local/MacGPG2/share/man
 		alias gpg2=/usr/local/MacGPG2/bin/gpg2
 		alias gpg=/usr/local/MacGPG2/bin/gpg2
 		export GPG=/usr/local/MacGPG2/bin/gpg2
