@@ -121,17 +121,20 @@ set completion-ignore-case On
 	export PAGER='less -x $TABWIDTH'
 }
 
-if [ "$SSH_AUTH_SOCK"x '!=' x ] ;
-then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
-fi
+# If this isn't a remote SSH connection...
+if [ "$SSH_CONNECTION"x '=' x ]
+then
+	if [ "$SSH_AUTH_SOCK"x '!=' x ]
+	then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
+	fi
 
-if [ -f "${HOME}/.gpg-agent-info" ]; then
-	. ~/.gpg-agent-info
-else [ -e ~/.gnupg/S.gpg-agent.ssh ]
-	SSH_AUTH_SOCK=~/.gnupg/S.gpg-agent.ssh
-	SSH_AGENT_PID=
+	if [ -f "${HOME}/.gpg-agent-info" ]; then
+		. ~/.gpg-agent-info
+	else [ -e ~/.gnupg/S.gpg-agent.ssh ]
+		SSH_AUTH_SOCK=~/.gnupg/S.gpg-agent.ssh
+		unset SSH_AGENT_PID
+	fi
 fi
-
 
 if [ `uname` = "Darwin" ]
 then
