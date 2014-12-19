@@ -1,0 +1,4 @@
+#!/bin/sh
+
+opensc-tool --send-apdu FF:00:52:00:00
+
