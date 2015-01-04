@@ -7,7 +7,7 @@ test $# -gt 0 || {
 
 tempfile="`mktemp -t mdrefmtXXXXXXXX`"
 
-mdfmt "$1" > "$tempfile"
-cat "$tempfile" > "$1"
+cat "$1" | mdfmt > "$tempfile" || exit 1
+cat "$tempfile" > "$1" || exit 1
 rm "$tempfile"
 
