@@ -93,12 +93,15 @@ prepend_path()
 	|| [ "$USER" = "apple" ] \
 	|| [ "$USER" = "admin" ] \
 	&& {
-		SHATTINGS_HISTORY=1
-		SHATTINGS_TABS=1
+		[ x"$SHATTINGS_HISTORY" = x ] && SHATTINGS_HISTORY=1
+		[ x"$SHATTINGS_TABS" = x ] && SHATTINGS_TABS=1
+		[ x"$SHATTINGS_GNUPG_SSH" = x ] && [ `uname` = "Darwin" ] && SHATTINGS_GNUPG_SSH=1
 	}
 }
 
 # No lang? Assume `en_us.UTF-8`.
+# Warning: This may break some scripts!
+# If you run into problems, set this to LANG=C
 [ x"$LANG" = x ] && LANG=en_US.UTF-8
 
 [ "$SHATTINGS_HISTORY" = 1 ] && {
@@ -122,7 +125,7 @@ set completion-ignore-case On
 }
 
 # If this isn't a remote SSH connection...
-if [ "$SSH_CONNECTION"x '=' x ]
+if [ "$SSH_CONNECTION"x '=' x ] && [ "$SHATTINGS_GNUPG_SSH" = 1 ]
 then
 	if [ "$SSH_AUTH_SOCK"x '!=' x ]
 	then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
@@ -288,8 +291,6 @@ prepend_path PATH ~/bin
 prepend_path MANPATH ~/share/man
 append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 
-#prepend_path PATH /usr/local/share/python
-
 prepend_path PYTHONPATH /usr/local/lib/python2.7/site-packages
 
 export GPG_AGENT_INFO
@@ -303,8 +304,6 @@ export MANPATH
 export LIBRARY_PATH
 export CPATH
 export LANG
-
-
 
 # Enable fancy command line
 . ~/.shattings/bash/ps1-git-svn.sh
