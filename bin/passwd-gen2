@@ -1,5 +1,9 @@
 #!/bin/sh
-base64 -w 0 /dev/random |
+
+BASE64="base64 -w 0"
+$BASE64 /dev/null 2>/dev/null || BASE64=base64
+
+$BASE64 /dev/random |
 head -c 200 |
 sed 's/[-/=+0OI1Z2DBSTFa-z]//g;s/rn//g;' |
 sed 's/\([A-Z0-9]\{4\}\)\([A-Z0-9]\{4\}\)/\1-\2/g;s/\([A-Z0-9]\{4\}\)\([A-Z0-9]\{4\}\)/\1-\2/g;' |
