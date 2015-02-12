@@ -139,6 +139,10 @@ then
 	fi
 fi
 
+[ -f ~/Projects/GlobalPlatformPro/gp.jar ] && alias gp="java -jar ~/Projects/GlobalPlatformPro/gp.jar"
+[ -f ~/Projects/SmartCardDev/GlobalPlatformPro/gp.jar ] && alias gp="java -jar ~/Projects/SmartCardDev/GlobalPlatformPro/gp.jar"
+[ -f ~/Projects/JCOP/GlobalPlatformPro/gp.jar ] && alias gp="java -jar ~/Projects/JCOP/GlobalPlatformPro/gp.jar"
+
 if [ `uname` = "Darwin" ]
 then
 	# Grab any recently updated environment variables from launchd
