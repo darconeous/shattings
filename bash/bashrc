@@ -34,6 +34,14 @@
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
+# Test for an interactive shell.  There is no need to set anything
+# past this point for scp and rcp, and it's important to refrain from
+# outputting anything in those cases.
+if [[ $- != *i* ]] ; then
+	# Shell is non-interactive.  Be done now!
+	return
+fi
+
 # ------------------------------------------------------------------
 # This section is based on a snippit of init.sh from Fink.
 # It has been modified slightly to behave better on non-mac
@@ -266,6 +274,8 @@ elif ( which vi > /dev/null 2>&1 )
 then
 	EDITOR="vi"
 fi
+
+[ -f /usr/local/etc/xml/catalog ] && export XML_CATALOG_FILES="/usr/local/etc/xml/catalog"
 
 prepend_path PATH /usr/local/sbin
 prepend_path PATH /usr/local/bin
