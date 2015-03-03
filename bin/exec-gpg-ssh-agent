@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if [ "$SSH_AUTH_SOCK"x '!=' x ]
+then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
+fi
+
+gpg --card-status 2>/dev/null >/dev/null
+
+if [ -f "${HOME}/.gpg-agent-info" ]; then
+	. ~/.gpg-agent-info
+else [ -e ~/.gnupg/S.gpg-agent.ssh ]
+	SSH_AUTH_SOCK=~/.gnupg/S.gpg-agent.ssh
+	unset SSH_AGENT_PID
+fi
+
+[ $# -gt 0 ] && exec $*
+exec $SHELL
+
