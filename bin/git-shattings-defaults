@@ -71,3 +71,4 @@ git config --global rebase.autosquash "true"
 
 git config --global rerere.enabled "true"
 git config --global push.default "upstream"
+git config --global branch.autosetupmerge "false"
