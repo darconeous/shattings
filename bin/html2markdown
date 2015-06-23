@@ -209,6 +209,8 @@ class WrappedTextBox (TextBox):
     def __fill(self, text, width, lastLineSuffix, writer):
         log.debug("fill text=%r suffix=%r" % (text, lastLineSuffix))
         words = self.__splitTextIntoWordsAndSpaces(text)
+        if len(words) == 0:
+            return
         firstSpace, firstWord = words.pop(0)
         linePosition = self.__writeFirstWordOnLine(firstWord, writer)
         for spaceBefore, word in words:
@@ -299,13 +301,18 @@ class WrappedTextBox (TextBox):
         This method is used by the wrapping code.
 
         """
-        if parts[0] == "":
-            del parts[1]
+        if len(parts) >= 2:
+            if parts[0] == "":
+                del parts[1]
+            else:
+                parts.insert(0, "")
+            if parts[-1] == "":
+                del parts[-2:]
         else:
-            parts.insert(0, "")
-        if parts[-1] == "":
-            del parts[-2:]
+            if parts[0] == "":
+                del parts[0]
         assert (len(parts) % 2) == 0, "List normalizing failed: %r" % (parts,)
+
 
 class IndentedBox (ContainerBox):
     def __init__(self, indent, firstLineIndent=None):
