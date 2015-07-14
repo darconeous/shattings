@@ -309,8 +309,10 @@ class WrappedTextBox (TextBox):
             if parts[-1] == "":
                 del parts[-2:]
         else:
-            if parts[0] != "":
+            if len(parts) != 0 and parts[0] != "":
                 parts.insert(0, "")
+            if len(parts) == 1 and parts[0] == "":
+                del parts[0]
         assert (len(parts) % 2) == 0, "List normalizing failed: %r" % (parts,)
 
 
