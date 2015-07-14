@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sudo kill -9 $(ps aux | grep -e '[p]csc' -e ifdreader | awk '{print $2}')
+
