@@ -111,16 +111,20 @@ function parse_svn_revision() {
 
 if [ `whoami` = root ]
 then
-	PS1_PREFIX='\[\033[0;1;31m\]\h:\[\033[1;34m\]\W \[\033[0;1m\]'
-	PS1_SUFFIX='\[\033[0m\]\$ '
+	PS1_PREFIX_='\[\033[0;1;31m\]\h:\[\033[1;34m\]\W \[\033[0;1m\]'
+	PS1_SUFFIX_='\[\033[0m\]\$ '
 else
-	PS1_PREFIX='\[\033[0;1;32m\]\h:\[\033[1;34m\]\W \[\033[0;1m\]'
-	PS1_SUFFIX='\[\033[0m\]\$ '
+	PS1_PREFIX_='\[\033[0;1;32m\]\h:\[\033[1;34m\]\W \[\033[0;1m\]'
+	PS1_SUFFIX_='\[\033[0m\]\$ '
 fi
 
-PS1="$PS1_PREFIX"
+PS1="$PS1_PREFIX_"
 ( which git 2> /dev/null > /dev/null ) && PS1="$PS1"'$(parse_git_branch)'
 ( which svn 2> /dev/null > /dev/null ) && PS1="$PS1"'$(parse_svn_revision)'
-PS1="$PS1$PS1_SUFFIX"
+PS1="$PS1_PREFIX$PS1$PS1_SUFFIX_$PS1_SUFFIX"
+
+unset PS1_PREFIX_
+unset PS1_SUFFIX_
+
 
 

@@ -13,6 +13,10 @@ else [ -e ~/.gnupg/S.gpg-agent.ssh ]
 	unset SSH_AGENT_PID
 fi
 
+export PS1_PREFIX="GPG|$PS1_PREFIX"
+
+[ "x$PS1" = "x" ] || export PS1="${PS1_PREFIX}${PS1}"
+
 [ $# -gt 0 ] && exec $*
 exec $SHELL
 
