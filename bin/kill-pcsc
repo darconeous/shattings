@@ -1,4 +1,6 @@
 #!/bin/sh
 
-sudo kill -9 $(ps aux | grep -e '[p]csc' -e ifdreader | awk '{print $2}')
+$(dirname $0)/killem -9 --sudo pcsc
+
+#sudo kill -9 $(ps aux | grep -e ifdreader | awk '{print $2}')
 

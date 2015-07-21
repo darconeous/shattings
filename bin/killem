@@ -1,0 +1,40 @@
+#!/bin/sh
+
+PROCESSES=
+GREPFLAGS=
+KILLFLAGS=
+SHOULDSUDO=false
+
+while [ "$#" '!=' "0" ] ;
+do
+	case "$1" in
+	-i)
+		GREPFLAGS="${GREPFLAGS} -i"
+		;;
+	-9)
+		KILLFLAGS="${KILLFLAGS} -9"
+		;;
+	--sudo)
+		SHOULDSUDO=true
+		;;
+	*)
+		PROCESSES="`ps aux | grep ${GREPFLAGS} -e "$1" | grep -v -e grep -e killem`"
+		;;
+	esac
+	shift
+done
+
+
+if [ "x$PROCESSES" = "x" ]
+then
+	echo "No processes to kill" > /dev/stderr
+	exit 1
+fi
+
+echo "${PROCESSES}" > /dev/stderr
+
+if `$SHOULDSUDO`
+then sudo kill $KILLFLAGS $(echo "${PROCESSES}" | awk '{print $2}')
+else kill $KILLFLAGS $(echo "${PROCESSES}" | awk '{print $2}')
+fi
+

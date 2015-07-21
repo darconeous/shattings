@@ -1,0 +1,5 @@
+#!/bin/sh
+
+$(dirname $0)/killem -9 --sudo /System/Library/Security/tokend
+
+
