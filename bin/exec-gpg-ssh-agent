@@ -17,6 +17,10 @@ export PS1_PREFIX="GPG|$PS1_PREFIX"
 
 [ "x$PS1" = "x" ] || export PS1="${PS1_PREFIX}${PS1}"
 
-[ $# -gt 0 ] && exec $*
-exec $SHELL
+if [ $# -gt 0 ]
+then
+	exec "$@"
+else
+	exec $SHELL
+fi
 

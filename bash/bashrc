@@ -307,6 +307,13 @@ append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 
 prepend_path PYTHONPATH /usr/local/lib/python2.7/site-packages
 
+append_path PATH ~/homebrew/bin
+append_path PATH ~/homebrew/sbin
+append_path MANPATH ~/homebrew/share/man
+append_path PKG_CONFIG_PATH ~/homebrew/lib/pkgconfig
+
+export GIT_SSH=~/.shattings/bin/git-ssh.sh
+
 export GPG_AGENT_INFO
 export SSH_AUTH_SOCK
 export SSH_AGENT_PID

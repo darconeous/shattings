@@ -33,6 +33,14 @@
 #defaults write com.apple.Terminal "Default Window Settings" "Pro"
 #defaults write com.apple.Terminal "Startup Window Settings" "Pro"
 
+defaults write com.apple.AppleMultitouchTrackpad "clicking" -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad "clicking" -bool true
+defaults write com.apple.systempreferences "ShowAllMode" -bool true
+defaults write -globalDomain "NSAutomaticDashSubstitutionEnabled" -bool false
+defaults write -globalDomain "NSAutomaticQuoteSubstitutionEnabled" -bool false
+
+chflags nohidden ~/Library/
+
 term_settings="`defaults read com.apple.Terminal 'Default Window Settings'`"
 
 [ `uname` = 'Darwin' ] || {

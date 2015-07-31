@@ -47,6 +47,7 @@ echo '    ~/.tmux.conf'
 echo '    ~/.inputrc'
 echo '    ~/.profile'
 echo '    ~/.Xdefaults'
+echo '    ~/.gnupg/gpg.conf'
 echo ''
 echo 'If the file already exists, it will be non-destructively'
 echo 'modified by appending commented-out commands. In this case'
@@ -117,6 +118,14 @@ then
 else
 	ln -s "${SHATDIR}/vim" "${HOMEDIR}/.vim"
 	echo Linked $HOMEDIR/.vim
+fi
+
+if [ -e "${HOMEDIR}/.gnupg/gpg.conf" ]
+then
+	echo  "$HOMEDIR/.gnupg/gpg.conf" already exists, skipping...
+else
+	ln -s "${SHATDIR}/etc/gpg.conf" "${HOMEDIR}/.gnupg/gpg.conf"
+	echo Linked $HOMEDIR/.gnupg/gpg.conf
 fi
 
 if [ -e "${HOMEDIR}/.screenrc" ]
