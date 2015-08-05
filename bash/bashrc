@@ -252,6 +252,13 @@ then
 	# Have BSD 'ls' use GNU colors.
 	export LSCOLORS=ExGxBxdxCxDxdxabagacad
 	export CLICOLOR=1
+	
+	# Grep color
+	if  ( echo testing-color | grep --color=auto testing-color 1> /dev/null 2> /dev/null )
+	then
+		alias grep="grep --color=auto"
+		alias egrep="egrep --color=auto"
+	fi
 fi
 
 # VIM-based 'less'
