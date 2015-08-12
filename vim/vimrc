@@ -62,12 +62,12 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.i
 "
 
 " Key mappings for par (text reformatting)
-vmap  !par -w76 -gjq -dh -p3
-vmap X !par -w76 -gjq -p2 -dh<CR>
-vmap F !par -w76 -gjq<CR>
-vmap f !par -w80<CR>
-imap  :set invpaste<CR>a
-map  :set invpaste<CR>o
+"vmap  !par -w76 -gjq -dh -p3
+"vmap X !par -w76 -gjq -p2 -dh<CR>
+"vmap F !par -w76 -gjq<CR>
+"vmap f !par -w80<CR>
+"imap  :set invpaste<CR>a
+"map  :set invpaste<CR>o
 
 " So what, I can't type...
 nmap :W :w
