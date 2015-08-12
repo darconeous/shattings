@@ -53,5 +53,57 @@ Another good complement to shattings on MacOS X is
 
     ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 
+Below are the homebrew packages that I always tend to install:
+
+	brew install c-kermit
+	brew install nmap
+	brew install xmlstarlet
+	brew install tmux
+	brew install dos2unix
+	brew install wget
+	brew install wine
+
+For general software development:
+
+	brew install pkg-config
+	brew install boost
+	brew install abnfgen
+	brew install node
+	brew install docker
+	brew install qemu
+
+For secure element stuff:
+
+	brew install mfcuk
+	brew install mfoc
+	brew install nfcutils
+	brew install yubico-piv-tool
+	brew install ykpers
+	brew install ykclient
+	brew install gpshell
+	brew install globalplatform
+	brew install libfreefare
+
+For CoAP stuff:
+
+	brew tap darconeous/embedded
+	brew install smcp
+
+For embedded development:
+
+	brew tap darconeous/embedded
+	brew install arm-2008q3-gcc
+	brew install avr-gcc
+	brew install avr-gdb
+	brew install avrdude         # For general-purpose AVR programming.
+	brew install dfu-programmer  # For programming AVR USB chips.
+	brew install avarice         # For using GDB.
+	brew install darconeous/embedded/sdcc # SDCC with special fixes
+	brew install cc-tool         # For using the CC-Debugger
+	brew install srecord
+	brew install open-ocd
+
+---
+
 [MouseTerm](https://bitheap.org/mouseterm/) is also useful for
 enabling mouse support in vim.
