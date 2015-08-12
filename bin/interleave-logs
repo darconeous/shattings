@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cat "$@" | sort -t ' ' -k 1,2 -s
+
