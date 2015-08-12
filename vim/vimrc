@@ -74,6 +74,8 @@ nmap :W :w
 nmap :X :x
 nmap :Q :q
 
+nnoremap ,mdfmt :silent :%!mdfmt<CR>
+
 " Call the external spell module (with uses ispell)
 " so /etc/vim/vimspell.vim
 
