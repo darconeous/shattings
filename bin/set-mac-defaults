@@ -34,10 +34,29 @@
 #defaults write com.apple.Terminal "Startup Window Settings" "Pro"
 
 defaults write com.apple.AppleMultitouchTrackpad "clicking" -bool true
+defaults write com.apple.AppleMultitouchTrackpad "HIDScrollZoomModifierMask" -int 262144
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad "clicking" -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad "HIDScrollZoomModifierMask" -int 262144
 defaults write com.apple.systempreferences "ShowAllMode" -bool true
 defaults write -globalDomain "NSAutomaticDashSubstitutionEnabled" -bool false
 defaults write -globalDomain "NSAutomaticQuoteSubstitutionEnabled" -bool false
+
+defaults write com.apple.Safari AlwaysShowTabBar -bool true
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari ShowFavoritesBar-v2 -bool true
+defaults write com.apple.Safari ShowStatusBar -bool true
+defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+
+defaults write com.apple.dt.Xcode DVTTextAutoInsertCloseBrace -bool false
+defaults write com.apple.dt.Xcode DVTTextAutoInsertOpenBracket -bool false
+defaults write com.apple.dt.Xcode DVTTextUsesSyntaxAwareIndenting -bool false
+
+defaults write com.apple.finder FK_SavedViewStyle -string Nlsv
+defaults write com.apple.finder FXPreferredViewStyle -string Nlsv
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
+defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
 
 chflags nohidden ~/Library/
 
