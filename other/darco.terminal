@@ -80,7 +80,7 @@
 	<key>Linewrap</key>
 	<true/>
 	<key>ProfileCurrentVersion</key>
-	<real>2.02</real>
+	<real>2.04</real>
 	<key>ReverseLinewrap</key>
 	<true/>
 	<key>RunCommandAsShell</key>
@@ -137,6 +137,8 @@
 	<true/>
 	<key>VisualBell</key>
 	<true/>
+	<key>VisualBellOnlyWhenMuted</key>
+	<false/>
 	<key>WideChars</key>
 	<true/>
 	<key>WindowTitle</key>
@@ -227,6 +229,10 @@
 		<string>[5D</string>
 		<key>^F703</key>
 		<string>[5C</string>
+		<key>^F72C</key>
+		<string>[5;5~</string>
+		<key>^F72D</key>
+		<string>[6;5~</string>
 		<key>~F704</key>
 		<string>[17~</string>
 		<key>~F705</key>
@@ -322,6 +328,14 @@
 		<dict>
 			<key>ProcessName</key>
 			<string>top</string>
+		</dict>
+		<dict>
+			<key>ProcessName</key>
+			<string>tmux</string>
+		</dict>
+		<dict>
+			<key>ProcessName</key>
+			<string>screen</string>
 		</dict>
 	</array>
 	<key>rowCount</key>
