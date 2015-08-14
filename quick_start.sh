@@ -54,7 +54,7 @@ fi
 
 if ( which git 1>/dev/null )
 then
-	git clone git://github.com/darconeous/shattings.git .shattings || die Unable to clone shattings repository
+	git clone https://github.com/darconeous/shattings.git .shattings || die Unable to clone shattings repository
 else
 	if ( which curl 1>/dev/null )
 	then

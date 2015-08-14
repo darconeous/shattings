@@ -3,6 +3,15 @@ Shattings
 
 > SHAred + SeTTINGS = *Shattings*
 
+## About ##
+
+Shattings is a collection of scripts and settings which improve my own
+productivity at the terminal. YMMV.
+
+It is a work in progress. Not guaranteed to be useful for anyone
+except me. Scroll below to the section titled "Quick Install" to get
+started.
+
 ## License ##
 
 This colleciton of works is Copyright (C) 2012 Robert Quattlebaum. The
@@ -28,80 +37,81 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-## About ##
-
-Shattings is a collection of scripts and settings which improve my own
-productivity at the terminal. YMMV.
-
-It is a work in progress. Not guaranteed to be useful for anyone
-except me.
 
 ## Quick Install ##
 
 If you have `curl` installed, type:
 
-    bash -c "$(curl -L https://raw.github.com/darconeous/shattings/master/quick_start.sh)"
+    bash -c "$(curl -L https://raw.githubusercontent.com/darconeous/shattings/master/quick_start.sh)"
 
-If you don't have`curl`, but have `wget`, type:
+If you don't have `curl`, but have `wget`, type:
 
-    bash -c "$(wget -O /dev/stdout https://raw.github.com/darconeous/shattings/master/quick_start.sh)"
+    bash -c "$(wget -O /dev/stdout https://raw.githubusercontent.com/darconeous/shattings/master/quick_start.sh)"
 
 ---
+
+## Other Stuff ##
 
 Another good complement to shattings on MacOS X is
 [Homebrew](http://brew.sh).
 
-    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+or, to install it in your home directory:
+
+    cd ~ && mkdir homebrew \
+		&& curl -L https://github.com/Homebrew/homebrew/tarball/master \
+		| tar xz --strip 1 -C homebrew
 
 Below are the homebrew packages that I always tend to install:
 
-	brew install c-kermit
-	brew install nmap
-	brew install xmlstarlet
-	brew install tmux
-	brew install dos2unix
-	brew install wget
-	brew install wine
+    brew install c-kermit
+    brew install nmap
+    brew install xmlstarlet
+    brew install tmux
+    brew install dos2unix
+    brew install wget
+    brew install wine
 
 For general software development:
 
-	brew install pkg-config
-	brew install boost
-	brew install abnfgen
-	brew install node
-	brew install docker
-	brew install qemu
+    brew install pkg-config
+    brew install boost
+    brew install abnfgen
+    brew install node
+    brew install docker
+    brew install qemu
 
 For secure element stuff:
 
-	brew install mfcuk
-	brew install mfoc
-	brew install nfcutils
-	brew install yubico-piv-tool
-	brew install ykpers
-	brew install ykclient
-	brew install gpshell
-	brew install globalplatform
-	brew install libfreefare
+    brew install mfcuk
+    brew install mfoc
+    brew install nfcutils
+    brew install yubico-piv-tool
+    brew install ykpers
+    brew install ykclient
+    brew install gpshell
+    brew install globalplatform
+    brew install libfreefare
 
 For CoAP stuff:
 
-	brew tap darconeous/embedded
-	brew install smcp
+    brew tap darconeous/embedded
+    brew install smcp
 
 For embedded development:
 
-	brew tap darconeous/embedded
-	brew install arm-2008q3-gcc
-	brew install avr-gcc
-	brew install avr-gdb
-	brew install avrdude         # For general-purpose AVR programming.
-	brew install dfu-programmer  # For programming AVR USB chips.
-	brew install avarice         # For using GDB.
-	brew install darconeous/embedded/sdcc # SDCC with special fixes
-	brew install cc-tool         # For using the CC-Debugger
-	brew install srecord
-	brew install open-ocd
+    brew tap darconeous/embedded
+    brew install arm-2008q3-gcc
+    brew install avr-gcc
+    brew install avr-gdb
+    brew install avrdude         # For general-purpose AVR programming.
+    brew install dfu-programmer  # For programming AVR USB chips.
+    brew install avarice         # For using GDB.
+    brew install darconeous/embedded/sdcc # SDCC with special fixes
+    brew install cc-tool         # For using the CC-Debugger
+    brew install srecord
+    brew install open-ocd
 
 ---
 
