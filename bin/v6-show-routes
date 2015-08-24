@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# This is just a quick script for dumping out all of
+# the IPv6 routing tables, independent of platform.
+
+case "`uname -s`" in
+	Darwin)
+		exec netstat -r -f inet6 -l -n -g
+		;;
+	Linux)
+		exec route -A inet6 -e 
+		;;
+	*)
+		echo "$0: Unknown Platform" > /dev/stderr
+		exit 1
+		;;
+esac
+
