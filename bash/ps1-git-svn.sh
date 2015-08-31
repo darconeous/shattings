@@ -77,6 +77,7 @@ function parse_git_branch() {
 		[ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="${DIRTY}?"
 		[ -z "$(echo "$STATUS" | grep -e '^[RMDA]')" ] || DIRTY="${DIRTY}+"
 		[ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
+	}
 		if [ -f "${TOPLEVEL}/.git/rebase-merge/interactive" ]
 		then
 			BRANCH='['$(basename `cat "${TOPLEVEL}/.git/rebase-merge/head-name"`)']'
@@ -94,7 +95,6 @@ function parse_git_branch() {
 		elif [ -f "${TOPLEVEL}/.git/BISECT_LOG" ]
 		then MODE="<bisect>"
 		fi
-	}
 
 	echo -n '('${MODE}${BRANCH}${DIRTY}')'
 }
