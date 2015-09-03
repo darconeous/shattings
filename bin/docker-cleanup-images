@@ -1,0 +1,4 @@
+#!/bin/sh
+
+docker images | awk '$1~/<none>/ && $3~/[0-9a-f]{12}/ { print $3 ; }' | xargs docker rmi
+
