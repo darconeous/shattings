@@ -30,6 +30,11 @@
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
+[ `uname` = 'Darwin' ] || {
+	echo 'Not a Mac!'
+	exit 1
+}
+
 #defaults write com.apple.Terminal "Default Window Settings" "Pro"
 #defaults write com.apple.Terminal "Startup Window Settings" "Pro"
 
@@ -58,16 +63,13 @@ defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
 defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
 defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
 
+defaults write -g _HIEnableThemeSwitchHotKey -bool true
+
 chflags nohidden ~/Library/
 
 term_settings="`defaults read com.apple.Terminal 'Default Window Settings'`"
 
-[ `uname` = 'Darwin' ] || {
-	echo 'Not a Mac!'
-	exit 1
-}
-
-if [ $term_settings '!=' "Pro" ] && [ $term_settings '!=' "darco" ]
+if [ "$term_settings" '!=' "Pro" ] && [ "$term_settings" '!=' "darco" ]
 then
 	echo Setting up terminal settings...
 	open ~/.shattings/other/darco.terminal
