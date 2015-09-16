@@ -164,6 +164,8 @@ then
 		export GPG=/usr/local/MacGPG2/bin/gpg2
 	}
 
+	which -s "tac" || alias tac="sed '1!G;h;"'$'"!d'"
+
 	[ -d /Developer ] && DEVELOPER_DIR=/Developer
 	which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select --print-path)"
 
