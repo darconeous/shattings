@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$SSH_AUTH_SOCK"x '!=' x ]
 then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
