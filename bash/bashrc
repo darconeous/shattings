@@ -112,11 +112,15 @@ prepend_path()
 # If you run into problems, set this to LANG=C
 [ x"$LANG" = x ] && LANG=en_US.UTF-8
 
+isolate-history () {
+	export PROMPT_COMMAND=""
+}
+
 [ "$SHATTINGS_HISTORY" = 1 ] && {
 	shopt -s histappend
 	PROMPT_COMMAND='history -a && history -n'
 	export HISTCONTROL="ignoredups"
-	export HISTFILESIZE=100000
+	export HISTFILESIZE=500000
 }
 
 set mark-directories On
@@ -349,5 +353,7 @@ export LANG
 
 # Enable homebrew tab completion (if present)
 ( which brew > /dev/null 2>&1 ) && . `brew --repository`/Library/Contributions/brew_bash_completion.sh
+
+export PS1
 
 [ -f /usr/local/etc/bash_completion.d/tmux ] && . /usr/local/etc/bash_completion.d/tmux
