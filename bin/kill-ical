@@ -1,21 +1,8 @@
 #!/bin/sh
 
 launchctl remove com.apple.CalendarAgent 2>/dev/null
-killall -9 CalendarAgent Calendar 2>/dev/null
-ps -A | grep -e 'i[Cc]al' -e '[Cc]alendar' -e Cal | grep -v -e kill-ical -e grep | cut -f 1 -d ' '| xargs kill -9 2>/dev/null
-killall -9 CalendarAgent Calendar 2>/dev/null
-ps -A | grep -e 'i[Cc]al' -e '[Cc]alendar' -e Cal | grep -v -e kill-ical -e grep | cut -f 1 -d ' '| xargs kill -9 2>/dev/null
-killall -9 CalendarAgent Calendar 2>/dev/null
+killem -9 CalendarAgent '[Cc]alendar' 'i[Cc]al'
+killem -9 CalendarAgent '[Cc]alendar' 'i[Cc]al'
 launchctl remove com.apple.CalendarAgent 2>/dev/null
-killall -9 CalendarAgent Calendar 2>/dev/null
-ps -A | grep -e 'i[Cc]al' -e '[Cc]alendar' -e Cal | grep -v -e kill-ical -e grep | cut -f 1 -d ' '| xargs kill -9 2>/dev/null
-killall -9 CalendarAgent Calendar 2>/dev/null
-ps -A | grep -e 'i[Cc]al' -e '[Cc]alendar' -e Cal | grep -v -e kill-ical -e grep | cut -f 1 -d ' '| xargs kill -9 2>/dev/null
-killall -9 CalendarAgent Calendar 2>/dev/null
-launchctl remove com.apple.CalendarAgent 2>/dev/null
-killall -9 CalendarAgent Calendar 2>/dev/null
-ps -A | grep -e 'i[Cc]al' -e '[Cc]alendar' -e Cal | grep -v -e kill-ical -e grep | cut -f 1 -d ' '| xargs kill -9 2>/dev/null
-killall -9 CalendarAgent Calendar 2>/dev/null
-ps -A | grep -e 'i[Cc]al' -e '[Cc]alendar' -e Cal | grep -v -e kill-ical -e grep | cut -f 1 -d ' '| xargs kill -9 2>/dev/null
-killall -9 CalendarAgent Calendar 2>/dev/null
-launchctl remove com.apple.CalendarAgent 2>/dev/null
+killem -9 CalendarAgent '[Cc]alendar' 'i[Cc]al'
+killem -9 CalendarAgent '[Cc]alendar' 'i[Cc]al'
