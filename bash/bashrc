@@ -114,6 +114,7 @@ prepend_path()
 
 isolate-history () {
 	export PROMPT_COMMAND=""
+	export HISTFILE=""
 }
 
 [ "$SHATTINGS_HISTORY" = 1 ] && {
@@ -167,6 +168,8 @@ then
 		alias gpg=/usr/local/MacGPG2/bin/gpg2
 		export GPG=/usr/local/MacGPG2/bin/gpg2
 	}
+
+	[ -x "/Applications/YubiKey PIV Manager.app/Contents/MacOS/yubico-piv-tool" ] && alias yubico-piv-tool="/Applications/YubiKey\ PIV\ Manager.app/Contents/MacOS/yubico-piv-tool"
 
 	which -s "tac" || alias tac="sed '1!G;h;"'$'"!d'"
 
