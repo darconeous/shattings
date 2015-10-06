@@ -4,7 +4,7 @@ if [ "$SSH_AUTH_SOCK"x '!=' x ]
 then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
 fi
 
-gpg --card-status 2>/dev/null >/dev/null
+gpg --card-status 2>/dev/null >/dev/null && {
 
 if [ -f "${HOME}/.gpg-agent-info" ]; then
 	. ~/.gpg-agent-info
@@ -16,6 +16,7 @@ fi
 export PS1_PREFIX="GPG|$PS1_PREFIX"
 
 [ "x$PS1" = "x" ] || export PS1="${PS1_PREFIX}${PS1}"
+}
 
 if [ $# -gt 0 ]
 then
