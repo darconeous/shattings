@@ -1,0 +1,70 @@
+#!/bin/sh
+
+CALLSIGN=${1-$(cat)}
+
+char_to_hamindex () {
+	case ${1} in
+		a|A) echo "1" ;;
+		b|B) echo "2" ;;
+		c|C) echo "3" ;;
+		d|D) echo "4" ;;
+		e|E) echo "5" ;;
+		f|F) echo "6" ;;
+		g|G) echo "7" ;;
+		h|H) echo "8" ;;
+		i|I) echo "9" ;;
+		j|J) echo "10" ;;
+		k|K) echo "11" ;;
+		l|L) echo "12" ;;
+		m|M) echo "13" ;;
+		n|N) echo "14" ;;
+		o|O) echo "15" ;;
+		p|P) echo "16" ;;
+		q|Q) echo "17" ;;
+		r|R) echo "18" ;;
+		s|S) echo "19" ;;
+		t|T) echo "20" ;;
+		u|U) echo "21" ;;
+		v|V) echo "22" ;;
+		w|W) echo "23" ;;
+		x|X) echo "24" ;;
+		y|Y) echo "25" ;;
+		z|Z) echo "26" ;;
+		
+		0) echo "27" ;;
+		1) echo "28" ;;
+		2) echo "29" ;;
+		3) echo "30" ;;
+		4) echo "31" ;;
+		5) echo "32" ;;
+		6) echo "33" ;;
+		7) echo "34" ;;
+		8) echo "35" ;;
+		9) echo "36" ;;
+		
+		/) echo "37" ;;
+		_) echo "38" ;;
+
+		*) echo "0" ;;
+	esac
+}
+
+
+triplet_to_chunk () {
+	local a=$(char_to_hamindex "${1:0:1}")
+	local b=$(char_to_hamindex "${1:1:1}")
+	local c=$(char_to_hamindex "${1:2:1}")
+	printf '%04X' $((a*1600 + b*40 + c))
+}
+
+printf "$(triplet_to_chunk $CALLSIGN)"
+CALLSIGN="${CALLSIGN:3}"
+
+while [ ${#CALLSIGN} != 0 ]
+do
+	printf ":$(triplet_to_chunk $CALLSIGN)"
+	CALLSIGN="${CALLSIGN:3}"
+done
+
+echo
+
