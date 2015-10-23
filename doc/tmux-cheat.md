@@ -13,4 +13,6 @@ TMUX Cheat Sheet
 * `CTRL-A ... UP/DOWN/LEFT/RIGHT`: Move to different window tile
 * `CTRL-A ... SHIFT-C`: Clear the selected window
 * `CTRL-A ... SHIFT-A`: Rename Window
+* `CTRL-A ... [`: Enter copy-paste mode (Press `RETURN` to exit)
+
 
