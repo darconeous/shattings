@@ -1,0 +1,17 @@
+#!/bin/sh
+
+MACADDR=$(echo "${1-$(xargs)}" | sed 's/[^a-fA-F0-9]//g')
+
+if [ ${#MACADDR} != 12 ] && [ ${#MACADDR} != 16 ]
+then echo "Bad address size" > /dev/stderr ; exit 1
+fi
+
+if [ ${MACADDR:6:4} == "FFFE" ]
+then MACADDR="${MACADDR:0:6}${MACADDR:10}"
+fi
+
+last_byte=0x${MACADDR:0:2}
+
+MACADDR=${MACADDR:2}`printf %02X $((last_byte&0xF8))`
+
+ham-addr-to-callsign "$MACADDR"

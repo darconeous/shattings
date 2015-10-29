@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CALLSIGN=${1-$(cat)}
+CALLSIGN=${1-$(xargs)}
 
 char_to_hamindex () {
 	case ${1} in
@@ -42,8 +42,9 @@ char_to_hamindex () {
 		8) echo "35" ;;
 		9) echo "36" ;;
 		
-		/) echo "37" ;;
-		_) echo "38" ;;
+		_) echo "37" ;;
+		/) echo "38" ;;
+		\\) echo "39" ;;
 
 		*) echo "0" ;;
 	esac

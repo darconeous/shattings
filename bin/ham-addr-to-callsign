@@ -1,0 +1,71 @@
+#!/bin/sh
+
+HAMADDR=$(echo "${1-$(cat)}" | sed 's/[^a-fA-F0-9]//g')
+
+hamindex_to_char () {
+	case ${1} in
+		0) echo " " ;;
+		
+		1) echo "A" ;;
+		2) echo "B" ;;
+		3) echo "C" ;;
+		4) echo "D" ;;
+		5) echo "E" ;;
+		6) echo "F" ;;
+		7) echo "G" ;;
+		8) echo "H" ;;
+		9) echo "I" ;;
+		10) echo "J" ;;
+		11) echo "K" ;;
+		12) echo "L" ;;
+		13) echo "M" ;;
+		14) echo "N" ;;
+		15) echo "O" ;;
+		16) echo "P" ;;
+		17) echo "Q" ;;
+		18) echo "R" ;;
+		19) echo "S" ;;
+		20) echo "T" ;;
+		21) echo "U" ;;
+		22) echo "V" ;;
+		23) echo "W" ;;
+		24) echo "X" ;;
+		25) echo "Y" ;;
+		26) echo "Z" ;;
+		
+		27) echo "0" ;;
+		28) echo "1" ;;
+		29) echo "2" ;;
+		30) echo "3" ;;
+		31) echo "4" ;;
+		32) echo "5" ;;
+		33) echo "6" ;;
+		34) echo "7" ;;
+		35) echo "8" ;;
+		36) echo "9" ;;
+		
+		37) echo "_" ;;
+		38) echo "/" ;;
+		
+		39) echo '\' ;;
+	esac
+}
+
+
+chunk_to_triplet () {
+	local i=$1
+	printf "$(hamindex_to_char $(( (i/1600)%40 )) )"
+	printf "$(hamindex_to_char $(( (i/40)%40 )) )"
+	printf "$(hamindex_to_char $(( i%40 )) )"
+}
+
+while [ ${#HAMADDR} != 0 ]
+do
+	chunk=0x${HAMADDR:0:4}
+	while [ ${#chunk} != 6 ] ; do chunk="${chunk}0" ; done
+	printf "$(chunk_to_triplet $chunk)"
+	HAMADDR="${HAMADDR:4}"
+done
+
+echo
+
