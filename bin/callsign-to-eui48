@@ -12,11 +12,11 @@
 # of latent or other defects, accuracy, or the present or absence of
 # errors, whether or not discoverable, all to the greatest extent
 # permissible under applicable law.
-#
+# 
 # To the extent possible under law, Robert Quattlebaum has waived all
 # copyright and related or neighboring rights to this work. This work
 # is published from the United States.
-#
+# 
 # I, Robert Quattlebaum, dedicate any and all copyright interest in
 # this work to the public domain. I make this dedication for the
 # benefit of the public at large and to the detriment of my heirs and
@@ -25,7 +25,7 @@
 # this code under copyright law. In jurisdictions where this is not
 # possible, I hereby release this code under the Creative Commons
 # Zero (CC0) license.
-#
+# 
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
@@ -41,26 +41,20 @@ HAMADDRLASTOCTAL=$((0x${HAMADDR:${#HAMADDR}-1:1} & 0x7))
 #	echo "$0:HAMADDRLASTOCTAL: ${HAMADDRLASTOCTAL}"
 #) 1>&2
 
-if [ ${HAMADDRLEN} -gt 15 ] && [ "${HAMADDRLEN}" -ne 16 -o "${HAMADDRLASTOCTAL}" -ne 0 ]
+if [ ${HAMADDRLEN} -gt 11 ] && [ "${HAMADDRLEN}" -ne 12 -o "${HAMADDRLASTOCTAL}" -ne 0 ]
 then
 	echo "$0: Callsign doesn't fit" 1>&2
 	exit 1
 fi
 
 # Zero-pad the ham address
-while [ ${#HAMADDR} -lt 16 ]
+while [ ${#HAMADDR} -lt 12 ]
 do HAMADDR="${HAMADDR}0"
 done
 
-if [ "${HAMADDRLEN}" -lt 12 ] || [ "${HAMADDRLEN}" -eq 12 -a "${HAMADDRLASTOCTAL}" -eq 0 ]
-then
-	first_byte=0x${HAMADDR:10:2}
-	MACADDR=`printf %02X%s $(((first_byte & 0xF8) + 0x02)) ${HAMADDR:0:10}`
-	MACADDR=${MACADDR:0:6}FFFE${MACADDR:6:12}
-else
-	first_byte=0x${HAMADDR:14:2}
-	MACADDR=`printf %02X%s $(((first_byte & 0xF8) + 0x02)) ${HAMADDR:0:14}`
-fi
+first_byte=0x${HAMADDR:10:2}
+MACADDR=`printf %02X%s $(((first_byte & 0xF8) + 0x02)) ${HAMADDR:0:10}`
+MACADDR=${MACADDR:0:6}${MACADDR:6:12}
 
 echo ${MACADDR} | sed 's/\([0-9a-fA-F]\{2\}\)\([0-9a-fA-F]\{2\}\)/\1:\2/g;s/\([0-9a-fA-F]\{2\}\)\([0-9a-fA-F]\{2\}\)/\1:\2/g'
 

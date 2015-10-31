@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # 2015-10-30
 #
@@ -29,12 +29,17 @@
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
-HAMADDR=$(echo "${1-$(cat)}" | sed 's/[^a-fA-F0-9]//g')
+CALLSIGN=${1-$(xargs)}
+
+CALLSIGN_ID=$(echo -n "${CALLSIGN}" | sed -E 's/-?[0-9]*$//')
+CALLSIGN_INDI=$(echo -n "${CALLSIGN_ID}" | sed -E 's/^[^/]*$// ; s:.*(/[^/]*)$:\1:;')
+CALLSIGN_ID=$(echo -n "${CALLSIGN_ID}" | sed -E 's:(.*)/.*$:\1:')
+CALLSIGN_TNUM=$((0$(echo -n "${CALLSIGN}" | sed -E 's/.*([^0-9]|-)([0-9]*)$/\2/')))
 
 hamindex_to_char () {
 	case ${1} in
 		0) echo " " ;;
-		
+
 		1) echo "A" ;;
 		2) echo "B" ;;
 		3) echo "C" ;;
@@ -61,7 +66,7 @@ hamindex_to_char () {
 		24) echo "X" ;;
 		25) echo "Y" ;;
 		26) echo "Z" ;;
-		
+
 		27) echo "0" ;;
 		28) echo "1" ;;
 		29) echo "2" ;;
@@ -72,29 +77,56 @@ hamindex_to_char () {
 		34) echo "7" ;;
 		35) echo "8" ;;
 		36) echo "9" ;;
-		
+
 		37) echo "_" ;;
 		38) echo "/" ;;
-		
+
 		39) echo '\' ;;
 	esac
 }
 
 
-chunk_to_triplet () {
-	local i=$1
-	printf "$(hamindex_to_char $(( (i/1600)%40 )) )"
-	printf "$(hamindex_to_char $(( (i/40)%40 )) )"
-	printf "$(hamindex_to_char $(( i%40 )) )"
+base40() {
+	local value=$(($1))
+	local ret=""
+
+	while [ $value -ne 0 ]
+	do
+		char=$(hamindex_to_char $((value%40)))
+		value=$((value/40))
+		ret="$char$ret"
+	done
+
+	echo -n "$ret"
 }
 
-while [ ${#HAMADDR} != 0 ]
-do
-	chunk=0x${HAMADDR:0:4}
-	while [ ${#chunk} != 6 ] ; do chunk="${chunk}0" ; done
-	printf "$(chunk_to_triplet $chunk)"
-	HAMADDR="${HAMADDR:4}"
-done
+#(
+#	echo "$0:CALLSIGN:      \"${CALLSIGN}\""
+#	echo "$0:CALLSIGN_ID:   \"${CALLSIGN_ID}\""
+#	echo "$0:CALLSIGN_INDI: \"${CALLSIGN_INDI}\""
+#	echo "$0:CALLSIGN_TNUM: \"${CALLSIGN_TNUM}\""
+#) 1>&2
 
-echo
+if [ ${#CALLSIGN_INDI} = 0 ] && [ "${CALLSIGN_TNUM}" -gt 0 ]
+then CALLSIGN_INDI='\N'
+fi
 
+CALLSIGN_INDI=$(echo -n "${CALLSIGN_INDI}" | sed -E '
+	s:^/M$:\\M:; s:^/MOBILE$:\\M:;
+	s:^/RPTR$:\\R:; s:^/REPEATER$:\\R:;
+	s:^/MM$:\\S:;
+	s:^/AM$:\\F:;
+	s:^/P$:\\P:; s:^/PORTABLE$:\\P:;
+')
+
+CALLSIGN_NEW="$(echo $(echo "${CALLSIGN_ID}${CALLSIGN_INDI}" | sed '
+	s/-/\\A/g;
+	s/\./\\B/g;
+	s/|/\\C/g;
+	s/:/\\D/g;
+')"$(base40 "${CALLSIGN_TNUM}")")"
+
+if [ ${#CALLSIGN_NEW} -lt ${#CALLSIGN} ]
+then echo "${CALLSIGN_NEW}"
+else echo "${CALLSIGN}"
+fi
