@@ -32,13 +32,19 @@
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
+
 function printlladdr() {
 	local prefix=$1
 	shift
+	(
 	if test $# -eq 8
 	then printf "%s:%02X%02X:%02X%02X:%02X%02X:%02X%02X\n" "$prefix" $((`printf "%d" 0x$1` ^ 2)) 0x$2 0x$3 0x$4 0x$5 0x$6 0x$7 0x$8
 	else printf "%s:%02X%02X:%02XFF:FE%02X:%02X%02X\n" "$prefix" $((`printf "%d" 0x$1` ^ 2)) 0x$2 0x$3 0x$4 0x$5 0x$6
 	fi
+	) | sed '
+		s/:0*\([^:]\)/:\1/g;
+		s/::\(0:\)*/::/g;
+	'
 }
 
 if test $# -eq 1
