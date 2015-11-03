@@ -29,7 +29,12 @@
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
-CALLSIGN=${1-$(xargs)}
+echon() {
+#	echo -n "$@"
+	printf %s "$*"
+}
+
+CALLSIGN="$(callsign-escape "${1-$(xargs)}")"
 
 char_to_hamindex () {
 	case ${1} in
@@ -87,12 +92,12 @@ triplet_to_chunk () {
 	printf '%04X' $((a*1600 + b*40 + c))
 }
 
-printf "$(triplet_to_chunk $CALLSIGN)"
+echon "$(triplet_to_chunk $CALLSIGN)"
 CALLSIGN="${CALLSIGN:3}"
 
 while [ ${#CALLSIGN} != 0 ]
 do
-	printf ":$(triplet_to_chunk $CALLSIGN)"
+	echon ":$(triplet_to_chunk $CALLSIGN)"
 	CALLSIGN="${CALLSIGN:3}"
 done
 
