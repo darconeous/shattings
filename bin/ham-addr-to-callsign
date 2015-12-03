@@ -33,7 +33,7 @@ HAMADDR=$(echo "${1-$(cat)}" | sed 's/[^a-fA-F0-9]//g')
 
 hamindex_to_char () {
 	case ${1} in
-		0) echo " " ;;
+		0) echo "?" ;;
 		
 		1) echo "A" ;;
 		2) echo "B" ;;
@@ -76,7 +76,7 @@ hamindex_to_char () {
 		37) echo "_" ;;
 		38) echo "/" ;;
 		
-		39) echo '\' ;;
+		39) echo '^' ;;
 	esac
 }
 

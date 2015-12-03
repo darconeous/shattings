@@ -79,6 +79,7 @@ char_to_hamindex () {
 		_) echo "37" ;;
 		/) echo "38" ;;
 		\\) echo "39" ;;
+		^) echo "39" ;;
 
 		*) echo "0" ;;
 	esac

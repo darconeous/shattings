@@ -45,16 +45,16 @@ CALLSIGN_TNUM=$(($(echon "${CALLSIGN}" | sed -E 's/.*([^0-9]|-)([0-9]*)$/\2/;s/^
 escape_characters() {
 	local value=${1-$(xargs)}
 	echon "$value" | sed '
-		s/-/\\A/g;
-		s/\./\\B/g;
-		s/|/\\C/g;
-		s/:/\\D/g;
+		s/-/^A/g;
+		s/\./^B/g;
+		s/|/^C/g;
+		s/:/^D/g;
 	'
 }
 
 hamindex_to_char () {
 	case ${1} in
-		0) echo " " ;;
+		0) echo "?" ;;
 
 		1) echo "A" ;;
 		2) echo "B" ;;
@@ -97,12 +97,12 @@ hamindex_to_char () {
 		37) echo "_" ;;
 		38) echo "/" ;;
 
-		39) echo '\' ;;
+		39) echo '^' ;;
 	esac
 }
 
 
-base40() {
+base40_le() {
 	local value=$(($1))
 	local ret=""
 
@@ -110,7 +110,7 @@ base40() {
 	do
 		char=$(hamindex_to_char $((value%40)))
 		value=$((value/40))
-		ret="$char$ret"
+		ret="$ret$char"
 	done
 
 	echon "$ret"
@@ -124,18 +124,18 @@ base40() {
 #) 1>&2
 
 if [ ${#CALLSIGN_INDI} = 0 ] && [ "${CALLSIGN_TNUM}" -gt 0 ]
-then CALLSIGN_INDI='\N'
+then CALLSIGN_INDI='^N'
 fi
 
-CALLSIGN_INDI="$(echon "${CALLSIGN_INDI}" | sed -E '
-	s:^/M$:\\M:; s:^/MOB(ILE)?$:\\M:;
-	s:^/RPTR$:\\R:; s:^/REPEATER$:\\R:;
-	s:^/MM$:\\S:;
-	s:^/AM$:\\F:;
-	s:^/P$:\\P:; s:^/PORT(ABLE)?$:\\P:;
-')"
+CALLSIGN_INDI=$(echon "${CALLSIGN_INDI}" | sed -E '
+	s:^/M$:^M:; s:^/MOBILE$:^M:;
+	s:^/RPTR$:^R:; s:^/REPEATER$:^R:;
+	s:^/MM$:^S:;
+	s:^/AM$:^F:;
+	s:^/P$:^P:; s:^/PORTABLE$:^P:;
+')
 
-CALLSIGN_NEW="$(escape_characters "${CALLSIGN_ID}${CALLSIGN_INDI}")$(base40 "${CALLSIGN_TNUM}")"
+CALLSIGN_NEW="$(escape_characters "${CALLSIGN_ID}${CALLSIGN_INDI}")$(base40_le "${CALLSIGN_TNUM}")"
 
 CALLSIGN="$(escape_characters "${CALLSIGN}")"
 
