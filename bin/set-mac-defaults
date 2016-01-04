@@ -63,6 +63,8 @@ defaults write com.apple.finder ShowHardDrivesOnDesktop -bool true
 defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
 defaults write com.apple.finder ShowMountedServersOnDesktop -bool true
 
+defaults write com.apple.DiskUtility DUDebugMenuEnabled 1
+
 defaults write -g _HIEnableThemeSwitchHotKey -bool true
 
 chflags nohidden ~/Library/
