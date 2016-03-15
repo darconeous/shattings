@@ -24,9 +24,9 @@ set history=100		" Number of history commands to remember
 set viminfo='50,\"200	" read/write a .viminfo file, remember filemarks for 50
 			" files and store 200 lines of registers
 
-if has("mouse")
-	set mouse=a
-endif
+"if has("mouse")
+"	set mouse=a
+"endif
 
 runtime! ftplugin/man.vim
 

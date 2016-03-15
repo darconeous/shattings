@@ -43,8 +43,25 @@ defaults write com.apple.AppleMultitouchTrackpad "HIDScrollZoomModifierMask" -in
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad "clicking" -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad "HIDScrollZoomModifierMask" -int 262144
 defaults write com.apple.systempreferences "ShowAllMode" -bool true
+
+defaults write com.apple.screensaver "askForPasswordDelay" -real 5
+
 defaults write -globalDomain "NSAutomaticDashSubstitutionEnabled" -bool false
 defaults write -globalDomain "NSAutomaticQuoteSubstitutionEnabled" -bool false
+
+defaults write -globalDomain "WebAutomaticSpellingCorrectionEnabled" -bool false
+
+# Darco Only
+defaults write -globalDomain "com.apple.mouse.tapBehavior" -integer 1
+defaults write -globalDomain "userMenuExtraStyle" -integer 2
+defaults write -globalDomain "AppleInterfaceStyle" -string Dark
+defaults write -globalDomain "AppleShowAllExtensions" -bool true
+defaults write com.apple.Safari "ShowFullURLInSmartSearchField" -bool true
+
+defaults write com.apple.finder FXDefaultSearchScope -string SCcf
+defaults write com.apple.finder FXEnableExtensionChangeWarning -string SCcf
+
+
 
 defaults write com.apple.Safari AlwaysShowTabBar -bool true
 defaults write com.apple.Safari IncludeDevelopMenu -bool true
