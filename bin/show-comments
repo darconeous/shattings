@@ -1,0 +1,15 @@
+#!/bin/sh
+
+SED=sed
+which gsed > /dev/null 2>&1 && SED=`which gsed`
+
+if [ "$1" = "" ]
+then
+	$SED -E -n '/\/\*.*\*\// {p; b;}; /\/\*/,/\*\//p; /\/\//p;' || exit 1
+else
+	path_to_src_dir="$1"
+	find "$path_to_src_dir" -type f | egrep '\.(c|cc|h|cpp|hpp|java)' | while read f
+	do echo "------------ $f ------------------";
+	$SED -E -n '/\/\*.*\*\// {p; b;}; /\/\*/,/\*\//p; /\/\//p;' "$f" || exit 1
+	done
+fi
