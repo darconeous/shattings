@@ -52,7 +52,7 @@ import inspect
 import sys
 from itertools import repeat, chain
 
-WRAP_AT_COLUMN = 70
+WRAP_AT_COLUMN = 75
 # XXX This is kind of dumb, really, since certain types of syntax
 # demand certain types of indents.  To parameterize this, we should
 # probably find all indent instances, change them to this variable,
@@ -600,7 +600,7 @@ class MarkdownTransformer (object):
             indentedBox = IndentedBox(firstLineIndent=number,
                                       indent=bulletIndent)
         else:
-            indentedBox = IndentedBox(firstLineIndent=" *  ",
+            indentedBox = IndentedBox(firstLineIndent="*   ",
                                       indent=bulletIndent)
         outerBox.addChild(indentedBox)
         innerBox = indentedBox.makeChild(CompositeBox)
