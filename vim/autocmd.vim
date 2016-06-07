@@ -76,6 +76,13 @@ augroup silabs
 	autocmd BufRead,BufNewFile        */silabs*/* set sts=2 sw=2 ts=8 et
 augroup END
 
+augroup yml
+	au!
+
+	" yml tends to use four-space, no-tab indentation.
+	autocmd BufRead,BufNewFile        *.yml set sts=4 sw=4 ts=4 et
+augroup END
+
 augroup openthread
 	au!
 

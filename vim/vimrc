@@ -17,7 +17,7 @@ set smartcase		" Except when a mix of case is given
 set exrc
 set secure
 
-set swapsync=sync	" the swap is synced with sync, not fsync
+"set swapsync=sync	" the swap is synced with sync, not fsync
 set updatecount=20	" Number of characters typed before doing an update
 set updatetime=500	" Number of milliseconds before doing an update
 set history=100		" Number of history commands to remember
