@@ -57,10 +57,19 @@ function parse_git_branch() {
 		# Older versions of GIT.
 		TOPLEVEL="$(git rev-parse --show-cdup 2>/dev/null)./"
 	}
+	
+	if [ -f "$TOPLEVEL"/.git ]
+	then    # git directory is a file.
+		TOPLEVEL=`cat "$TOPLEVEL"/.git | sed '/^gitdir: /!d;s/^gitdir: //;'`
+	else
+		TOPLEVEL="$TOPLEVEL/.git"
+	fi
+	
+	[ -f "$TOPLEVEL"/HEAD ] || return
 
 	BRANCH="$(sed -n '/ref: /!{a\
 <detached>
-};/ref: /{s/ref: //;s:^refs/heads/::;p;};' "$TOPLEVEL"/.git/HEAD)"
+};/ref: /{s/ref: //;s:^refs/heads/::;p;};' "$TOPLEVEL"/HEAD)"
 
 	if [ "$BRANCH" = '<detached>' ]
 	then
@@ -72,27 +81,27 @@ function parse_git_branch() {
 
 	[ "${PROMPT_TYPE}" != "simple" ] && {
 		STATUS=$(exec-for 1 git status --porcelain 2>/dev/null)
-		[ $? -eq 128 ] && return
+		[ "$?" -eq 128 ] && return
 		[ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')"    ] || DIRTY="*"
 		[ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="${DIRTY}?"
 		[ -z "$(echo "$STATUS" | grep -e '^[RMDA]')" ] || DIRTY="${DIRTY}+"
 		[ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
 	}
-		if [ -f "${TOPLEVEL}/.git/rebase-merge/interactive" ]
+		if [ -f "${TOPLEVEL}/rebase-merge/interactive" ]
 		then
-			BRANCH='['$(basename `cat "${TOPLEVEL}/.git/rebase-merge/head-name"`)']'
+			BRANCH='['$(basename `cat "${TOPLEVEL}/rebase-merge/head-name"`)']'
 			MODE="<rebase-i>"
-		elif [ -f "${TOPLEVEL}/.git/rebase-apply/rebasing" ]
+		elif [ -f "${TOPLEVEL}/rebase-apply/rebasing" ]
 		then MODE="<rebase>"
-		elif [ -f "${TOPLEVEL}/.git/rebase-apply/applying" ]
+		elif [ -f "${TOPLEVEL}/rebase-apply/applying" ]
 		then MODE="<am>"
-		elif [ -d "${TOPLEVEL}/.git/rebase-apply" ]
+		elif [ -d "${TOPLEVEL}/rebase-apply" ]
 		then MODE="<rebase?>"
-		elif [ -f "${TOPLEVEL}/.git/MERGE_HEAD" ]
+		elif [ -f "${TOPLEVEL}/MERGE_HEAD" ]
 		then MODE="<merge>"
-		elif [ -f "${TOPLEVEL}/.git/CHERRY_PICK_HEAD" ]
+		elif [ -f "${TOPLEVEL}/CHERRY_PICK_HEAD" ]
 		then MODE="<cherry-pick>"
-		elif [ -f "${TOPLEVEL}/.git/BISECT_LOG" ]
+		elif [ -f "${TOPLEVEL}/BISECT_LOG" ]
 		then MODE="<bisect>"
 		fi
 
