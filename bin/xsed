@@ -58,6 +58,7 @@ shift
 while test $# -gt "0"
 do
 	filename="$1"
+	echo $filename | grep '\.git/' && die "Refusing to operate inside of '.git'"
 	shift
 	sed "${SED_SCRIPT}" < "$filename" > "$TMPFILE" || continue
 	$COMPARE_FILES "$filename" "$TMPFILE" || ( cp "$TMPFILE" "$filename" || die "Unable to copy file" )
