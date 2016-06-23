@@ -52,7 +52,7 @@ import inspect
 import sys
 from itertools import repeat, chain
 
-WRAP_AT_COLUMN = 75
+WRAP_AT_COLUMN = 70
 # XXX This is kind of dumb, really, since certain types of syntax
 # demand certain types of indents.  To parameterize this, we should
 # probably find all indent instances, change them to this variable,
