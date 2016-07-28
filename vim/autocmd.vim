@@ -90,6 +90,13 @@ augroup openthread
 	autocmd BufRead,BufNewFile        */openthread/* set sts=4 sw=4 ts=4 et
 augroup END
 
+augroup marble
+	au!
+
+	" Nest Labs tends to use four-space, no-tab indentation.
+	autocmd BufRead,BufNewFile        */marble/* set sts=4 sw=4 ts=4 et
+augroup END
+
 augroup nestlabs
 	au!
 
