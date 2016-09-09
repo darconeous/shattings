@@ -1,0 +1,8 @@
+#!/bin/sh
+
+PREV_CHECKOUT=`git reflog | grep ": checkout: moving from " | head -n 1 | awk '{print $6;}'` || exit 1
+
+[ -z "${PREV_CHECKOUT}" ] && exit 1
+
+git checkout "${PREV_CHECKOUT}"
+
