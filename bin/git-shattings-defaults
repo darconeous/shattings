@@ -54,7 +54,7 @@ set -x
 }
 
 git config --global diff.sqlite3.textconv "sqlite3 /dev/stdin .dump <"
-git config --global core.autocrlf input
+#git config --global core.autocrlf input
 
 # Useful aliases
 git config --global alias.lol "log --graph --decorate --pretty=oneline --abbrev-commit"
