@@ -94,23 +94,20 @@ prepend_path()
 # END FINK SECTION
 # ------------------------------------------------------------------
 
-{
-	[ "$USER" = "rquattle" ] \
-	|| [ "$USER" = "darco" ] \
-	|| [ "$USER" = "rquattlebaum" ] \
-	|| [ "$USER" = "apple" ] \
-	|| [ "$USER" = "admin" ] \
-	&& {
-		[ x"$SHATTINGS_HISTORY" = x ] && SHATTINGS_HISTORY=1
-		[ x"$SHATTINGS_TABS" = x ] && SHATTINGS_TABS=1
-		[ x"$SHATTINGS_GNUPG_SSH" = x ] && [ `uname` = "Darwin" ] && SHATTINGS_GNUPG_SSH=1
-	}
-}
+UNAME=`uname`
+
+case "$USER" in
+	rquattle*|darco|apple|admin)
+		export SHATTINGS_HISTORY=${SHATTINGS_HISTORY-1}
+		export SHATTINGS_TABS=${SHATTINGS_TABS-1}
+		export SHATTINGS_GNUPG_SSH=${SHATTINGS_GNUPG_SSH-$([ ! $UNAME = "Darwin" ] ; echo $?)}
+		;;
+esac
 
 # No lang? Assume `en_us.UTF-8`.
 # Warning: This may break some scripts!
 # If you run into problems, set this to LANG=C
-[ x"$LANG" = x ] && LANG=en_US.UTF-8
+LANG=${LANG-en_US.UTF-8}
 
 isolate-history () {
 	export PROMPT_COMMAND=""
@@ -156,7 +153,7 @@ fi
 [ -f ~/Projects/SmartCardDev/GlobalPlatformPro/gp.jar ] && alias gp="java -jar ~/Projects/SmartCardDev/GlobalPlatformPro/gp.jar"
 [ -f ~/Projects/JCOP/GlobalPlatformPro/gp.jar ] && alias gp="java -jar ~/Projects/JCOP/GlobalPlatformPro/gp.jar"
 
-if [ `uname` = "Darwin" ]
+if [ $UNAME = "Darwin" ]
 then
 	# Grab any recently updated environment variables from launchd
 	#eval `launchctl export` 2> /dev/null
@@ -175,7 +172,7 @@ then
 
 	[ -x "/Applications/YubiKey PIV Manager.app/Contents/MacOS/yubico-piv-tool" ] && alias yubico-piv-tool="/Applications/YubiKey\ PIV\ Manager.app/Contents/MacOS/yubico-piv-tool"
 
-	which -s "tac" || alias tac="sed '1!G;h;"'$'"!d'"
+	alias tac="sed '1!G;h;"'$'"!d'"
 
 	[ -d /Developer ] && DEVELOPER_DIR=/Developer
 	which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select --print-path)"
