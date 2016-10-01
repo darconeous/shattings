@@ -98,8 +98,12 @@ UNAME=`uname`
 
 case "$USER" in
 	rquattle*|darco|apple|admin)
+		# Darco's defaults.
+		# If you want these, you should set them in your
+		# bashrc script before these lines are executed.
 		export SHATTINGS_HISTORY=${SHATTINGS_HISTORY-1}
 		export SHATTINGS_TABS=${SHATTINGS_TABS-1}
+		export SHATTINGS_EDITOR_VI=${SHATTINGS_EDITOR_VI-1}
 		export SHATTINGS_GNUPG_SSH=${SHATTINGS_GNUPG_SSH-$([ ! $UNAME = "Darwin" ] ; echo $?)}
 		;;
 esac
@@ -114,7 +118,7 @@ isolate-history () {
 	export HISTFILE=""
 }
 
-[ "$SHATTINGS_HISTORY" = 1 ] && {
+[[ "$SHATTINGS_HISTORY" == 1 ]] && {
 	shopt -s histappend
 	PROMPT_COMMAND='history -a && history -n'
 	export HISTCONTROL="ignoredups"
@@ -126,7 +130,7 @@ set mark-symlinked-directories On 2> /dev/null
 set completion-ignore-case On 2> /dev/null
 
 # Setup tabs
-[ "$SHATTINGS_TABS" = 1 ] && {
+[[ "$SHATTINGS_TABS" == 1 ]] && {
 	export TABWIDTH=4
 	export LS_COLWIDTHS=$TABWIDTH
 	tabs -$TABWIDTH > /dev/null 2>&1
@@ -135,9 +139,9 @@ set completion-ignore-case On 2> /dev/null
 }
 
 # If this isn't a remote SSH connection...
-if [ "$SSH_CONNECTION"x '=' x ] && [ "$SHATTINGS_GNUPG_SSH" = 1 ]
+if [[ "$SSH_CONNECTION" == "" && "$SHATTINGS_GNUPG_SSH" == 1 ]]
 then
-	if [ "$SSH_AUTH_SOCK"x '!=' x ]
+	if [[ "$SSH_AUTH_SOCK" == "" ]]
 	then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
 	fi
 
@@ -149,19 +153,26 @@ then
 	fi
 fi
 
-[ -f ~/Projects/GlobalPlatformPro/gp.jar ] && alias gp="java -jar ~/Projects/GlobalPlatformPro/gp.jar"
-[ -f ~/Projects/SmartCardDev/GlobalPlatformPro/gp.jar ] && alias gp="java -jar ~/Projects/SmartCardDev/GlobalPlatformPro/gp.jar"
-[ -f ~/Projects/JCOP/GlobalPlatformPro/gp.jar ] && alias gp="java -jar ~/Projects/JCOP/GlobalPlatformPro/gp.jar"
+# GlobalPlatform Utility shortcut
+if [ -f ~/Projects/GlobalPlatformPro/gp.jar ]
+then alias gp="java -jar ~/Projects/GlobalPlatformPro/gp.jar"
+elif [ -f ~/Projects/SmartCardDev/GlobalPlatformPro/gp.jar ]
+then alias gp="java -jar ~/Projects/SmartCardDev/GlobalPlatformPro/gp.jar"
+elif [ -f ~/Projects/JCOP/GlobalPlatformPro/gp.jar ]
+then alias gp="java -jar ~/Projects/JCOP/GlobalPlatformPro/gp.jar"
+fi
 
-if [ $UNAME = "Darwin" ]
+if [[ $UNAME == "Darwin" ]]
 then
-	# Grab any recently updated environment variables from launchd
-	#eval `launchctl export` 2> /dev/null
+	# OS X doesn't have a `tac` command. This line provides it.
+	alias tac="sed '1!G;h;"'$'"!d'"
 
+	# Airport utility shortcut
 	[ -x /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport ] && {
 		alias airport=/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport
 	}
 
+	# GPG Shortcut
 	[ -x /usr/local/MacGPG2/bin/gpg2 ] && {
 		append_path PATH /usr/local/MacGPG2/bin
 		append_path MANPATH /usr/local/MacGPG2/share/man
@@ -170,43 +181,44 @@ then
 		export GPG=/usr/local/MacGPG2/bin/gpg2
 	}
 
-	[ -x "/Applications/YubiKey PIV Manager.app/Contents/MacOS/yubico-piv-tool" ] && alias yubico-piv-tool="/Applications/YubiKey\ PIV\ Manager.app/Contents/MacOS/yubico-piv-tool"
+	[ -x "/Applications/YubiKey PIV Manager.app/Contents/MacOS/yubico-piv-tool" ] && {
+		alias yubico-piv-tool="/Applications/YubiKey\ PIV\ Manager.app/Contents/MacOS/yubico-piv-tool"
+	}
 
-	alias tac="sed '1!G;h;"'$'"!d'"
-
-	[ -d /Developer ] && DEVELOPER_DIR=/Developer
+	# Set up the default developer directory
 	which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select --print-path)"
 
-	which -s "xmpp" || { [ -x "/System/Library/PrivateFrameworks/VCXMPP.framework/Versions/A/Resources/xmpp" ] && alias xmpp="/System/Library/PrivateFrameworks/VCXMPP.framework/Versions/A/Resources/xmpp" ; }
-
-	[ x"$DEVELOPER_DIR" '!=' x ] && [ -d "$DEVELOPER_DIR" ] && {
+	# If we have Xcode installed, then set up a bunch more stuff.
+	[ -d "$DEVELOPER_DIR" ] && {
+		# Add the developer tools to the path
 		append_path PATH "$DEVELOPER_DIR"/usr/bin
 		append_path PATH "$DEVELOPER_DIR"/Tools
+
+		# Add general man pages
 		append_path MANPATH "$DEVELOPER_DIR"/usr/share/man
-		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/share/man
-		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Resources/Documentation/man
-		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/share/man
-		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Resources/Documentation/man
-		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/usr/share/man
-		append_path MANPATH "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/JavaVM.framework/Versions/A/Resources/Documentation/man
 		append_path MANPATH "$DEVELOPER_DIR"/usr/subversion-*/share/man
 		append_path MANPATH "$DEVELOPER_DIR"/Toolchains/XcodeDefault.xctoolchain/usr/share/man
 		append_path MANPATH "$DEVELOPER_DIR"/Platforms/iPhoneOS.platform/usr/local/share/man
-		append_path MANPATH "$DEVELOPER_DIR"/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk/usr/share/man
+		append_path MANPATH "$DEVELOPER_DIR"/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/share/man
+
+		# Add all OS X man pages
+		for X in "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.*.sdk
+		do append_path MANPATH $X/usr/share/man
+		done
+
+		# If we have a copy of xcode available, alias to "edit"
+		which -s xed && alias edit='xed'
+
+		if [ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ]
+		then alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
+		elif [ -x ~/Applications/GitX.app/Contents/Resources/gitx ]
+		then alias gitx=~/Applications/GitX.app/Contents/Resources/gitx
+		elif [ -x /Applications/GitX.app/Contents/Resources/gitx ]
+		then alias gitx=/Applications/GitX.app/Contents/Resources/gitx
+		fi
 	}
 
-	[ -z "$CC" ] && {
-		which -s cc || export CC=gcc
-	}
-
-	if [ -x ~/Applications/Development/GitX.app/Contents/Resources/gitx ]
-	then alias gitx=~/Applications/Development/GitX.app/Contents/Resources/gitx
-	elif [ -x ~/Applications/GitX.app/Contents/Resources/gitx ]
-	then alias gitx=~/Applications/GitX.app/Contents/Resources/gitx
-	elif [ -x /Applications/GitX.app/Contents/Resources/gitx ]
-	then alias gitx=/Applications/GitX.app/Contents/Resources/gitx
-	fi
-
+	# If we have OpenSCAD installed, then alias the openscad command.
 	if [ -x ~/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD ]
 	then
 		alias openscad=~/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
@@ -228,8 +240,7 @@ then
 		append_path PATH /Applications/Slic3r.app/Contents/MacOS
 	fi
 
-	which -s xed && alias edit='xed'
-
+	# Convenient command for merging PDF documents
 	alias join='"/System/Library/Automator/Combine PDF Pages.action/Contents/Resources/join.py"'
 
 	# make svn use opendiff
@@ -240,21 +251,38 @@ then
 	# <http://www.leancrew.com/all-this/2013/02/getting-rid-of-open-with-duplicates/>
 	alias fixopenwith='/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user'
 
+	### RETIRED DARWIN SETUP AFTER THIS POINT ###
+
+	# append_path C_INCLUDE_PATH /usr/local/include
+	# append_path CPLUS_INCLUDE_PATH /usr/local/include
+	# append_path LIBRARY_PATH /usr/local/lib
+
+	# export C_INCLUDE_PATH
+	# export CPLUS_INCLUDE_PATH
+	# export LIBRRAY_PATH
+
 	#prepend_path DYLD_FRAMEWORK_PATH /usr/local/lib
 	#export DYLD_FRAMEWORK_PATH
 
-	append_path C_INCLUDE_PATH /usr/local/include
-	append_path CPLUS_INCLUDE_PATH /usr/local/include
-	append_path LIBRARY_PATH /usr/local/lib
+	#[ -z "$CC" ] && {
+	#	which -s cc || export CC=gcc
+	#}
 
-	export C_INCLUDE_PATH
-	export CPLUS_INCLUDE_PATH
-	export LIBRRAY_PATH
+	# Grab any recently updated environment variables from launchd
+	#eval `launchctl export` 2> /dev/null
+
+	# Set up the developer directory
+	# which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select --print-path)"
+
+	# Set up alias for XMPP command
+	#[ -x "/System/Library/PrivateFrameworks/VCXMPP.framework/Versions/A/Resources/xmpp" ] && {
+	#	alias xmpp="/System/Library/PrivateFrameworks/VCXMPP.framework/Versions/A/Resources/xmpp" ;
+	#}
 
 fi
 
 # enable color support of ls and also add handy aliases
-if [ "$TERM" != "dumb" ]
+if [[ "$TERM" != "dumb" ]]
 then
 	# Have GNU 'ls' use colors.
 	ls --version > /dev/null 2>&1 && alias ls='ls --color=auto'
@@ -272,26 +300,30 @@ then
 fi
 
 # VIM-based 'less'
-[ -x /usr/share/vim/vim72/macros/less.sh ] && VLESS='/usr/share/vim/vim72/macros/less.sh'
-[ -x /usr/share/vim/vim73/macros/less.sh ] && VLESS='/usr/share/vim/vim73/macros/less.sh'
+VLESS=${VLESS-`fn() { echo $1; } ; fn /usr/share/vim/vim*/macros/less.sh`}
 
 [ -x "$VLESS" ] && {
-#	PAGER="$VLESS"
 	alias vless="$VLESS"
+
+	# Uncomment if you really want this to be your pager.
+	#PAGER="$VLESS"
 }
 
 # DOSism...
 alias "cd.."='cd ..'
 
+# We like VI.
 if ( which vim > /dev/null 2>&1 )
 then
-	EDITOR="vim"
+	[[ ${SHATTINGS_EDITOR_VI} == 1 ]] && EDITOR=${EDITOR-"vim"}
+
 	alias vi=vim
 elif ( which vi > /dev/null 2>&1 )
 then
-	EDITOR="vi"
+	[[ ${SHATTINGS_EDITOR_VI} == 1 ]] && EDITOR=${EDITOR-"vi"}
 fi
 
+# For DocBook stuff.
 [ -f /usr/local/etc/xml/catalog ] && export XML_CATALOG_FILES="/usr/local/etc/xml/catalog"
 
 prepend_path PATH /usr/local/sbin
@@ -308,12 +340,12 @@ append_path PATH /usr/bin
 append_path MANPATH /usr/share/man
 append_path PKG_CONFIG_PATH /usr/lib/pkgconfig
 
-append_path PATH /usr/X11R6/bin
-append_path MANPATH /usr/X11R6/man
-append_path PKG_CONFIG_PATH /usr/X11R6/lib/pkgconfig
-
-append_path PATH /usr/X11/bin
-append_path MANPATH /usr/X11/man
+for X in /usr/X11*
+do
+	append_path PATH /usr/${X}/bin
+	append_path MANPATH /usr/${X}/man
+	append_path PKG_CONFIG_PATH /usr/${X}/lib/pkgconfig
+done
 
 append_path PATH ~/.shattings/bin
 append_path MANPATH ~/.shattings/share/man
@@ -324,10 +356,13 @@ append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 
 prepend_path PYTHONPATH /usr/local/lib/python2.7/site-packages
 
-append_path PATH ~/homebrew/bin
-append_path PATH ~/homebrew/sbin
-append_path MANPATH ~/homebrew/share/man
-append_path PKG_CONFIG_PATH ~/homebrew/lib/pkgconfig
+if [ -d ~/homebrew ]
+then
+	append_path PATH ~/homebrew/bin
+	append_path PATH ~/homebrew/sbin
+	append_path MANPATH ~/homebrew/share/man
+	append_path PKG_CONFIG_PATH ~/homebrew/lib/pkgconfig
+fi
 
 export GIT_SSH=~/.shattings/bin/git-ssh.sh
 
