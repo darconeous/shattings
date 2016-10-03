@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Show previous branches
+
+git reflog | grep ": checkout: moving from " | awk '{print $6;}'
