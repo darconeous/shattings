@@ -37,7 +37,7 @@ endif
 if has("autocmd")
 	so ~/.shattings/vim/plist.vim
 	so ~/.shattings/vim/autocmd.vim
-	so ~/.shattings/vim/xtermpaste.vim
+	so ~/.shattings/vim/bracketed-paste.vim
 endif
 
 if has("syntax")
