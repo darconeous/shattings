@@ -4,13 +4,22 @@ if [ "$SSH_AUTH_SOCK"x '!=' x ]
 then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
 fi
 
+agent_is_running=0
+
 gpg --card-status 2>/dev/null >/dev/null && {
 
-if [ -f "${HOME}/.gpg-agent-info" ]; then
+if [ -f "${HOME}/.gpg-agent-info" ]
+then
 	. ~/.gpg-agent-info
-else [ -e ~/.gnupg/S.gpg-agent.ssh ]
+	agent_is_running=1
+	export GPG_AGENT_INFO
+	export SSH_AUTH_SOCK
+elif [ -e ~/.gnupg/S.gpg-agent.ssh ]
+then
 	SSH_AUTH_SOCK=~/.gnupg/S.gpg-agent.ssh
 	unset SSH_AGENT_PID
+	export SSH_AUTH_SOCK
+	agent_is_running=1
 fi
 
 export PS1_PREFIX="GPG|$PS1_PREFIX"
@@ -18,10 +27,21 @@ export PS1_PREFIX="GPG|$PS1_PREFIX"
 [ "x$PS1" = "x" ] || export PS1="${PS1_PREFIX}${PS1}"
 }
 
-if [ $# -gt 0 ]
+if [ $agent_is_running = 1 ]
 then
-	exec "$@"
+	echo agent is running
+	if [ $# -gt 0 ]
+	then
+		exec "$@"
+	else
+		exec $SHELL
+	fi
 else
-	exec $SHELL
+	if [ $# -gt 0 ]
+	then
+		gpg-agent --enable-ssh-support --daemon "$@"
+	else
+		gpg-agent --enable-ssh-support --daemon $SHELL
+	fi
 fi
 
