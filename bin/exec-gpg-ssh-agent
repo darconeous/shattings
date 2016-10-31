@@ -5,9 +5,6 @@ then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
 fi
 
 agent_is_running=0
-
-gpg --card-status 2>/dev/null >/dev/null && {
-
 if [ -f "${HOME}/.gpg-agent-info" ]
 then
 	. ~/.gpg-agent-info
@@ -25,11 +22,9 @@ fi
 export PS1_PREFIX="GPG|$PS1_PREFIX"
 
 [ "x$PS1" = "x" ] || export PS1="${PS1_PREFIX}${PS1}"
-}
 
-if [ $agent_is_running = 1 ]
+if [ $agent_is_running = 1 ] || ! gpg --card-status 2>/dev/null >/dev/null
 then
-	echo agent is running
 	if [ $# -gt 0 ]
 	then
 		exec "$@"
