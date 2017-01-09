@@ -141,7 +141,7 @@ set completion-ignore-case On 2> /dev/null
 # If this isn't a remote SSH connection...
 if [[ "$SSH_CONNECTION" == "" && "$SHATTINGS_GNUPG_SSH" == 1 ]]
 then
-	if [[ "$SSH_AUTH_SOCK" == "" ]]
+	if [[ "$SSH_AUTH_SOCK" != "" ]]
 	then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
 	fi
 
