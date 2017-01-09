@@ -44,12 +44,13 @@ die ()
 export LC_CTYPE=C
 export LANG=C
 
-( which -s diff ) && COMPARE_FILES="diff -q"
-( which -s cmp ) && COMPARE_FILES="cmp"
+( which diff > /dev/null ) && COMPARE_FILES="diff -q"
+( which cmp > /dev/null ) && COMPARE_FILES="cmp"
 
-TMPFILE="`mktemp -t $(basename $0)`"
+TMPFILE="`mktemp -t $(basename $0)XXXXXXXX`" || die "mktemp failed"
 
 test x"$COMPARE_FILES" = x && die "Can't find \"diff\" or \"cmp\""
+touch "$TMPFILE" || die "Can't use $TMPFILE"
 test $# -gt "1" || die "Syntax: $0 <sed-script> [file1] [file2] ..."
 
 SED_SCRIPT="$1"
