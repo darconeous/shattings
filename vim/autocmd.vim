@@ -49,6 +49,7 @@
 "  au BufReadPre *.py set formatoptions=croq sm sw=4 sts=4 cindent cinkeys='0{,0},!^F,o,O,e'
 "augroup END
 
+au BufNewFile,BufRead *.aidl set filetype=java
 
 augroup ruby
 	au!
@@ -102,6 +103,7 @@ augroup nestlabs
 
 	" Nest Labs tends to use four-space, no-tab indentation.
 	autocmd BufRead,BufNewFile        */nestlabs/* set sts=4 sw=4 ts=4 et
+	autocmd BufRead,BufNewFile        */nest/* set sts=4 sw=4 ts=4 et
 augroup END
 
 
