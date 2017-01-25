@@ -44,7 +44,7 @@ defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad "clicking" -bo
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad "HIDScrollZoomModifierMask" -int 262144
 defaults write com.apple.systempreferences "ShowAllMode" -bool true
 
-defaults write com.apple.screensaver "askForPasswordDelay" -real 5
+defaults write com.apple.screensaver "askForPasswordDelay" -float 5
 
 defaults write -globalDomain "NSAutomaticDashSubstitutionEnabled" -bool false
 defaults write -globalDomain "NSAutomaticQuoteSubstitutionEnabled" -bool false
@@ -97,10 +97,16 @@ then
 	defaults write com.apple.Terminal "Startup Window Settings" "darco"
 fi
 
+[ -L ~/Library/KeyBindings/DefaultKeyBinding.dict ] && {
+	echo 'Key bindings is set up as a symbolic link! Lots of modern apps wont work with this. Removing.'
+	rm ~/Library/KeyBindings/DefaultKeyBinding.dict
+}
+
 [ -f ~/Library/KeyBindings/DefaultKeyBinding.dict ] || {
 	echo Setting up key bindings...
 	mkdir -p ~/Library/KeyBindings
-	ln -s ~/.shattings/Library/KeyBindings/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict
+	ln ~/.shattings/Library/KeyBindings/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict ||
+	cp ~/.shattings/Library/KeyBindings/DefaultKeyBinding.dict ~/Library/KeyBindings/DefaultKeyBinding.dict
 }
 
 {
