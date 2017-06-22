@@ -14,8 +14,11 @@ set hlsearch		" Switch on syntax highlighting.
 set incsearch		" show matches on the fly
 set ignorecase		" for pattern machine
 set smartcase		" Except when a mix of case is given
-set exrc
+"set exrc
 set secure
+set wildmenu
+set backspace=indent,eol,start
+"set textwidth=80
 
 "set swapsync=sync	" the swap is synced with sync, not fsync
 set updatecount=20	" Number of characters typed before doing an update
@@ -24,9 +27,10 @@ set history=100		" Number of history commands to remember
 set viminfo='50,\"200	" read/write a .viminfo file, remember filemarks for 50
 			" files and store 200 lines of registers
 
-"if has("mouse")
+if has("mouse")
 "	set mouse=a
-"endif
+	set mousemodel=popup
+endif
 
 runtime! ftplugin/man.vim
 
