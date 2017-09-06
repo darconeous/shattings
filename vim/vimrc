@@ -21,8 +21,9 @@ set backspace=indent,eol,start
 "set textwidth=80
 
 "set swapsync=sync	" the swap is synced with sync, not fsync
-set updatecount=20	" Number of characters typed before doing an update
-set updatetime=500	" Number of milliseconds before doing an update
+set swapsync=""
+set updatecount=200	" Number of characters typed before doing an update
+set updatetime=5000	" Number of milliseconds before doing an update
 set history=100		" Number of history commands to remember
 set viminfo='50,\"200	" read/write a .viminfo file, remember filemarks for 50
 			" files and store 200 lines of registers
@@ -31,6 +32,8 @@ if has("mouse")
 "	set mouse=a
 	set mousemodel=popup
 endif
+
+let mapleader = "-"
 
 runtime! ftplugin/man.vim
 
@@ -148,6 +151,19 @@ function! s:CombineSelection(line1, line2, cp)
   execute a:line1.','.a:line2.'s/\%V[^[:cntrl:]]/&'.char.'/ge'
 endfunction
 
+set listchars=eol:⏎,tab:␉·,trail:␠,nbsp:⎵
+nmap <leader>l :set invlist<cr>
 
 set dictionary+=/usr/share/dict/words
-"set encoding=utf-8 fileencodings=
+"set encoding=utf-8 fileencodings
+
+" Append modeline after last line in buffer.
+" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
+" files.
+function! AppendModeline()
+  let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d %set :",
+        \ &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
+  let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
+  call append(line("$"), l:modeline)
+endfunction
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
