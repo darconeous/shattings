@@ -131,6 +131,12 @@ set   statusline=Vim-%{Version()}\ %{getcwd()}\ \ %1*[%02n]%*\ %(%M%R%H%)\ %2*%F
   hi    User3 cterm=NONE    ctermfg=blue   ctermbg=white  guifg=blue   guibg=white
 
 
+
+command! -nargs=0 Am cexpr system(". ${ANDROID_BUILD_TOP}/build/envsetup.sh && TERM=dumb m -w")
+command! -nargs=0 Ama cexpr system(". ${ANDROID_BUILD_TOP}/build/envsetup.sh && TERM=dumb ma -w")
+command! -nargs=0 Amm cexpr system(". ${ANDROID_BUILD_TOP}/build/envsetup.sh && TERM=dumb mm -w")
+command! -nargs=0 Amma cexpr system(". ${ANDROID_BUILD_TOP}/build/envsetup.sh && TERM=dumb mma -w")
+
 " http://vim.wikia.com/wiki/Create_underlines,_overlines,_and_strikethroughs_using_combining_characters
 " modify selected text using combining diacritics
 command! -range -nargs=0 Overline        call s:CombineSelection(<line1>, <line2>, '0305')

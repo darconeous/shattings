@@ -106,6 +106,18 @@ augroup nestlabs
 	autocmd BufRead,BufNewFile        */nest/* set sts=4 sw=4 ts=4 et
 augroup END
 
+augroup android
+	au!
+
+	autocmd BufRead,BufNewFile        */android/* set sts=4 sw=4 ts=4 et
+	autocmd BufRead,BufNewFile        */oc-iot-dev/* set sts=4 sw=4 ts=4 et
+
+	" Hardware interface C++ style uses two-character tabs.
+	autocmd BufRead,BufNewFile        */hardware/interfaces/*.cpp set sts=2 sw=2 ts=2 et
+	autocmd BufRead,BufNewFile        */hardware/interfaces/*.h set sts=2 sw=2 ts=2 et
+augroup END
+
+
 
 augroup makefiles
 	au!
