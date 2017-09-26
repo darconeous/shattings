@@ -76,8 +76,8 @@ char_to_hamindex () {
 		8) echo "35" ;;
 		9) echo "36" ;;
 		
-		_) echo "37" ;;
-		/) echo "38" ;;
+		/) echo "37" ;;
+		-) echo "38" ;;
 		\\) echo "39" ;;
 		^) echo "39" ;;
 

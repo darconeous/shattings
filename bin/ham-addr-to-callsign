@@ -29,7 +29,12 @@
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
-HAMADDR=$(echo "${1-$(cat)}" | sed 's/[^a-fA-F0-9]//g')
+echon() {
+#	echo -n "$@"
+	printf %s "$*"
+}
+
+HAMADDR=$(echon "${1-$(cat)}" | sed 's/[^a-fA-F0-9]//g')
 
 hamindex_to_char () {
 	case ${1} in
@@ -73,8 +78,8 @@ hamindex_to_char () {
 		35) echo "8" ;;
 		36) echo "9" ;;
 		
-		37) echo "_" ;;
-		38) echo "/" ;;
+		37) echo "/" ;;
+		38) echo "-" ;;
 		
 		39) echo '^' ;;
 	esac
@@ -83,18 +88,20 @@ hamindex_to_char () {
 
 chunk_to_triplet () {
 	local i=$1
-	printf "$(hamindex_to_char $(( (i/1600)%40 )) )"
-	printf "$(hamindex_to_char $(( (i/40)%40 )) )"
-	printf "$(hamindex_to_char $(( i%40 )) )"
+	echon "$(hamindex_to_char $(( (i/1600)%40 )) )"
+	echon "$(hamindex_to_char $(( (i/40)%40 )) )"
+	echon "$(hamindex_to_char $(( i%40 )) )"
 }
+
+HAMADDRSTR=
 
 while [ ${#HAMADDR} != 0 ]
 do
 	chunk=0x${HAMADDR:0:4}
 	while [ ${#chunk} != 6 ] ; do chunk="${chunk}0" ; done
-	printf "$(chunk_to_triplet $chunk)"
+	HAMADDRSTR="${HAMADDRSTR}$(chunk_to_triplet $chunk)"
 	HAMADDR="${HAMADDR:4}"
 done
 
-echo
+echo $HAMADDRSTR | sed 's/?*$//'
 
