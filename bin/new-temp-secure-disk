@@ -1,0 +1,65 @@
+#!/bin/sh
+#
+# new-temp-secure-disk
+# ====================
+#
+# This script creates a new temporary encrypted disk image
+# with a completely random password and mounts it. The password
+# is not saved in any way. Once the disk is unmounted, all
+# information stored on it is effectively lost.
+#
+# This makes it useful for performing operations which create
+# files that need to kept secure.
+#
+# This script only works on macOS.
+#
+# 2017-10-28
+#
+# This file was written by Robert Quattlebaum <darco@deepdarc.com>.
+#
+# This work is provided as-is. Unless otherwise provided in writing,
+# Robert Quattlebaum makes no representations or warranties of any
+# kind concerning this work, express, implied, statutory or otherwise,
+# including without limitation warranties of title, merchantability,
+# fitness for a particular purpose, non infringement, or the absence
+# of latent or other defects, accuracy, or the present or absence of
+# errors, whether or not discoverable, all to the greatest extent
+# permissible under applicable law.
+# 
+# To the extent possible under law, Robert Quattlebaum has waived all
+# copyright and related or neighboring rights to this work. This work
+# is published from the United States.
+# 
+# I, Robert Quattlebaum, dedicate any and all copyright interest in
+# this work to the public domain. I make this dedication for the
+# benefit of the public at large and to the detriment of my heirs and
+# successors. I intend this dedication to be an overt act of
+# relinquishment in perpetuity of all present and future rights to
+# this code under copyright law. In jurisdictions where this is not
+# possible, I hereby release this code under the Creative Commons
+# Zero (CC0) license.
+# 
+#  * <http://creativecommons.org/publicdomain/zero/1.0/>
+#
+
+
+TEMP_DISK_IMAGE=`mktemp -u`.dmg
+TEMP_DISK_PATH="/Volumes/`basename ${TEMP_DISK_IMAGE}`"
+
+dd if=/dev/random bs=42 count=1 2>/dev/null \
+    | openssl base64 \
+    | hdiutil create \
+        -size 5m \
+        -attach \
+		-volname `basename ${TEMP_DISK_PATH}` \
+        -fs "Case-sensitive Journaled HFS+" \
+        -encryption AES-256 \
+        -stdinpass \
+        "${TEMP_DISK_IMAGE}" \
+	> /dev/stderr
+	|| exit 1
+
+# Unlink the file.
+rm ${TEMP_DISK_IMAGE}
+
+echo $TEMP_DISK_PATH
