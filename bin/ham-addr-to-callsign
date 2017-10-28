@@ -88,9 +88,14 @@ hamindex_to_char () {
 
 chunk_to_triplet () {
 	local i=$1
-	echon "$(hamindex_to_char $(( (i/1600)%40 )) )"
-	echon "$(hamindex_to_char $(( (i/40)%40 )) )"
-	echon "$(hamindex_to_char $(( i%40 )) )"
+	if (( i > 0xF9FF ))
+	then
+		printf "[%04X]" $i
+	else
+		echon "$(hamindex_to_char $(( (i/1600)%40 )) )"
+		echon "$(hamindex_to_char $(( (i/40)%40 )) )"
+		echon "$(hamindex_to_char $(( i%40 )) )"
+	fi
 }
 
 HAMADDRSTR=

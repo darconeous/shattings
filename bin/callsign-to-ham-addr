@@ -34,7 +34,13 @@ echon() {
 	printf %s "$*"
 }
 
-CALLSIGN="$(callsign-escape "${1-$(xargs)}")"
+SCRIPT_PATH="`dirname $0`"
+
+CALLSIGN="${1-$(xargs)}"
+
+if [ -x "${SCRIPT_PATH}/callsign-escape" ]
+then CALLSIGN="$(${SCRIPT_PATH}/callsign-escape "${CALLSIGN}")"
+fi
 
 char_to_hamindex () {
 	case ${1} in

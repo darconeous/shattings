@@ -34,109 +34,47 @@ echon() {
 	printf %s "$*"
 }
 
+# Get the callsign, either from the first argument or stdin
 CALLSIGN=${1-$(xargs)}
-CALLSIGN=$(echon "$CALLSIGN" | sed 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/')
 
-CALLSIGN_ID=$(echon "${CALLSIGN}" | sed -E 's/-?[0-9]*$//')
-CALLSIGN_INDI=$(echon "${CALLSIGN_ID}" | sed -E 's/^[^/]*$// ; s:.*(/[^/]*)$:\1:;')
-CALLSIGN_ID=$(echon "${CALLSIGN_ID}" | sed -E 's:(.*)/.*$:\1:')
-CALLSIGN_TNUM=$(($(echon "${CALLSIGN}" | sed -E 's/.*([^0-9]|-)([0-9]*)$/\2/;s/^$/0/;')))
+# Capitalize
+CALLSIGN=$(echon "$CALLSIGN" | sed 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/')
+CALLSIGN_INDI=$(echon "${CALLSIGN}" | sed -E '/.*(\/[^-\/]+)(-?).*/!d;s:.*(/[^-/]+)(-?).*:\1\2:;')
+CALLSIGN_ID=$(echon "${CALLSIGN}" | sed -E 's:(.*)-.*$:\1:;s:(.*)/.*$:\1:;')
+CALLSIGN_TNUM=$(echon "${CALLSIGN}" | sed -E '/^.*-/!d;s/^.*-//;s/^0*//;')
 
 escape_characters() {
 	local value=${1-$(xargs)}
 	echon "$value" | sed '
-		s/-/^A/g;
-		s/\./^B/g;
-		s/|/^C/g;
-		s/:/^D/g;
+		s/_/^-/g;
+		s/:/^\//g;
+		s/\./^D/g;
+		s/|/^V/g;
 	'
 }
 
-hamindex_to_char () {
-	case ${1} in
-		0) echo "?" ;;
-
-		1) echo "A" ;;
-		2) echo "B" ;;
-		3) echo "C" ;;
-		4) echo "D" ;;
-		5) echo "E" ;;
-		6) echo "F" ;;
-		7) echo "G" ;;
-		8) echo "H" ;;
-		9) echo "I" ;;
-		10) echo "J" ;;
-		11) echo "K" ;;
-		12) echo "L" ;;
-		13) echo "M" ;;
-		14) echo "N" ;;
-		15) echo "O" ;;
-		16) echo "P" ;;
-		17) echo "Q" ;;
-		18) echo "R" ;;
-		19) echo "S" ;;
-		20) echo "T" ;;
-		21) echo "U" ;;
-		22) echo "V" ;;
-		23) echo "W" ;;
-		24) echo "X" ;;
-		25) echo "Y" ;;
-		26) echo "Z" ;;
-
-		27) echo "0" ;;
-		28) echo "1" ;;
-		29) echo "2" ;;
-		30) echo "3" ;;
-		31) echo "4" ;;
-		32) echo "5" ;;
-		33) echo "6" ;;
-		34) echo "7" ;;
-		35) echo "8" ;;
-		36) echo "9" ;;
-
-		37) echo "_" ;;
-		38) echo "/" ;;
-
-		39) echo '^' ;;
-	esac
+debug_print() {
+	(
+		echo "$0:CALLSIGN:      \"${CALLSIGN}\""
+		echo "$0:CALLSIGN_INDI: \"${CALLSIGN_INDI}\""
+		echo "$0:CALLSIGN_ID:   \"${CALLSIGN_ID}\""
+		echo "$0:CALLSIGN_TNUM: \"${CALLSIGN_TNUM}\""
+	) 1>&2
 }
 
+#debug_print
 
-base40_le() {
-	local value=$(($1))
-	local ret=""
-
-	while [ $value -ne 0 ]
-	do
-		char=$(hamindex_to_char $((value%40)))
-		value=$((value/40))
-		ret="$ret$char"
-	done
-
-	echon "$ret"
-}
-
-#(
-#	echo "$0:CALLSIGN:      \"${CALLSIGN}\""
-#	echo "$0:CALLSIGN_ID:   \"${CALLSIGN_ID}\""
-#	echo "$0:CALLSIGN_INDI: \"${CALLSIGN_INDI}\""
-#	echo "$0:CALLSIGN_TNUM: \"${CALLSIGN_TNUM}\""
-#) 1>&2
-
-if [ ${#CALLSIGN_INDI} = 0 ] && [ "${CALLSIGN_TNUM}" -gt 0 ]
-then CALLSIGN_INDI='^N'
-fi
-
+# Escape the indicator
 CALLSIGN_INDI=$(echon "${CALLSIGN_INDI}" | sed -E '
-	s:^/M$:^M:; s:^/MOBILE$:^M:;
-	s:^/RPTR$:^R:; s:^/REPEATER$:^R:;
-	s:^/MM$:^S:;
-	s:^/AM$:^F:;
-	s:^/P$:^P:; s:^/PORTABLE$:^P:;
+	s:^/(MOBI|MOBILE|CAR)?-?$:^M:;
+	s:^/(RPTR|REPEATER)-?$:^R:;
+	s:^/(MM|MARI)-?$:^S:
+	s:^/(AIRM)-?$:^A:;
+	s:^/(CTST)-?$:^C:;
+	s:^/(P|PORT|PORTABLE)-?$:^P:;
 ')
 
-CALLSIGN_NEW="$(escape_characters "${CALLSIGN_ID}${CALLSIGN_INDI}")$(base40_le "${CALLSIGN_TNUM}")"
-
+CALLSIGN_NEW="$(escape_characters "${CALLSIGN_ID}${CALLSIGN_INDI}${CALLSIGN_TNUM}")"
 CALLSIGN="$(escape_characters "${CALLSIGN}")"
 
 if [ ${#CALLSIGN_NEW} -lt ${#CALLSIGN} ]

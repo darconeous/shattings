@@ -29,8 +29,9 @@
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
+SCRIPT_PATH="`dirname $0`"
 CALLSIGN=${1-$(xargs)}
-HAMADDR=$(callsign-to-ham-addr $CALLSIGN | sed 's/[^a-fA-F0-9]//g;s/0*$//;')
+HAMADDR=$("${SCRIPT_PATH}/callsign-to-ham-addr" $CALLSIGN | sed 's/[^a-fA-F0-9]//g;s/0*$//;')
 HAMADDRLEN=${#HAMADDR}
 HAMADDRLASTOCTAL=$((0x${HAMADDR:${#HAMADDR}-1:1} & 0x7))
 

@@ -29,6 +29,8 @@
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
+SCRIPT_PATH="`dirname $0`"
+
 MACADDR=$(echo "${1-$(xargs)}" | sed 's/[^a-fA-F0-9]//g')
 
 if [ ${#MACADDR} != 12 ] && [ ${#MACADDR} != 16 ]
@@ -43,4 +45,4 @@ last_byte=0x${MACADDR:0:2}
 
 MACADDR=${MACADDR:2}`printf %02X $((last_byte&0xF8))`
 
-ham-addr-to-callsign "$MACADDR"
+"${SCRIPT_PATH}/ham-addr-to-callsign" "$MACADDR"
