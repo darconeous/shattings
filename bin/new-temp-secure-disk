@@ -56,7 +56,7 @@ dd if=/dev/random bs=42 count=1 2>/dev/null \
         -encryption AES-256 \
         -stdinpass \
         "${TEMP_DISK_IMAGE}" \
-	> /dev/stderr
+	> /dev/stderr \
 	|| exit 1
 
 # Unlink the file.
