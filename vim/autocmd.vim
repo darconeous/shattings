@@ -111,10 +111,13 @@ augroup android
 
 	autocmd BufRead,BufNewFile        */android/* set sts=4 sw=4 ts=4 et
 	autocmd BufRead,BufNewFile        */oc-iot-dev/* set sts=4 sw=4 ts=4 et
+	autocmd BufRead,BufNewFile        */oc-mr1-iot-dev/* set sts=4 sw=4 ts=4 et
 
-	" Hardware interface C++ style uses two-character tabs.
+	" Use two-character tabs for these paths
 	autocmd BufRead,BufNewFile        */hardware/interfaces/*.cpp set sts=2 sw=2 ts=2 et
 	autocmd BufRead,BufNewFile        */hardware/interfaces/*.h set sts=2 sw=2 ts=2 et
+	autocmd BufRead,BufNewFile        */system/peripheralmanager/*.cpp set sts=2 sw=2 ts=2 et
+	autocmd BufRead,BufNewFile        */system/peripheralmanager/*.h set sts=2 sw=2 ts=2 et
 augroup END
 
 
