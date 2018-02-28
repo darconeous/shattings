@@ -120,7 +120,11 @@ augroup android
 	autocmd BufRead,BufNewFile        */system/peripheralmanager/*.h set sts=2 sw=2 ts=2 et
 augroup END
 
+augroup wpantund
+	au!
 
+	autocmd BufRead,BufNewFile        */wpantund/* set sts=4 sw=4 ts=4 noet
+augroup END
 
 augroup makefiles
 	au!
