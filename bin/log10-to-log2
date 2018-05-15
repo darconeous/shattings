@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "scale=5 ; $1/(l(2)/l(10))" | bc -l
+
