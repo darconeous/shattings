@@ -126,6 +126,12 @@ augroup wpantund
 	autocmd BufRead,BufNewFile        */wpantund/* set sts=4 sw=4 ts=4 noet
 augroup END
 
+augroup libfreefare
+   au!
+
+   autocmd BufRead,BufNewFile        */libfreefare/* set sw=4 ts=8 noet cinoptions=t0(0:0
+augroup END
+
 augroup makefiles
 	au!
 
