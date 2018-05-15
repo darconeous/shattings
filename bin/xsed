@@ -37,7 +37,7 @@
 die ()
 {
 	test $# = "1" && echo ERROR: $1
-	rm -f $TMPFILE
+	rm -f $TMPFILE $TMPFILE2
 	exit -1
 }
 
@@ -48,9 +48,11 @@ export LANG=C
 ( which cmp > /dev/null ) && COMPARE_FILES="cmp"
 
 TMPFILE="`mktemp -t $(basename $0)XXXXXXXX`" || die "mktemp failed"
+TMPFILE2="`mktemp -t $(basename $0)XXXXXXXX`" || die "mktemp failed"
 
 test x"$COMPARE_FILES" = x && die "Can't find \"diff\" or \"cmp\""
 touch "$TMPFILE" || die "Can't use $TMPFILE"
+touch "$TMPFILE2" || die "Can't use $TMPFILE2"
 test $# -gt "1" || die "Syntax: $0 <sed-script> [file1] [file2] ..."
 
 SED_SCRIPT="$1"
@@ -61,7 +63,8 @@ do
 	filename="$1"
 	echo $filename | grep '\.git/' && die "Refusing to operate inside of '.git'"
 	shift
-	sed "${SED_SCRIPT}" < "$filename" > "$TMPFILE" || continue
-	$COMPARE_FILES "$filename" "$TMPFILE" || ( cp "$TMPFILE" "$filename" || die "Unable to copy file" )
+	sed -E "${SED_SCRIPT}" < "$filename" > "$TMPFILE" || continue
+	sed -E "s/Z/Z/;" < "$filename" > "$TMPFILE2" || continue
+	$COMPARE_FILES "$TMPFILE2" "$TMPFILE" 1>/dev/null 2>/dev/null || ( echo "$filename changed" ; cp "$TMPFILE" "$filename" || die "Unable to copy file" )
 done
-rm -f $TMPFILE
+rm -f $TMPFILE $TMPFILE2
