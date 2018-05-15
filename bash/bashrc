@@ -123,6 +123,7 @@ isolate-history () {
 	PROMPT_COMMAND='history -a && history -n'
 	export HISTCONTROL="ignoredups"
 	export HISTFILESIZE=500000
+	unset HISTTIMEFORMAT
 }
 
 set mark-directories On 2> /dev/null
