@@ -1,0 +1,29 @@
+UseRoaming no
+VisualHostKey yes
+
+Host *
+	Protocol 2
+	ControlMaster auto
+	ControlPath ~/.ssh/master-%r@%h:%p
+	ControlPersist yes
+	ForwardAgent no
+	ForwardX11 no
+	TCPKeepAlive yes
+	RhostsRSAAuthentication no
+	HostbasedAuthentication no
+	CheckHostIP yes
+	StrictHostKeyChecking ask
+	Ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com,aes128-cbc,aes192-cbc,aes256-cbc
+	PubkeyAuthentication yes
+	PasswordAuthentication yes
+
+Match localuser
+	PubkeyAuthentication yes
+	PasswordAuthentication no
+	ChallengeResponseAuthentication no
+
+Match user git
+	PubkeyAuthentication yes
+	PasswordAuthentication no
+	ChallengeResponseAuthentication no
+
