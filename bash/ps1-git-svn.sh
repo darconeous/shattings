@@ -73,7 +73,7 @@ function parse_git_branch() {
 
 	if [ "$BRANCH" = '<detached>' ]
 	then
-		branch="<$(exec-for 1 git describe --always)>" && BRANCH="$branch"
+		branch="<$(exec-for 1 git describe --always 2>/dev/null)>" && BRANCH="$branch"
 	fi
 
 	#Too slow!
@@ -85,7 +85,7 @@ function parse_git_branch() {
 		[ -z "$(echo "$STATUS" | grep -e '^ [RDMA]')"    ] || DIRTY="*"
 		[ -z "$(echo "$STATUS" | grep -e '^?? ')"    ] || DIRTY="${DIRTY}?"
 		[ -z "$(echo "$STATUS" | grep -e '^[RMDA]')" ] || DIRTY="${DIRTY}+"
-		[ -z "$(git stash list)" ]                    || DIRTY="${DIRTY}^"
+		[ -z "$(git stash list 2>/dev/null)" ]                    || DIRTY="${DIRTY}^"
 	}
 		if [ -f "${TOPLEVEL}/rebase-merge/interactive" ]
 		then
