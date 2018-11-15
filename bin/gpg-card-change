@@ -1,0 +1,27 @@
+#!/bin/sh
+
+[ $# '<' 1 ] && {
+	echo "Insufficient arguments." > /dev/stderr
+	echo "Syntax:" > /dev/stderr
+	echo "	$0 [IDENTIFIER]" > /dev/stderr
+	exit -1
+}
+
+IDENTIFIER=$1
+
+GPG=/usr/local/MacGPG2/bin/gpg2
+GPGCONF=/usr/local/MacGPG2/bin/gpgconf
+GPGHOMEDIR=`$GPGCONF --list-dirs homedir`
+
+killall -9 gpg-agent 2> /dev/null
+
+for keystub in `$GPG --with-keygrip --list-secret-keys ${IDENTIFIER} | grep Keygrip | awk '{print $3}'`
+do rm -f "${GPGHOMEDIR}/private-keys-v1.d/$keystub.key"
+done
+
+$GPG --card-status
+
+eval `$GPGCONF --launch gpg-agent`
+
+exit 0
+
