@@ -54,6 +54,7 @@ endif
 "set clipboard=unnamed
 
 so ~/.shattings/vim/clipboard.vim
+so ~/.shattings/vim/fuchsia.vim
 
 " For debugging
 "set verbose=9
