@@ -1,0 +1,78 @@
+boolean isResolvable(Configuration conf) {
+  // isCanBeResolved was added in Gradle 3.3. Previously, all configurations were resolvable
+  if (Configuration.class.declaredMethods.any { it.name == 'isCanBeResolved' }) {
+    return conf.canBeResolved
+  }
+  return true
+}
+
+task classpath {
+  doLast {
+    HashSet<String> classpathFiles = new HashSet<String>()
+    for (proj in allprojects) {
+      def exploded = proj.getBuildDir().absolutePath + File.separator + "intermediates" + File.separator + "exploded-aar"
+      def listFiles = new File(exploded)
+      if (listFiles.exists()) {
+        listFiles.eachFileRecurse(){ file ->
+          if (file.name.endsWith(".jar")) {
+            classpathFiles += file
+          }
+        }
+      }
+
+      def rjava = proj.getBuildDir().absolutePath + File.separator + "intermediates" + File.separator + "classes" + File.separator + "debug"
+      def rFiles = new File(rjava)
+      if (rFiles.exists()) {
+        classpathFiles += rFiles
+      }
+
+      for (conf in proj.configurations) {
+        if (isResolvable(conf)) {
+          for (dependency in conf) {
+              if (dependency.name.endsWith("aar")) {
+              } else {
+                classpathFiles += dependency
+              }
+          }
+        }
+      }
+
+      if (proj.hasProperty("android")) {
+        classpathFiles += proj.android.getBootClasspath()
+        if (proj.android.hasProperty("applicationVariants")) {
+          proj.android.applicationVariants.all { v ->
+            classpathFiles += v.getApkLibraries()
+            classpathFiles += v.getCompileLibraries()
+            for (srcSet in v.getSourceSets()) {
+              for (dir in srcSet.java.srcDirs) {
+                  classpathFiles += dir.absolutePath
+              }
+            }
+          }
+        }
+
+        if (proj.android.hasProperty("libraryVariants")) {
+          proj.android.libraryVariants.all { v ->
+            classpathFiles += v.javaCompile.classpath.files
+            for (srcSet in v.getSourceSets()) {
+              for (dir in srcSet.java.srcDirs) {
+                  classpathFiles += dir.absolutePath
+              }
+            }
+          }
+        }
+      }
+
+      if (proj.hasProperty("sourceSets")) {
+        for (srcSet in proj.sourceSets) {
+            for (dir in srcSet.java.srcDirs) {
+                classpathFiles += dir.absolutePath
+            }
+        }
+      }
+    }
+    def paths = classpathFiles.join(File.pathSeparator)
+    println "CLASSPATH:" + paths
+    println "END CLASSPATH GENERATION"
+  }
+}

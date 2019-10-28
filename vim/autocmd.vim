@@ -51,6 +51,8 @@
 
 au BufNewFile,BufRead *.aidl set filetype=java
 
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+
 augroup ruby
 	au!
 	" Most ruby projects seem to use two-space, no-tab indentation
