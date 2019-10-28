@@ -113,7 +113,7 @@ esac
 # If you run into problems, set this to LANG=C
 LANG=${LANG-en_US.UTF-8}
 
-isolate-history () {
+isolate_history () {
 	export PROMPT_COMMAND=""
 	export HISTFILE=""
 }
