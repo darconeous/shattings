@@ -184,9 +184,11 @@ then
 		export GPG=/usr/local/MacGPG2/bin/gpg2
 	}
 
-	[ -x "/Applications/YubiKey PIV Manager.app/Contents/MacOS/yubico-piv-tool" ] && {
+	if ! which -s yubico-piv-tool
+	then [ -x "/Applications/YubiKey PIV Manager.app/Contents/MacOS/yubico-piv-tool" ] && {
 		alias yubico-piv-tool="/Applications/YubiKey\ PIV\ Manager.app/Contents/MacOS/yubico-piv-tool"
 	}
+	fi
 
 	# Set up the default developer directory
 	which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select --print-path)"
