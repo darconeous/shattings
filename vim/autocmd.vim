@@ -65,6 +65,12 @@ augroup adruino
 	autocmd BufRead        *.ino set sts=2 sw=2 ts=8 et cindent
 augroup END
 
+augroup gn
+	au!
+	" Most ruby projects seem to use two-space, no-tab indentation
+	autocmd BufRead        *.gn set sts=2 sw=2 ts=8 et cindent
+augroup END
+
 augroup contiki
 	au!
 
