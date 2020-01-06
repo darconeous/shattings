@@ -190,6 +190,12 @@ then
 	}
 	fi
 
+	if ! which -s ykman
+	then [ -x "/Applications/YubiKey Manager.app/Contents/MacOS/ykman" ] && {
+		alias ykman="/Applications/YubiKey\ Manager.app/Contents/MacOS/ykman"
+	}
+	fi
+
 	# Set up the default developer directory
 	which -s "xcode-select" && DEVELOPER_DIR="$(xcode-select --print-path)"
 
