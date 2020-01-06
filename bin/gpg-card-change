@@ -3,25 +3,29 @@
 [ $# '<' 1 ] && {
 	echo "Insufficient arguments." > /dev/stderr
 	echo "Syntax:" > /dev/stderr
-	echo "	$0 [IDENTIFIER]" > /dev/stderr
+	echo "	$0 [USER/KEY-ID]" > /dev/stderr
 	exit -1
 }
 
-IDENTIFIER=$1
+KEYID=$1
 
-GPG=/usr/local/MacGPG2/bin/gpg2
-GPGCONF=/usr/local/MacGPG2/bin/gpgconf
-GPGHOMEDIR=`$GPGCONF --list-dirs homedir`
+GPG=${GPG-gpg}
 
-killall -9 gpg-agent 2> /dev/null
+GPGCONF=${GPGCONF-gpgconf}
 
-for keystub in `$GPG --with-keygrip --list-secret-keys ${IDENTIFIER} | grep Keygrip | awk '{print $3}'`
-do rm -f "${GPGHOMEDIR}/private-keys-v1.d/$keystub.key"
+GNUPGHOME=${GNUPGHOME-`$GPGCONF --list-dirs homedir`}
+
+GPGCONNECTAGENT=${GPGCONNECTAGENT-gpg-connect-agent}
+
+KEYGRIP_AWK_EXTRACT='BEGIN { is_ssb_sc=0 ; } is_ssb_sc==1 && $1~/Keygrip/ && $2~/=/ { print $3; is_ssb_sc=0; } { if ( $1=="ssb>" ) { is_ssb_sc=1; } else { is_ssb_sc=0; } }'
+
+KEYGRIPS="`${GPG} --with-keygrip --list-secret-keys "${KEYID}" | awk "${KEYGRIP_AWK_EXTRACT}"`"
+
+for keygrip in ${KEYGRIPS}
+do {
+	keygrip_file="${GNUPGHOME}/private-keys-v1.d/${keygrip}.key"
+	rm "${keygrip_file}"
+}
 done
 
-$GPG --card-status
-
-eval `$GPGCONF --launch gpg-agent`
-
-exit 0
-
+${GPG} --card-status
