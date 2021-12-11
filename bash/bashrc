@@ -156,7 +156,9 @@ fi
 
 # GlobalPlatform Utility shortcut
 if [ -f ~/Projects/GlobalPlatformPro/gp.jar ]
-then alias gp="java -jar ~/Projects/GlobalPlatformPro/gp.jar"
+then
+	export GP="java -jar ~/Projects/GlobalPlatformPro/gp.jar"
+	alias gp="java -jar ~/Projects/GlobalPlatformPro/gp.jar"
 elif [ -f ~/Projects/SmartCardDev/GlobalPlatformPro/gp.jar ]
 then alias gp="java -jar ~/Projects/SmartCardDev/GlobalPlatformPro/gp.jar"
 elif [ -f ~/Projects/JCOP/GlobalPlatformPro/gp.jar ]
