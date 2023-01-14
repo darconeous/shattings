@@ -120,7 +120,7 @@ isolate_history () {
 
 [[ "$SHATTINGS_HISTORY" == 1 ]] && {
 	shopt -s histappend
-	PROMPT_COMMAND='history -a && history -n'
+	#export PROMPT_COMMAND='history -a && history -n'
 	export HISTCONTROL="ignoredups"
 	export HISTFILESIZE=500000
 	unset HISTTIMEFORMAT
@@ -129,6 +129,9 @@ isolate_history () {
 set mark-directories On 2> /dev/null
 set mark-symlinked-directories On 2> /dev/null
 set completion-ignore-case On 2> /dev/null
+
+# turn off history expansion
+set +H
 
 # Setup tabs
 [[ "$SHATTINGS_TABS" == 1 ]] && {
