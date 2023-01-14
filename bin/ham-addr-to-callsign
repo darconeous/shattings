@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # 2015-10-30
 #
@@ -28,6 +28,8 @@
 #
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
+
+PROG=$0
 
 echon() {
 #	echo -n "$@"
@@ -90,7 +92,8 @@ chunk_to_triplet () {
 	local i=$1
 	if (( i > 0xF9FF ))
 	then
-		printf "[%04X]" $i
+	  echo "$PROG: Not a callsign" 1>&2
+	  exit 1
 	else
 		echon "$(hamindex_to_char $(( (i/1600)%40 )) )"
 		echon "$(hamindex_to_char $(( (i/40)%40 )) )"
@@ -104,7 +107,7 @@ while [ ${#HAMADDR} != 0 ]
 do
 	chunk=0x${HAMADDR:0:4}
 	while [ ${#chunk} != 6 ] ; do chunk="${chunk}0" ; done
-	HAMADDRSTR="${HAMADDRSTR}$(chunk_to_triplet $chunk)"
+	HAMADDRSTR="${HAMADDRSTR}$(chunk_to_triplet $chunk)" || exit -1
 	HAMADDR="${HAMADDR:4}"
 done
 

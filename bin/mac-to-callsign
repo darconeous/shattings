@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # 2015-10-30
 #
@@ -30,6 +30,7 @@
 #
 
 SCRIPT_PATH="`dirname $0`"
+WAS_EUI48=0
 
 MACADDR=$(echo "${1-$(xargs)}" | sed 's/[^a-fA-F0-9]//g')
 
@@ -38,11 +39,72 @@ then echo "$0: Bad address size" 1>&2 ; exit 1
 fi
 
 if [ ${MACADDR:6:4} == "FFFE" ]
-then MACADDR="${MACADDR:0:6}${MACADDR:10}"
+then
+  MACADDR="${MACADDR:0:6}${MACADDR:10}"
+fi
+
+if [ ${#MACADDR} -eq 12 ]
+then
+  WAS_EUI48=1
 fi
 
 last_byte=0x${MACADDR:0:2}
+first_chunk=0x${MACADDR:2:4}
+
+if [ $((last_byte&0x07)) -ne 2 ] ||
+   [ $((first_chunk)) -lt $((0x0640)) ] ||
+   [ $((first_chunk)) -gt $((0xF9FF)) ]
+then echo "$0: Not a ham-addr" 1>&2 ; exit 1
+fi
 
 MACADDR=${MACADDR:2}`printf %02X $((last_byte&0xF8))`
 
-"${SCRIPT_PATH}/ham-addr-to-callsign" "$MACADDR"
+CALLSIGN=$("${SCRIPT_PATH}/ham-addr-to-callsign" "$MACADDR")
+
+if [ ${WAS_EUI48} -eq 1 -a ${#CALLSIGN} -eq 9 ]
+then
+  CALLSIGN_LAST=${CALLSIGN:8:1}
+  case $CALLSIGN_LAST in
+  H)
+    CALLSIGN=${CALLSIGN::8}1
+    ;;
+  P)
+    CALLSIGN=${CALLSIGN::8}2
+    ;;
+  X)
+    CALLSIGN=${CALLSIGN::8}3
+    ;;
+  5)
+    CALLSIGN=${CALLSIGN::8}4
+    ;;
+  *)
+    echo "$PROG: Internal error" 1>&2
+    exit -1
+    ;;
+  esac
+fi
+
+if [ ${#CALLSIGN} -eq 12 ]
+then
+  CALLSIGN_LAST=${CALLSIGN:11:1}
+  case $CALLSIGN_LAST in
+  H)
+    CALLSIGN=${CALLSIGN::11}1
+    ;;
+  P)
+    CALLSIGN=${CALLSIGN::11}2
+    ;;
+  X)
+    CALLSIGN=${CALLSIGN::11}3
+    ;;
+  5)
+    CALLSIGN=${CALLSIGN::11}4
+    ;;
+  *)
+    echo "$PROG: Internal error" 1>&2
+    exit -1
+    ;;
+  esac
+fi
+
+echo $CALLSIGN

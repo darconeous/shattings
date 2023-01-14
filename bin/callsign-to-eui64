@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # 2015-10-30
 #
@@ -32,6 +32,56 @@
 SCRIPT_PATH="`dirname $0`"
 
 CALLSIGN=${1-$(xargs)}
+
+PROG=$0
+CALLSIGN_LAST=${CALLSIGN:9:1}
+NO_EUI48=0
+
+if [ ${#CALLSIGN} -eq 9 ]
+then
+  CALLSIGN_LAST=${CALLSIGN:8:1}
+  case $CALLSIGN_LAST in
+  1)
+    CALLSIGN=${CALLSIGN::8}H
+    ;;
+  2)
+    CALLSIGN=${CALLSIGN::8}P
+    ;;
+  3)
+    CALLSIGN=${CALLSIGN::8}X
+    ;;
+  4)
+    CALLSIGN=${CALLSIGN::8}5
+    ;;
+  *)
+    NO_EUI48=1
+    ;;
+  esac
+fi
+
+if [ ${#CALLSIGN} -eq 12 ]
+then
+  CALLSIGN_LAST=${CALLSIGN:11:1}
+  case $CALLSIGN_LAST in
+  1)
+    CALLSIGN=${CALLSIGN::11}H
+    ;;
+  2)
+    CALLSIGN=${CALLSIGN::11}P
+    ;;
+  3)
+    CALLSIGN=${CALLSIGN::11}X
+    ;;
+  4)
+    CALLSIGN=${CALLSIGN::11}5
+    ;;
+  *)
+    echo "$PROG: Callsign too large" 1>&2
+    exit -1
+    ;;
+  esac
+fi
+
 HAMADDR=$("${SCRIPT_PATH}/callsign-to-ham-addr" $CALLSIGN | sed 's/[^a-fA-F0-9]//g;s/0*$//;')
 HAMADDRLEN=${#HAMADDR}
 HAMADDRLASTOCTAL=$((0x${HAMADDR:${#HAMADDR}-1:1} & 0x7))
@@ -54,7 +104,7 @@ while [ ${#HAMADDR} -lt 16 ]
 do HAMADDR="${HAMADDR}0"
 done
 
-if [ "${HAMADDRLEN}" -lt 12 ] || [ "${HAMADDRLEN}" -eq 12 -a "${HAMADDRLASTOCTAL}" -eq 0 ]
+if [ "${NO_EUI48}" -ne 1 -a "${HAMADDRLEN}" -lt 12 ] || [ "${NO_EUI48}" -ne 1 -a "${HAMADDRLEN}" -eq 12 -a "${HAMADDRLASTOCTAL}" -eq 0 ]
 then
 	first_byte=0x${HAMADDR:10:2}
 	MACADDR=`printf %02X%s $(((first_byte & 0xF8) + 0x02)) ${HAMADDR:0:10}`

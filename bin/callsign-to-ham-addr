@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # 2015-10-30
 #
@@ -104,7 +104,7 @@ CALLSIGN="${CALLSIGN:3}"
 
 while [ ${#CALLSIGN} != 0 ]
 do
-	echon ":$(triplet_to_chunk $CALLSIGN)"
+	echon "-$(triplet_to_chunk $CALLSIGN)"
 	CALLSIGN="${CALLSIGN:3}"
 done
 

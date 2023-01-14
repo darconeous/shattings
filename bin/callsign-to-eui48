@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # 2015-10-30
 #
@@ -31,6 +31,32 @@
 
 SCRIPT_PATH="`dirname $0`"
 CALLSIGN=${1-$(xargs)}
+PROG=$0
+CALLSIGN_LAST=${CALLSIGN:9:1}
+
+if [ ${#CALLSIGN} -eq 9 ]
+then
+  CALLSIGN_LAST=${CALLSIGN:8:1}
+  case $CALLSIGN_LAST in
+  1)
+    CALLSIGN=${CALLSIGN::8}H
+    ;;
+  2)
+    CALLSIGN=${CALLSIGN::8}P
+    ;;
+  3)
+    CALLSIGN=${CALLSIGN::8}X
+    ;;
+  4)
+    CALLSIGN=${CALLSIGN::8}5
+    ;;
+  *)
+    echo "$PROG: Callsign too large" 1>&2
+    exit -1
+    ;;
+  esac
+fi
+
 HAMADDR=$("${SCRIPT_PATH}/callsign-to-ham-addr" $CALLSIGN | sed 's/[^a-fA-F0-9]//g;s/0*$//;')
 HAMADDRLEN=${#HAMADDR}
 HAMADDRLASTOCTAL=$((0x${HAMADDR:${#HAMADDR}-1:1} & 0x7))
