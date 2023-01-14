@@ -22,7 +22,7 @@
 set carrier-watch off
 set flow-control none
 set file type binary
-
+SET TERMINAL CR-DISPLAY crlf
 
 #set line /dev/tty.usbserial-A901KNLS
 #set speed 115200
