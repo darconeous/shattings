@@ -1,0 +1,25 @@
+#!/bin/sh
+
+[ $# '<' 1 ] && {
+	echo "Insufficient arguments." > /dev/stderr
+	echo "Syntax:" > /dev/stderr
+	echo "	$0 [USER/KEY-ID]" > /dev/stderr
+	exit -1
+}
+
+GPG=gpg
+KEYGRIP_AWK_EXTRACT='BEGIN { is_sub=0 ; } is_sub==1 && $1~/Keygrip/ && $2~/=/ { print $3; is_sub=0; } { if ( $1=="sub" ) { is_sub=1; } else { is_sub=0; } }'
+
+KEYID=$1
+
+KEYGRIPS="`${GPG} --with-keygrip -k "${KEYID}" | awk "${KEYGRIP_AWK_EXTRACT}"`"
+
+for keygrip in ${KEYGRIPS}
+do {
+	keygrip_file=~/.gnupg/private-keys-v1.d/${keygrip}.key
+	[ -f "{$keygrip_file}" ] && rm "${keygrip_file}"
+}
+done
+
+${GPG} --card-status
+
