@@ -1,0 +1,5 @@
+#!/bin/sh
+
+refresh-shell-profile > ~/.profile_comp
+
+

@@ -40,12 +40,14 @@ die () {
 echo 'This script will either create or update the following files:'
 echo ''
 echo '    ~/.bashrc'
+echo '    ~/.zshrc'
 echo '    ~/.vimrc'
 echo '    ~/.kermrc'
 echo '    ~/.screenrc'
 echo '    ~/.tmux.conf'
 echo '    ~/.inputrc'
 echo '    ~/.profile'
+echo '    ~/.profile_comp'
 echo '    ~/.Xdefaults'
 echo '    ~/.gnupg/gpg.conf'
 echo ''
@@ -74,6 +76,33 @@ else
 		echo "[ -d \"$SHATDIR\" ] && . \"$SHATDIR/bash/bashrc\""
 	} >> "${HOMEDIR}/.bashrc"
 	echo Created $HOMEDIR/.bashrc
+fi
+
+
+if [ -e "$HOMEDIR/.zshrc" ]
+then
+	if grep -q "profile_comp" $HOMEDIR/.zshrc
+	then echo $HOMEDIR/.zshrc is already good to go.
+	else
+		{
+			echo "[ -f ~/.profile_comp ] && source ~/.profile_comp"
+		} >> "${HOMEDIR}/.zshrc"
+		echo Updated $HOMEDIR/.zshrc
+	fi
+else
+	{
+		echo "[ -f ~/.profile_comp ] && source ~/.profile_comp"
+	} >> "${HOMEDIR}/.zshrc"
+	echo Created $HOMEDIR/.zshrc
+fi
+
+
+if [ -e "$HOMEDIR/.profile_comp" ]
+then
+	echo Skipping $HOMEDIR/.profile_comp
+else
+    echo Updating $HOMEDIR/.profile_comp
+	$SHATDIR/bin/refresh-shell-profile > $HOMEDIR/.profile_comp
 fi
 
 if [ -e "$HOMEDIR/.profile" ]
