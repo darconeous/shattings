@@ -35,6 +35,9 @@ endif
 
 let mapleader = "-"
 
+" https://github.com/tpope/vim-pathogen
+execute pathogen#infect()
+
 runtime! ftplugin/man.vim
 
 if has("filetype")
