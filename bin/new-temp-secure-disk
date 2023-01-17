@@ -49,7 +49,7 @@ TEMP_DISK_PATH="/Volumes/`basename ${TEMP_DISK_IMAGE}`"
 dd if=/dev/random bs=42 count=1 2>/dev/null \
     | openssl base64 \
     | hdiutil create \
-        -size 5m \
+        -size 100m \
         -attach \
 		-volname `basename ${TEMP_DISK_PATH}` \
         -fs "Case-sensitive Journaled HFS+" \
