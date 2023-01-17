@@ -370,7 +370,7 @@ prepend_path PATH ~/bin
 prepend_path MANPATH ~/share/man
 append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 
-prepend_path PYTHONPATH /usr/local/lib/python2.7/site-packages
+#prepend_path PYTHONPATH /usr/local/lib/python2.7/site-packages
 
 if [ -d ~/homebrew ]
 then
