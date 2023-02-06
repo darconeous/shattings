@@ -320,7 +320,7 @@ prepend_path PATH ~/bin
 prepend_path MANPATH ~/share/man
 append_path PKG_CONFIG_PATH ~/lib/pkgconfig
 
-prepend_path PYTHONPATH /usr/local/lib/python2.7/site-packages
+#prepend_path PYTHONPATH /usr/local/lib/python2.7/site-packages
 
 if [ -d "$HOME"/homebrew ]
 then
@@ -332,17 +332,15 @@ fi
 
 export_env_var GIT_SSH=$HOME/.shattings/bin/git-ssh.sh
 
-export_env_var GPG_AGENT_INFO
-export_env_var SSH_AUTH_SOCK
-export_env_var SSH_AGENT_PID
-export_env_var PYTHONPATH
-export_env_var EDITOR
+#export_env_var GPG_AGENT_INFO
+#export_env_var SSH_AUTH_SOCK
+#export_env_var SSH_AGENT_PID
+#export_env_var PYTHONPATH
+#export_env_var EDITOR
 export_env_var PATH
 export_env_var PKG_CONFIG_PATH
 export_env_var MANPATH
 export_env_var LIBRARY_PATH
-export_env_var CPATH
-export_env_var LANG
 
 # Enable fancy command line
 #do_shellcmd . ~/.shattings/bash/ps1-git-svn.sh
@@ -359,6 +357,6 @@ export_env_var LANG
 # Enable homebrew tab completion (if present)
 #( which brew > /dev/null 2>&1 ) && [ -f "`brew --repository`/Library/Contributions/brew_bash_completion.sh" ] &&  do_shellcmd . `brew --repository`/Library/Contributions/brew_bash_completion.sh
 
-#export_env_var PS1
+export_env_var PS1
 
 [ -f /usr/local/etc/bash_completion.d/tmux ] && do_shell_cmd . /usr/local/etc/bash_completion.d/tmux
