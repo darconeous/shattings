@@ -4,6 +4,11 @@
 
 BASE64="base64 -w 0"
 $BASE64 /dev/null 2>/dev/null || BASE64=base64
+$BASE64 /dev/null 2>/dev/null || BASE64=openssl_base64
+
+openssl_base64() {
+	openssl base64 < $1
+}
 
 $BASE64 /dev/random |
 head -c 200 |

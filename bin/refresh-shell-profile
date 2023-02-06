@@ -91,6 +91,7 @@ set_alias()
 UNAME="`uname`"
 
 do_shellcmd . ~/.shattings/bash/myfuncs.sh
+do_shellcmd . ~/.shattings/etc/shellrc
 do_shellcmd . ~/.shattings/third_party/append_prepend.sh
 
 case "$USER" in
@@ -196,7 +197,7 @@ then
 
 		# Add all OS X man pages
 		for X in "$DEVELOPER_DIR"/Platforms/MacOSX.platform/Developer/SDKs/MacOSX*.sdk
-		do append_path MANPATH $X/usr/share/man
+		do [ -d "$X" ] && append_path MANPATH $X/usr/share/man
 		done
 
 		# If we have a copy of xcode available, alias to "edit"

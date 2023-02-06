@@ -1,0 +1,30 @@
+
+# This is the shell-independent RC file, and is used with bash or zsh.
+
+case "$USER" in
+	rquattle*|darco|apple|admin)
+		# Darco's defaults.
+		# If you want these, you should set them in your
+		# bashrc script before these lines are executed.
+		export SHATTINGS_HISTORY=${SHATTINGS_HISTORY-1}
+		export SHATTINGS_TABS=${SHATTINGS_TABS-1}
+		export SHATTINGS_EDITOR_VI=${SHATTINGS_EDITOR_VI-1}
+		export SHATTINGS_GNUPG_SSH=${SHATTINGS_GNUPG_SSH-$([ ! $UNAME = "Darwin" ] ; echo $?)}
+		;;
+esac
+
+# If this isn't a remote SSH connection...
+if [[ "$SSH_CONNECTION" == "" && "$SHATTINGS_GNUPG_SSH" == 1 ]]
+then
+	if [[ "$SSH_AUTH_SOCK" != "" ]]
+	then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
+	fi
+
+	if [ -f "${HOME}/.gpg-agent-info" ]; then
+		. ~/.gpg-agent-info
+	else [ -e ~/.gnupg/S.gpg-agent.ssh ]
+		export SSH_AUTH_SOCK=~/.gnupg/S.gpg-agent.ssh
+		unset SSH_AGENT_PID
+	fi
+fi
+

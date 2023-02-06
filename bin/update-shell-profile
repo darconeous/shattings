@@ -1,5 +1,5 @@
 #!/bin/sh
 
-refresh-shell-profile > ~/.profile_comp
+cd "`dirname $0`" && ./refresh-shell-profile > ~/.profile_comp
 
 

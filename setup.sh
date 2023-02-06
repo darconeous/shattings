@@ -240,3 +240,5 @@ fi
 
 echo 'Done! Shattings is now set up.'
 echo 'Remember to edit the files mentioned above, if any.'
+echo ''
+echo 'Consider installing ohmyzsh: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'

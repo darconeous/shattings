@@ -34,57 +34,7 @@
 #  * <http://creativecommons.org/publicdomain/zero/1.0/>
 #
 
-# ------------------------------------------------------------------
-# This section is based on a snippit of init.sh from Fink.
-# It has been modified slightly to behave better on non-mac
-# systems.
-#
-# Fink - a package manager that downloads source and installs it
-# Copyright (c) 2001 Christoph Pfisterer
-# Copyright (c) 2001-2004 The Fink Team
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA   
-# 02111-1307, USA.
-#
-
-# add to end of path
-append_path()
-{
-  if ! eval test -z "\"\${$1##*:$2:*}\"" -o -z "\"\${$1%%*:$2}\"" -o -z "\"\${$1##$2:*}\"" -o -z "\"\${$1##$2}\"" ; then
-    eval "$1=\"\$$1:$2\""
-  else
-    if eval test -z '"$'$1'"' ; then
-	  eval "$1=\"$2\""
-	fi
-  fi
-}
-
-# add to front of path
-prepend_path()
-{
-  if ! eval test -z "\"\${$1##*:$2:*}\"" -o -z "\"\${$1%%*:$2}\"" -o -z "\"\${$1##$2:*}\"" -o -z "\"\${$1##$2}\"" ; then
-    eval "$1=\"$2:\$$1\""
-  else
-    if eval test -z '"$'$1'"' ; then
-	  eval "$1=\"$2\""
-	fi
-  fi
-}
-
-# END FINK SECTION
-# ------------------------------------------------------------------
+. ~/.shattings/third_party/append_prepend.sh
 
 # Test for an interactive shell.  There is no need to set anything
 # past this point for scp and rcp, and it's important to refrain from
@@ -96,17 +46,8 @@ fi
 
 UNAME=`uname`
 
-case "$USER" in
-	rquattle*|darco|apple|admin)
-		# Darco's defaults.
-		# If you want these, you should set them in your
-		# bashrc script before these lines are executed.
-		export SHATTINGS_HISTORY=${SHATTINGS_HISTORY-1}
-		export SHATTINGS_TABS=${SHATTINGS_TABS-1}
-		export SHATTINGS_EDITOR_VI=${SHATTINGS_EDITOR_VI-1}
-		export SHATTINGS_GNUPG_SSH=${SHATTINGS_GNUPG_SSH-$([ ! $UNAME = "Darwin" ] ; echo $?)}
-		;;
-esac
+. ~/.shattings/etc/shellrc
+
 
 # No lang? Assume `en_us.UTF-8`.
 # Warning: This may break some scripts!
@@ -141,21 +82,6 @@ set +H
 	alias less="less -x $TABWIDTH"
 	export PAGER='less -x $TABWIDTH'
 }
-
-# If this isn't a remote SSH connection...
-if [[ "$SSH_CONNECTION" == "" && "$SHATTINGS_GNUPG_SSH" == 1 ]]
-then
-	if [[ "$SSH_AUTH_SOCK" != "" ]]
-	then export ORIGINAL_SSH_AUTH_SOCK="$SSH_AUTH_SOCK"
-	fi
-
-	if [ -f "${HOME}/.gpg-agent-info" ]; then
-		. ~/.gpg-agent-info
-	else [ -e ~/.gnupg/S.gpg-agent.ssh ]
-		SSH_AUTH_SOCK=~/.gnupg/S.gpg-agent.ssh
-		unset SSH_AGENT_PID
-	fi
-fi
 
 # GlobalPlatform Utility shortcut
 if [ -f ~/Projects/GlobalPlatformPro/gp.jar ]
