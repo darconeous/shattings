@@ -55,6 +55,10 @@ add          automatically add modified files to index
 . "$(git --exec-path)/git-sh-setup"
 cd_to_toplevel
 
+say () {
+	echo $*
+}
+
 set -o pipefail
 
 SHOULD_ADD_TO_INDEX=

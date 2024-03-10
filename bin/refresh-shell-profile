@@ -183,6 +183,10 @@ then
 	# Set up the default developer directory
 	which -s "xcode-select" && DEVELOPER_DIR="`xcode-select --print-path`"
 
+	[ -d "/opt/homebrew" ] && {
+		append_path PKG_CONFIG_PATH /opt/homebrew/lib/pkgconfig
+	}
+
 	# If we have Xcode installed, then set up a bunch more stuff.
 	[ -d "$DEVELOPER_DIR" ] && {
 		# Add the developer tools to the path
